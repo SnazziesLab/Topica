@@ -1,7 +1,7 @@
 ﻿
 namespace Events.Services
 {
-    public class LogIngestService : IHostedService
+    public class FeedProcessorService : IHostedService
     {
         public Task StartAsync(CancellationToken cancellationToken)
         {

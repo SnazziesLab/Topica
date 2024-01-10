@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events", "Events\Events.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Sdk", "Events.Sdk\Events.Sdk.csproj", "{F17731C2-0B37-4B38-A09D-750FD013CDF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Sink", "Events.Sink\Events.Sink.csproj", "{94619936-0896-4B9A-B8A9-4E8D5D556734}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DB1A778F-BA48-4B75-8D5C-86671B533897}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1A778F-BA48-4B75-8D5C-86671B533897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1A778F-BA48-4B75-8D5C-86671B533897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1A778F-BA48-4B75-8D5C-86671B533897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1A778F-BA48-4B75-8D5C-86671B533897}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
