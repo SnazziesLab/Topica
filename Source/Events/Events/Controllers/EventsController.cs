@@ -1,4 +1,4 @@
-using Events.Data;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Controllers
@@ -15,12 +15,6 @@ namespace Events.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetEvent")]
-        public ActionResult<Event> Get(string id)
-        {
-            return Ok();
-        }
-
         [HttpGet(Name = "GetEvents")]
         public ActionResult<Event> Get(string[] id)
         {
@@ -28,11 +22,11 @@ namespace Events.Controllers
         }
 
         [HttpPost(Name = "CreateEvent")]
-        public ActionResult<Event> Create(string id, IEnumerable<Event> events )
+        public ActionResult<Event> Create(string id, IEnumerable<Event> events)
         {
             return Ok();
         }
-        [HttpPost(Name = "UpdateEvent")]
+        [HttpPut(Name = "UpdateEvent")]
         public ActionResult<Event> Update(Event @event)
         {
             return Ok();

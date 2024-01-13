@@ -283,3 +283,7 @@ Dockerfile
 # .env file contains default environment variables for docker
 .env
 .git/
+
+
+**/database.db/*
+/Source/Events/data/database.db
