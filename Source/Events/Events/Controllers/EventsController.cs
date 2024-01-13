@@ -1,4 +1,5 @@
 
+using Events.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Controllers
@@ -9,23 +10,26 @@ namespace Events.Controllers
     {
 
         private readonly ILogger<EventsController> _logger;
+        private readonly InMemoryDb inMemoryDb;
 
-        public EventsController(ILogger<EventsController> logger)
+        public EventsController(ILogger<EventsController> logger, InMemoryDb inMemoryDb)
         {
             _logger = logger;
+            this.inMemoryDb = inMemoryDb;
         }
 
         [HttpGet(Name = "GetEvents")]
-        public ActionResult<Event> Get(string[] id)
+        public ActionResult<Event> Get(string id)
         {
-            return Ok();
+           var ok =  inMemoryDb.Events.TryGetValue(id, out var @event);
+
+            if (!ok) 
+                return NotFound();
+
+            return Ok(@event);
         }
 
-        [HttpPost(Name = "CreateEvent")]
-        public ActionResult<Event> Create(string id, IEnumerable<Event> events)
-        {
-            return Ok();
-        }
+  
         [HttpPut(Name = "UpdateEvent")]
         public ActionResult<Event> Update(Event @event)
         {
