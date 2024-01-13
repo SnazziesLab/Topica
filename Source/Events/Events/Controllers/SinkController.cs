@@ -8,9 +8,9 @@ namespace Events.Controllers
     [Route("[controller]")]
     public class SinkController : ControllerBase
     {
-        private readonly InMemoryQueueService inMemoryQueueService;
+        private readonly IQueueService inMemoryQueueService;
 
-        public SinkController(InMemoryQueueService inMemoryQueueService)
+        public SinkController(IQueueService inMemoryQueueService)
         {
             this.inMemoryQueueService = inMemoryQueueService;
 

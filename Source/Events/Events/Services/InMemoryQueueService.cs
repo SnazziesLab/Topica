@@ -27,11 +27,4 @@ namespace Events.Services
             return MessageQueue.TryDequeue(out var message) ? message : null;
         }
     }
-
-    public interface IQueueService
-    {
-        public void Push(Message message);
-        public Message? Peek();
-        public Message? Pop();
-    }
 }
