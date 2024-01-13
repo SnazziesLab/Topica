@@ -26,9 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Events.Sdk\Events.Sdk.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Data\" />
   </ItemGroup>
-
+  <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+    <Exec Command="dotnet swagger tofile --output Swagger\v1\Swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
+  </Target>
 </Project>
