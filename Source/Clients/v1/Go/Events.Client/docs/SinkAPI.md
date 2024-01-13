@@ -20,23 +20,23 @@ Method | HTTP request | Description
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    uid := "uid_example" // string |  (optional)
-    content := "content_example" // string |  (optional)
+	uid := "uid_example" // string |  (optional)
+	content := "content_example" // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.SinkAPI.SinkPut(context.Background()).Uid(uid).Content(content).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `SinkAPI.SinkPut``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.SinkAPI.SinkPut(context.Background()).Uid(uid).Content(content).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `SinkAPI.SinkPut``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 

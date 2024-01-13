@@ -19,7 +19,7 @@ if (fse.existsSync(CodeGenPath))
 if (!fse.existsSync(CodeGenPath))
   fse.mkdirsSync(CodeGenPath);
 
-execute(`npx @openapitools/openapi-generator-cli version-manager set 7.0.1`)
+execute(`npx @openapitools/openapi-generator-cli version-manager set 7.2.0`)
 execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/Events.Server/v1/Swagger.json -g rust -o ${CodeGenPath}/v1/Rust/Events.Client --additional-properties=packageVersion=${version},packageName=Events.Client`)
 execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/Events.Server/v1/Swagger.json -g typescript-fetch -o ${CodeGenPath}/v1/TypeScript/Events.Client -p npmName=Events.Client --additional-properties=npmVersion=${version},stringEnums=true`)
 execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/Events.Server/v1/Swagger.json -g go -o ${CodeGenPath}/v1/Go/Events.Client --additional-properties=enumClassPrefix=true,packageVersion=${version},packageName=Events.Client`)
