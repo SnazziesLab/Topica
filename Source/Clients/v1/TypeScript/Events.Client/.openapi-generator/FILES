@@ -1,0 +1,14 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/EventsApi.ts
+src/apis/SinkApi.ts
+src/apis/index.ts
+src/index.ts
+src/models/Event.ts
+src/models/Message.ts
+src/models/index.ts
+src/runtime.ts
+tsconfig.json

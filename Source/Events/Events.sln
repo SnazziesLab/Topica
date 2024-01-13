@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events", "Events\Events.csproj", "{76AE7961-80F0-4EBD-9814-500DD2E64F3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Server", "Events\Events.Server.csproj", "{76AE7961-80F0-4EBD-9814-500DD2E64F3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Sdk", "Events.Sdk\Events.Sdk.csproj", "{F17731C2-0B37-4B38-A09D-750FD013CDF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Sdk", "Events.Sdk\Events.Sdk.csproj", "{F17731C2-0B37-4B38-A09D-750FD013CDF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Sink", "Events.Sink\Events.Sink.csproj", "{94619936-0896-4B9A-B8A9-4E8D5D556734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Sink", "Events.Sink\Events.Sink.csproj", "{94619936-0896-4B9A-B8A9-4E8D5D556734}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DB1A778F-BA48-4B75-8D5C-86671B533897}"
 EndProject
