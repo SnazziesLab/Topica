@@ -1,7 +1,6 @@
 import path from "path";
 import fse from "fs-extra";
 import { execute } from "./Execute";
-import { exec } from "child_process";
 
 const tempFolder = path.join(__dirname, "../temp");
 const version = "1.0.0";
