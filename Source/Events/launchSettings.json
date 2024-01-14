@@ -4,7 +4,6 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "events": "StartDebugging",
         "events.server": "StartDebugging"
       }
     }
