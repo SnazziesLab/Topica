@@ -1,11 +1,6 @@
 version: '3.4'
 
 services:
-  events:
-    image: ${DOCKER_REGISTRY-}events
-    build:
-      context: .
-      dockerfile: Events/Dockerfile
 
   surrealdb:
     image: surrealdb/surrealdb:latest
@@ -16,3 +11,10 @@ services:
       - 8000:8000
     volumes:
       - ./data:/data
+- 
+  events.server:
+    image: ${DOCKER_REGISTRY-}eventsserver
+    build:
+      context: .
+      dockerfile: Events.Server/Dockerfile
+
