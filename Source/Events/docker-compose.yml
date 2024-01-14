@@ -1,19 +1,8 @@
 version: '3.4'
 
 services:
-
-  surrealdb:
-    image: surrealdb/surrealdb:latest
-    container_name: surrealdb
-    restart: always
-    command: start --user test --pass test file:/data/database.db
-    ports:
-      - 8000:8000
-    volumes:
-      - ./data:/data
-  eventsserver:
+  events.server:
     image: ${DOCKER_REGISTRY-}eventsserver
     build:
       context: .
       dockerfile: Events.Server/Dockerfile
-
