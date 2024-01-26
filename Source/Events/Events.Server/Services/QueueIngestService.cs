@@ -2,11 +2,11 @@ using Events.Services;
 
 public class QueueIngestService : IHostedService
 {
-    public InMemoryQueueService QueueService { get; }
+    public IQueueService QueueService { get; }
     private readonly ILogger<QueueIngestService> _logger;
     public InMemoryDb InMemoryDb { get; set; }
 
-    public QueueIngestService(ILogger<QueueIngestService> logger, InMemoryQueueService queueService, InMemoryDb inMemoryDb)
+    public QueueIngestService(ILogger<QueueIngestService> logger, IQueueService queueService, InMemoryDb inMemoryDb)
     {
         InMemoryDb = inMemoryDb;
         _logger = logger;
@@ -19,17 +19,19 @@ public class QueueIngestService : IHostedService
         if (message is null)
             return Task.CompletedTask;
 
-        var exists = InMemoryDb.Events.ContainsKey(message.EventUid);
-        if (!exists)
+        var newEntry = new Events.Sdk.Data.Entry(message.DateTimeOffset, message.Content);
+
+        if (!InMemoryDb.Events.TryGetValue(message.TopicId, out var @event))
         {
-            var e = new Event
+            var newEvent = new Event
             {
-                Uid = message.EventUid,
+                TopicId = message.TopicId,
                 History = []
             };
 
-            e.History.Add(message.DateTimeOffset, message);
-            var addOk = InMemoryDb.Events.TryAdd(message.EventUid, e);
+            newEvent.History.Add(message.DateTimeOffset, newEntry);
+
+            var addOk = InMemoryDb.Events.TryAdd(message.TopicId, newEvent);
             if (!addOk)
             {
                 _logger.LogError("Unable to add");
@@ -38,18 +40,19 @@ public class QueueIngestService : IHostedService
             }
 
         }
-
-        var existingEvent = InMemoryDb.Events[message.EventUid];
-        existingEvent.History.Add(message.DateTimeOffset, message);
+        else
+        {
+            @event.History.Add(message.DateTimeOffset, newEntry);
+        }
 
         QueueService.Pop();
-
+        _logger.LogError("Message Added");
         return Task.CompletedTask;
     }
 
     async Task Loop(CancellationToken cancellationToken)
     {
-        while (!cancellationToken.IsCancellationRequested)
+        while (true)
             await ProcessQueue();
     }
     public Task StartAsync(CancellationToken cancellationToken)

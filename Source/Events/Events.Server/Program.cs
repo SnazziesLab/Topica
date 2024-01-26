@@ -13,8 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IQueueService, InMemoryQueueService>();
 builder.Services.AddDbContext<IdentityContext>();
+builder.Services.AddDbContext<EventsDb>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>();
+builder.Services.AddSingleton<InMemoryDb>();
+
+builder.Services.AddSingleton<QueueIngestService>();
+builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

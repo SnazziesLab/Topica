@@ -157,13 +157,13 @@
       }
     },
     "/Sink": {
-      "put": {
+      "post": {
         "tags": [
           "Sink"
         ],
         "parameters": [
           {
-            "name": "Uid",
+            "name": "topicId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -187,10 +187,24 @@
   },
   "components": {
     "schemas": {
+      "Entry": {
+        "type": "object",
+        "properties": {
+          "dateTimeOffset": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Event": {
         "type": "object",
         "properties": {
-          "uid": {
+          "topicId": {
             "type": "string",
             "nullable": true
           },
@@ -205,30 +219,8 @@
           "history": {
             "type": "object",
             "additionalProperties": {
-              "$ref": "#/components/schemas/Message"
+              "$ref": "#/components/schemas/Entry"
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Message": {
-        "required": [
-          "content",
-          "dateTimeOffset"
-        ],
-        "type": "object",
-        "properties": {
-          "dateTimeOffset": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "content": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "eventUid": {
-            "type": "string",
             "nullable": true
           }
         },

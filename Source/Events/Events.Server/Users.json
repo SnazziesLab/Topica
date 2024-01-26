@@ -7,6 +7,6 @@
   {
     "username": "guest",
     "password": "guest",
-    "roles": [ "read"]
+    "roles": [ "read" ]
   }
 ]

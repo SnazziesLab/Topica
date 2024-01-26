@@ -10,10 +10,10 @@ namespace Events.Sdk.Data;
 
 public class Message
 {
-    [Required]
-    public DateTimeOffset DateTimeOffset { get; set; }
-    [Required]
-    public string Content { get; set; }
-    public string EventUid { get; set; }
+    public DateTimeOffset DateTimeOffset { get; set; } = DateTimeOffset.UtcNow;
+
+    public required string Content { get; set; }
+
+    public required string TopicId { get; set; }
 
 }

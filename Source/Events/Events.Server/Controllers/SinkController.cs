@@ -16,17 +16,14 @@ namespace Events.Controllers
 
         }
 
-        [HttpPut]
-        public ActionResult Push(string? Uid, string content)
+        [HttpPost]
+        public ActionResult Push(string? topicId, string content)
         {
-            var id = Uid ?? Guid.NewGuid().ToString();
-            var msg = new Message() { EventUid = id, Content = content };
+            var id = topicId ?? Guid.NewGuid().ToString();
+            var msg = new Message() { TopicId = id, Content = content };
             inMemoryQueueService.Push(msg);
 
-            if (Uid is null)
-                return Ok(id);
-
-            return Ok();
+            return Ok(id);
         }
     }
 }
