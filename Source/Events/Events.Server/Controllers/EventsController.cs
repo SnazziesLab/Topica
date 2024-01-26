@@ -10,12 +10,18 @@ namespace Events.Controllers
     {
 
         private readonly ILogger<EventsController> _logger;
-        private readonly InMemoryDb inMemoryDb;
+        private readonly InMemoryStore inMemoryDb;
 
-        public EventsController(ILogger<EventsController> logger, InMemoryDb inMemoryDb)
+        public EventsController(ILogger<EventsController> logger, InMemoryStore inMemoryDb)
         {
             _logger = logger;
             this.inMemoryDb = inMemoryDb;
+        }
+
+        [HttpGet(Name = "GetAllTopics")]
+        public ActionResult<Event> GetTopics()
+        {
+            return Ok(inMemoryDb.Events.Keys);
         }
 
         [HttpGet(Name = "GetEvents")]
@@ -29,7 +35,7 @@ namespace Events.Controllers
             return Ok(@event);
         }
 
-  
+
         [HttpPut(Name = "UpdateEvent")]
         public ActionResult<Event> Update(Event @event)
         {

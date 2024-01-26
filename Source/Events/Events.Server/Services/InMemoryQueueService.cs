@@ -15,7 +15,7 @@ namespace Events.Services
 
         public void Push(Message message)
         {
-            MessageQueue.Enqueue(message);
+                MessageQueue.Enqueue(message);
         }
 
         public Message? Peek()

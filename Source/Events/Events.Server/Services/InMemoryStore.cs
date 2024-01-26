@@ -2,12 +2,9 @@
 
 namespace Events.Services
 {
-    public class InMemoryDb
+    public class InMemoryStore
     {
         public ConcurrentDictionary<string, Event> Events { get; private set; } = [];
-        public InMemoryDb()
-        {
 
-        }
     }
 }

@@ -4,9 +4,9 @@ public class QueueIngestService : IHostedService
 {
     public IQueueService QueueService { get; }
     private readonly ILogger<QueueIngestService> _logger;
-    public InMemoryDb InMemoryDb { get; set; }
+    public InMemoryStore InMemoryDb { get; set; }
 
-    public QueueIngestService(ILogger<QueueIngestService> logger, IQueueService queueService, InMemoryDb inMemoryDb)
+    public QueueIngestService(ILogger<QueueIngestService> logger, IQueueService queueService, InMemoryStore inMemoryDb)
     {
         InMemoryDb = inMemoryDb;
         _logger = logger;
@@ -34,9 +34,8 @@ public class QueueIngestService : IHostedService
             var addOk = InMemoryDb.Events.TryAdd(message.TopicId, newEvent);
             if (!addOk)
             {
-                _logger.LogError("Unable to add");
                 QueueService.Pop();
-                throw new Exception();
+                throw new Exception("Unable to add");
             }
 
         }
@@ -46,7 +45,7 @@ public class QueueIngestService : IHostedService
         }
 
         QueueService.Pop();
-        _logger.LogError("Message Added");
+        _logger.LogTrace("Message Added");
         return Task.CompletedTask;
     }
 

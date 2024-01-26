@@ -16,7 +16,7 @@ builder.Services.AddDbContext<IdentityContext>();
 builder.Services.AddDbContext<EventsDb>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>();
-builder.Services.AddSingleton<InMemoryDb>();
+builder.Services.AddSingleton<InMemoryStore>();
 
 builder.Services.AddSingleton<QueueIngestService>();
 builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
