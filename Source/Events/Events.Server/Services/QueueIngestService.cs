@@ -19,7 +19,7 @@ public class QueueIngestService : IHostedService
         if (message is null)
             return Task.CompletedTask;
 
-        var newEntry = new Events.Sdk.Data.Entry(message.DateTimeOffset, message.Content);
+        var newEntry = new Events.Sdk.Data.Entry(message.CreatedOn, message.Content);
 
         if (!InMemoryDb.Events.TryGetValue(message.TopicId, out var @event))
         {

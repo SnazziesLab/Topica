@@ -191,7 +191,7 @@
       "Entry": {
         "type": "object",
         "properties": {
-          "dateTimeOffset": {
+          "createdOn": {
             "type": "string",
             "format": "date-time"
           },

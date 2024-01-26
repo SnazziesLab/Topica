@@ -10,7 +10,7 @@ namespace Events.Sdk.Data;
 
 public class Message
 {
-    public DateTimeOffset DateTimeOffset { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedOn { get; set; } = DateTimeOffset.UtcNow;
 
     public required string Content { get; set; }
 
