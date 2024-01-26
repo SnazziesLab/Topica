@@ -4,7 +4,7 @@ namespace Events.Services
 {
     public class InMemoryStore
     {
-        public ConcurrentDictionary<string, Event> Events { get; private set; } = [];
+        public ConcurrentDictionary<string, Topic> Events { get; private set; } = [];
 
     }
 }

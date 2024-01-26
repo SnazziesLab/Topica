@@ -5,7 +5,7 @@ namespace Events.Server.Data
     public class EventsDb: DbContext
     {
 
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Topic> Events { get; set; }
 
     }
 }

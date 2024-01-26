@@ -1,11 +1,13 @@
 using Events.Sdk.Data;
 using System.ComponentModel.DataAnnotations;
 
-public class Event
+public class Topic
 {
-    public required string TopicId { get; set; }
+    public required string Name { get; set; }
     public DateTimeOffset CreatedOn { get; set; } = DateTimeOffset.Now;
     public string Description { get; set; } = string.Empty;
-    public  Dictionary<DateTimeOffset, Entry> History { get; set; } = new();
+    public  List<Entry> History { get; set; } = new();
 
 }
+
+

@@ -23,13 +23,13 @@ public class QueueIngestService : IHostedService
 
         if (!InMemoryDb.Events.TryGetValue(message.TopicId, out var @event))
         {
-            var newEvent = new Event
+            var newEvent = new Topic
             {
-                TopicId = message.TopicId,
+                Name = message.TopicId,
                 History = []
             };
 
-            newEvent.History.Add(message.DateTimeOffset, newEntry);
+            newEvent.History.Add(newEntry);
 
             var addOk = InMemoryDb.Events.TryAdd(message.TopicId, newEvent);
             if (!addOk)
@@ -41,7 +41,7 @@ public class QueueIngestService : IHostedService
         }
         else
         {
-            @event.History.Add(message.DateTimeOffset, newEntry);
+            @event.History.Add(newEntry);
         }
 
         QueueService.Pop();

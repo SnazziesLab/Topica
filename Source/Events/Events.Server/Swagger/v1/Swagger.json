@@ -5,20 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/Events": {
+    "/api/Topics/GetTopics": {
       "get": {
         "tags": [
-          "Events"
-        ],
-        "operationId": "GetEvents",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
+          "Topics"
         ],
         "responses": {
           "200": {
@@ -26,129 +16,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "$ref": "#/components/schemas/Topic"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "$ref": "#/components/schemas/Topic"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Events"
-        ],
-        "operationId": "UpdateEvent",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Events"
-        ],
-        "operationId": "DeleteEvent",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "$ref": "#/components/schemas/Topic"
                 }
               }
             }
@@ -156,21 +34,60 @@
         }
       }
     },
-    "/Sink": {
-      "post": {
+    "/api/Topics/GetTopic/{id}": {
+      "get": {
         "tags": [
-          "Sink"
+          "Topics"
         ],
         "parameters": [
           {
-            "name": "topicId",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Topics/PushMessage": {
+      "post": {
+        "tags": [
+          "Topics"
+        ],
+        "parameters": [
+          {
+            "name": "topicName",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "content",
+            "name": "message",
             "in": "query",
             "schema": {
               "type": "string"
@@ -180,6 +97,90 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Topics/DeleteEntry": {
+      "delete": {
+        "tags": [
+          "Topics"
+        ],
+        "parameters": [
+          {
+            "name": "topicName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Topics/DeleteTopic": {
+      "delete": {
+        "tags": [
+          "Topics"
+        ],
+        "parameters": [
+          {
+            "name": "topicName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
           }
         }
       }
@@ -197,14 +198,18 @@
           "content": {
             "type": "string",
             "nullable": true
+          },
+          "entryId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
       },
-      "Event": {
+      "Topic": {
         "type": "object",
         "properties": {
-          "topicId": {
+          "name": {
             "type": "string",
             "nullable": true
           },
@@ -217,8 +222,8 @@
             "nullable": true
           },
           "history": {
-            "type": "object",
-            "additionalProperties": {
+            "type": "array",
+            "items": {
               "$ref": "#/components/schemas/Entry"
             },
             "nullable": true
