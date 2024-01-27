@@ -10,6 +10,34 @@ See what [scenarios](./Scenarios) this is useful with.
 
 ## Usage
 
+#### Auth Setup
+This app uses a simple username and password system. This is setup via passing a json file like following.
+```js
+[
+  {
+    "username": "UIAdmin",
+    "password": "password",
+    "roles": [ "read", "write" ]
+  },
+  {
+    "username": "UIGuest",
+    "password": "password",
+    "roles": [ "read" ]
+  },
+  {
+    "username": "service",
+    "password": "password",
+    "roles": [ "read", "write" ]
+  },
+  {
+    "username": "readonly",
+    "password": "password",
+    "roles": [ "read" ]
+  }
+]
+```
+
+#### Service Usage
 ###### Post job events for `Job1`
 Post `/api/Topics/PushMessage?Topic=Job1&Message=job1%created`
 
