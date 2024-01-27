@@ -1,5 +1,4 @@
 using Events.Sdk.Data;
-using System.ComponentModel.DataAnnotations;
 
 public class Topic
 {

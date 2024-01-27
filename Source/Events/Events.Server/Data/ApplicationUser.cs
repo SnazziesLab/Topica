@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-public class ApplicationUser : IdentityUser
+namespace Events.Server.Data
 {
-// Add additional profile data for application users by adding properties to this class
+    public class ApplicationUser : IdentityUser
+    {
+        // Add additional profile data for application users by adding properties to this class
+    }
 }

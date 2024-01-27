@@ -2,7 +2,7 @@
 using Events.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Events.Controllers
+namespace Events.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -50,11 +50,11 @@ namespace Events.Controllers
         [HttpDelete("[Action]")]
         public ActionResult<Topic> DeleteEntry(string topicName, Guid entryId)
         {
-            if(inMemoryDb.Events.TryGetValue(topicName, out var @event))
+            if (inMemoryDb.Events.TryGetValue(topicName, out var @event))
             {
-                @event.History.RemoveAll(e=> e.EntryId == entryId);
+                @event.History.RemoveAll(e => e.EntryId == entryId);
             }
-       
+
             return Ok();
         }
 
@@ -63,8 +63,8 @@ namespace Events.Controllers
         {
             if (inMemoryDb.Events.TryRemove(topicName, out var _))
                 return Ok();
-            else 
+            else
                 return NotFound();
-        }   
+        }
     }
 }
