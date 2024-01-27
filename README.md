@@ -1,7 +1,5 @@
 # Zevents
 
-## Description
-
 Zevents is an event tracking service designed to make tracking of any given topics and their historical events easily.
 This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline.
 
