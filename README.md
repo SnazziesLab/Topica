@@ -6,9 +6,9 @@ This service enables tracking of specific asynchronous jobs' progress or identif
 See what [scenarios](./Scenarios) this is useful with.
 
 
-## Usage
+## Setup
 
-#### Auth Setup
+### Auth Setup
 This app uses a simple username and password system. This is setup via passing a json file like following.
 ```js
 [
@@ -35,7 +35,7 @@ This app uses a simple username and password system. This is setup via passing a
 ]
 ```
 
-#### Service Usage
+## Service Usage
 ###### Post job events for `Job1`
 Post `/api/Topics/PushMessage?Topic=Job1&Message=job1%created`
 
