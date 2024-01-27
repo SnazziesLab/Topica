@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Sdk", "Events.Sdk\Events.Sdk.csproj", "{F17731C2-0B37-4B38-A09D-750FD013CDF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Sink", "Events.Sink\Events.Sink.csproj", "{94619936-0896-4B9A-B8A9-4E8D5D556734}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Server", "Events.Server\Events.Server.csproj", "{29D3F5FE-5DEF-43AE-8470-3751ED33D781}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}"
@@ -21,10 +19,6 @@ Global
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F17731C2-0B37-4B38-A09D-750FD013CDF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94619936-0896-4B9A-B8A9-4E8D5D556734}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29D3F5FE-5DEF-43AE-8470-3751ED33D781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29D3F5FE-5DEF-43AE-8470-3751ED33D781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29D3F5FE-5DEF-43AE-8470-3751ED33D781}.Release|Any CPU.ActiveCfg = Release|Any CPU
