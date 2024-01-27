@@ -1,32 +1,32 @@
 ﻿using Events.Sdk.Data;
 using Events.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Server.Controllers
 {
+    [Authorize(Roles = "read")]
     [ApiController]
     [Route("api/[controller]")]
     public class TopicsController : ControllerBase
     {
-        private readonly IQueueService inMemoryQueueService;
-        private readonly InMemoryStore inMemoryDb;
+        private IStore Store { get; set; }
 
-        public TopicsController(IQueueService inMemoryQueueService, InMemoryStore inMemoryDb)
+        public TopicsController(IStore store)
         {
-            this.inMemoryQueueService = inMemoryQueueService;
-            this.inMemoryDb = inMemoryDb;
+            Store = store;
         }
 
-        [HttpGet("[Action]")]
+        [HttpGet()]
         public ActionResult<Topic> GetTopics()
         {
-            return Ok(inMemoryDb.Events.Keys);
+            return Ok(Store.GetTopics());
         }
 
-        [HttpGet("[Action]/{id}")]
+        [HttpGet("{id}")]
         public ActionResult<Topic> GetTopic(string id)
         {
-            var ok = inMemoryDb.Events.TryGetValue(id, out var @event);
+            var ok = Store.TryGetTopic(id, out var @event);
 
             if (!ok)
                 return NotFound();
@@ -34,37 +34,33 @@ namespace Events.Server.Controllers
             return Ok(@event);
         }
 
-        [HttpPost("[Action]")]
-        public ActionResult PushMessage(string? topicName, string message)
+        [Authorize(Roles = "write")]
+        [HttpPost("{topicName}", Name = nameof(AddMessage))]
+        public ActionResult AddMessage(string? topicId, string message)
         {
-            var id = topicName ?? Guid.NewGuid().ToString();
+            var id = topicId ?? Guid.NewGuid().ToString();
             var msg = new Message() { TopicId = id, Content = message };
-            inMemoryQueueService.Push(msg);
+            Store.AddMessage(msg);
 
             return Ok(id);
         }
 
-
-
-
-        [HttpDelete("[Action]")]
-        public ActionResult<Topic> DeleteEntry(string topicName, Guid entryId)
+        [Authorize(Roles = "write")]
+        [HttpDelete(Name = nameof(DeleteMessage))]
+        public ActionResult<Topic> DeleteMessage(string topicId, Guid messageId)
         {
-            if (inMemoryDb.Events.TryGetValue(topicName, out var @event))
-            {
-                @event.History.RemoveAll(e => e.EntryId == entryId);
-            }
+            Store.DeleteEntry(topicId, messageId);
 
             return Ok();
         }
 
-        [HttpDelete("[Action]")]
+        [Authorize(Roles = "write")]
+        [HttpDelete(Name = nameof(DeleteTopic))]
         public ActionResult<Topic> DeleteTopic(string topicName)
         {
-            if (inMemoryDb.Events.TryRemove(topicName, out var _))
-                return Ok();
-            else
-                return NotFound();
+            Store.DeleteTopic(topicName);
+
+            return Ok();
         }
     }
 }

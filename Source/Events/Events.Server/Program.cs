@@ -11,15 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<IQueueService, InMemoryQueueService>();
 builder.Services.AddDbContext<IdentityContext>();
-builder.Services.AddDbContext<EventsDb>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>();
-builder.Services.AddSingleton<InMemoryStore>();
+builder.Services.AddSingleton<IStore, InMemoryStore>();
 
-builder.Services.AddSingleton<QueueIngestService>();
-builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
+// builder.Services.AddSingleton<QueueIngestService>();
+// builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
 
 
 builder.Services.AddControllers();
@@ -69,7 +67,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<IdentityContext>();
 
-    var jsonString = await File.ReadAllTextAsync("Users.json");
+    var jsonString = await File.ReadAllTextAsync("auth.config.json");
     var users = JsonSerializer.Deserialize<List<ApplicationUser>>(jsonString);
 
     foreach (var user in users)

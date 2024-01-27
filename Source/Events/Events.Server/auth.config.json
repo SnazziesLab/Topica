@@ -1,0 +1,20 @@
+﻿{
+  "tokens": [
+    {
+      "token": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "roles": ["read", "write"]
+    }
+  ],
+  "ui": [
+    {
+      "username": "admin",
+      "password": "admin",
+      "roles": [ "read", "write" ]
+    },
+    {
+      "username": "guest",
+      "password": "guest",
+      "roles": [ "read" ]
+    }
+  ]
+}
