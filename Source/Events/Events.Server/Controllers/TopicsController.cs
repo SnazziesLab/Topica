@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Server.Controllers
 {
-    [Authorize(Roles = "read", Policy ="ApiKey")]
+    [Authorize(Roles = "read")]
     [ApiController]
     [Route("api/[controller]")]
     public class TopicsController : ControllerBase
