@@ -11,8 +11,6 @@ namespace Events.Server.Controllers
     [Route("api/[controller]")]
     public class TopicsController : ControllerBase
     {
-
-
         private IStore Store { get; set; }
 
         public TopicsController(IStore store)
@@ -20,13 +18,13 @@ namespace Events.Server.Controllers
             Store = store;
         }
 
-        [HttpGet()]
+        [HttpGet(Name = nameof(GetTopics))]
         public ActionResult<Topic> GetTopics()
         {
             return Ok(Store.GetTopics());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = nameof(GetTopic))]
         public ActionResult<Topic> GetTopic(string id)
         {
             var ok = Store.TryGetTopic(id, out var @event);
@@ -38,7 +36,7 @@ namespace Events.Server.Controllers
         }
 
         [Authorize(Roles = "write")]
-        [HttpPost("{topicName}", Name = nameof(AddMessage))]
+        [HttpPost("[Action]", Name = nameof(AddMessage))]
         public ActionResult AddMessage(string? topicId, string message)
         {
             var id = topicId ?? Guid.NewGuid().ToString();
@@ -49,7 +47,7 @@ namespace Events.Server.Controllers
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete("message",Name = nameof(DeleteMessage))]
+        [HttpDelete("message", Name = nameof(DeleteMessage))]
         public ActionResult<Topic> DeleteMessage(string topicId, Guid messageId)
         {
             Store.DeleteEntry(topicId, messageId);
