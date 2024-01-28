@@ -11,8 +11,8 @@ namespace Events.Server.Auth.ApiKey
 
     public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
     {
-        public ApiKeyAuthenticationHandler(IOptionsMonitor<ApiKeyAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, AuthDbContext authDbContext)
-            : base(options, logger, encoder, clock)
+        public ApiKeyAuthenticationHandler(IOptionsMonitor<ApiKeyAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext)
+            : base(options, logger, encoder)
         {
             AuthDbContext = authDbContext;
         }

@@ -14,8 +14,8 @@ namespace Events.Server.Auth
     {
         AuthDbContext AuthDbContext { get; }
 
-        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, AuthDbContext authDbContext)
-            : base(options, logger, encoder, clock)
+        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext)
+            : base(options, logger, encoder)
         {
             AuthDbContext = authDbContext;
         }
