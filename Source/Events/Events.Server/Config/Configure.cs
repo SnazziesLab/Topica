@@ -86,7 +86,7 @@ namespace Events.Server.Config
                     {
                         return "Basic";
                     }
-                    return null;
+                    return "Basic";
                 };
             })
             .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(ApiKeyDefaults.AuthenticationScheme, null)
