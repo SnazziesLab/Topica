@@ -135,8 +135,6 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AuthDbContext>();
 
-
-
     var authDb = services.GetRequiredService<AuthDbContext>();
     var hasher = services.GetRequiredService<PasswordHasher>();
 
