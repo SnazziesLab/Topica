@@ -9,7 +9,8 @@ See what [scenarios](./Scenarios) this is useful with.
 ## Setup
 
 ### Auth Setup
-This app uses a simple username and password system. This is setup via passing a json file like following.
+This app allows use of simple user pass or api key to auth. This is setup via passing a json file like following.
+* Auth data is not persistent, the in-memory AuthDb is populated at server startup.
 ```js
 {
   "ApiKeys": [
