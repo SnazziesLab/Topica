@@ -23,8 +23,27 @@ var builder = WebApplication.CreateBuilder(args);
 var jsonString = await File.ReadAllTextAsync("auth.config.json");
 var authConfig = JsonSerializer.Deserialize<AuthConfig>(jsonString) ?? throw new NullReferenceException("Invalid Auth config");
 
-builder.Services.AddDbContext<ApplicationDbContext>();
+
 builder.Services.AddDbContext<AuthDbContext>(e => e.UseInMemoryDatabase("Auth"));
+builder.Services.AddDbContext<ApplicationDbContext>(e=>
+{
+    switch (builder.Configuration["DbType"])
+    {
+        case "Postgres":
+            e.UseNpgsql(builder.Configuration["DbConnectionString"]);
+            break;
+        case "SqlServer":
+            e.UseSqlServer(builder.Configuration["DbConnectionString"]);
+            break;
+        case "Sqlite":
+            e.UseSqlite(builder.Configuration["DbConnectionString"]);
+            break;
+        default:
+            e.UseInMemoryDatabase("Data");
+            break;
+    }
+});
+
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>();
@@ -36,7 +55,6 @@ builder.Services.AddSingleton<IStore, InMemoryStore>();
 builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -170,5 +188,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
