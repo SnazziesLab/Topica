@@ -7,17 +7,21 @@ using System.Text;
 using Events.Server.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Events.Server.Services;
 
 namespace Events.Server.Auth
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        private readonly PasswordHasher passwordHasher;
+
         AuthDbContext AuthDbContext { get; }
 
-        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext)
+        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext, PasswordHasher passwordHasher)
             : base(options, logger, encoder)
         {
             AuthDbContext = authDbContext;
+            this.passwordHasher = passwordHasher;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -32,7 +36,7 @@ namespace Events.Server.Auth
             var username = credentials[0];
             var password = credentials[1];
 
-            var user = await AuthDbContext.Users.SingleOrDefaultAsync(e => e.Username == username && e.Password == password);
+            var user = await AuthDbContext.Users.SingleOrDefaultAsync(e => e.Username == username && e.Password == passwordHasher.HashPassword(password));
 
             if (user is null)
                 return AuthenticateResult.Fail("Invalid Username or Password");

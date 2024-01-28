@@ -1,4 +1,5 @@
 ﻿using Events.Server.Data.Db;
+using Events.Server.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,13 @@ namespace Events.Server.Auth.ApiKey
 
     public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
     {
-        public ApiKeyAuthenticationHandler(IOptionsMonitor<ApiKeyAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext)
+        private readonly PasswordHasher passwordHasher;
+
+        public ApiKeyAuthenticationHandler(IOptionsMonitor<ApiKeyAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, AuthDbContext authDbContext, PasswordHasher passwordHasher)
             : base(options, logger, encoder)
         {
             AuthDbContext = authDbContext;
+            this.passwordHasher = passwordHasher;
         }
 
         AuthDbContext AuthDbContext { get; }
@@ -33,7 +37,7 @@ namespace Events.Server.Auth.ApiKey
                 return AuthenticateResult.Fail("Invalid API key");
             }
 
-            var key = await AuthDbContext.ApiKeys.FirstOrDefaultAsync(e => e.ApiKey == apiKey);
+            var key = await AuthDbContext.ApiKeys.FirstOrDefaultAsync(e => e.ApiKey == passwordHasher.HashPassword(apiKey));
 
             if (key == null)
             {
@@ -42,7 +46,7 @@ namespace Events.Server.Auth.ApiKey
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, apiKey),
+                new Claim(ClaimTypes.NameIdentifier, "api key"),
             };
 
             foreach (var role in key.Roles)

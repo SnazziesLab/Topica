@@ -238,17 +238,22 @@
       }
     },
     "securitySchemes": {
-      "Bearer": {
+      "Basic": {
         "type": "http",
-        "description": "Please enter a valid token",
-        "scheme": "Bearer",
-        "bearerFormat": "JWT"
+        "description": "Basic Authorization header using the Bearer scheme.",
+        "scheme": "basic"
       },
       "ApiKey": {
         "type": "apiKey",
-        "name": "ApiKey",
+        "name": "X-API-KEY",
         "in": "header"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Basic": [ ],
+      "ApiKey": [ ]
+    }
+  ]
 }

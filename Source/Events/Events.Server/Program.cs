@@ -20,6 +20,8 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var jsonString = await File.ReadAllTextAsync("auth.config.json");
+var authConfig = JsonSerializer.Deserialize<AuthConfig>(jsonString) ?? throw new NullReferenceException("Invalid Auth config");
 
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddDbContext<AuthDbContext>(e => e.UseInMemoryDatabase("Auth"));
@@ -27,49 +29,56 @@ builder.Services.AddDbContext<AuthDbContext>(e => e.UseInMemoryDatabase("Auth"))
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>();
 
+
+builder.Services.AddSingleton(e => new PasswordHasher());
+
 builder.Services.AddSingleton<IStore, InMemoryStore>();
 builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
-// builder.Services.AddSingleton<QueueIngestService>();
-// builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
-builder.Services.AddScoped<UserManager>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
+        Scheme = "basic",
+        In = ParameterLocation.Header,
+        Description = "Basic Authorization header using the Bearer scheme."
     });
-
     options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.ApiKey,
         In = ParameterLocation.Header,
-        Name = "ApiKey",
+        Name = new ApiKeyAuthenticationOptions().ApiKeyHeaderName,
     });
-
-    // options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    // {
-    //     {
-    //         new OpenApiSecurityScheme
-    //         {
-    //             Reference = new OpenApiReference
-    //             {
-    //                 Type=ReferenceType.SecurityScheme,
-    //                 Id="Bearer"
-    //             }
-    //         },
-    //         Array.Empty<string>()
-    //     }
-    // });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Basic"
+                    }
+                },
+                new string[] {}
+            },
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "ApiKey"
+                    }
+                },
+                new string[] {}
+            }
+        });
 });
 
 builder.Services.AddCors(options =>
@@ -80,18 +89,12 @@ builder.Services.AddCors(options =>
        .AllowAnyMethod()
        .AllowAnyOrigin());
 });
-//builder.Services.AddAuthorization(option =>
-//{
-//    option.AddPolicy("ApiKey", policy =>
-//    {
-//        policy.Requirements.Add(new ApiKeyRequirement());
-//    });
-//});
+
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ApiKey", policy =>
+    options.AddPolicy("Smart", policy =>
     {
-        policy.AddAuthenticationSchemes(new[] { ApiKeyDefaults.AuthenticationScheme });
+        policy.AddAuthenticationSchemes(new[] { ApiKeyDefaults.AuthenticationScheme, JwtBearerDefaults.AuthenticationScheme, "Basic" });
         policy.Requirements.Add(new RoleRequirements());
     });
 });
@@ -106,15 +109,18 @@ builder.Services.AddAuthentication(options =>
     {
 
         var apiHeader = context.Request.Headers[new ApiKeyAuthenticationOptions().ApiKeyHeaderName].FirstOrDefault();
-        if (apiHeader != null)
+        if (apiHeader is not null)
             return ApiKeyDefaults.AuthenticationScheme;
 
         var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-        if (authHeader?.StartsWith("Bearer ") == true)
+        //if (authHeader?.StartsWith("Bearer ") == true)
+        //{
+        //    return JwtBearerDefaults.AuthenticationScheme;
+        //}
+        if (authHeader?.StartsWith("Basic ") == true)
         {
-            return JwtBearerDefaults.AuthenticationScheme;
+            return "Basic";
         }
-
         return "Basic";
     };
 })
@@ -129,21 +135,25 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AuthDbContext>();
 
-    var jsonString = await File.ReadAllTextAsync("auth.config.json");
 
-    var authConfig = JsonSerializer.Deserialize<AuthConfig>(jsonString);
+
     var authDb = services.GetRequiredService<AuthDbContext>();
-    var userManager = services.GetRequiredService<UserManager>();
-    
-    foreach(var key in authConfig.ApiKeys)
+    var hasher = services.GetRequiredService<PasswordHasher>();
+
+    foreach (var key in authConfig.ApiKeys)
     {
-        await authDb.ApiKeys.AddAsync(key);
+        await authDb.ApiKeys.AddAsync(new ApiKeyConfig { ApiKey = hasher.HashPassword(key.ApiKey), Roles = key.Roles });
     }
-    await authDb.SaveChangesAsync();
 
     foreach (var user in authConfig.Users)
     {
-        await authDb.Users.AddAsync(user);
+        await authDb.Users.AddAsync(
+            new UserConfig
+            {
+                Password = hasher.HashPassword(user.Password),
+                Username = user.Username,
+                Roles = user.Roles
+            });
     }
     await authDb.SaveChangesAsync();
 }
