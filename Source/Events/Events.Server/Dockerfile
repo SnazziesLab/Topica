@@ -12,7 +12,7 @@ WORKDIR /src
 COPY ["Events.Server.csproj", "."]
 RUN dotnet restore "./Events.Server.csproj"
 COPY . .
-WORKDIR "/src/Events.Server"
+WORKDIR "/src"
 RUN dotnet build "./Events.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
