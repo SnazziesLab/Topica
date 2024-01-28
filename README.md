@@ -11,28 +11,30 @@ See what [scenarios](./Scenarios) this is useful with.
 ### Auth Setup
 This app uses a simple username and password system. This is setup via passing a json file like following.
 ```js
-[
-  {
-    "username": "UIAdmin",
-    "password": "password",
-    "roles": [ "read", "write" ]
-  },
-  {
-    "username": "UIGuest",
-    "password": "password",
-    "roles": [ "read" ]
-  },
-  {
-    "username": "service",
-    "password": "password",
-    "roles": [ "read", "write" ]
-  },
-  {
-    "username": "readonly",
-    "password": "password",
-    "roles": [ "read" ]
-  }
-]
+{
+  "ApiKeys": [
+    {
+      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "ApiKey": "aawdwa22",
+      "Roles": [ "read" ]
+    }
+  ],
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "admin",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "Username": "guest",
+      "Password": "guest",
+      "Roles": [ "read" ]
+    }
+  ]
+}
 ```
 
 ## Service Usage
