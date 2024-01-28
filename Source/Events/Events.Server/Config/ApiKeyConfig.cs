@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Events.Server.Data.Db;
+namespace Events.Server.Config;
 
 public class ApiKeyConfig
 {

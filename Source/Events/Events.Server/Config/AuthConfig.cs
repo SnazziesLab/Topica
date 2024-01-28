@@ -1,4 +1,4 @@
-﻿namespace Events.Server.Data.Db;
+﻿namespace Events.Server.Config;
 
 
 public class AuthConfig

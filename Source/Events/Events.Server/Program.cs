@@ -3,6 +3,7 @@ using Events;
 using Events.Server;
 using Events.Server.Auth;
 using Events.Server.Auth.ApiKey;
+using Events.Server.Config;
 using Events.Server.Data.Db;
 using Events.Server.Services;
 using Events.Services;
