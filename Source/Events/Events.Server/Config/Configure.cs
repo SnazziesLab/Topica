@@ -12,23 +12,23 @@ namespace Events.Server.Config
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection service)
         {
             service.AddSwaggerGen(options =>
-             {
-                 options.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
-                 {
-                     Name = "Authorization",
-                     Type = SecuritySchemeType.Http,
-                     Scheme = "basic",
-                     In = ParameterLocation.Header,
-                     Description = "Basic Authorization header using the Bearer scheme."
-                 });
-                 options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
-                 {
-                     Type = SecuritySchemeType.ApiKey,
-                     In = ParameterLocation.Header,
-                     Name = new ApiKeyAuthenticationOptions().ApiKeyHeaderName,
-                 });
-                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                options.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
                 {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                    Name = new ApiKeyAuthenticationOptions().ApiKeyHeaderName,
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                 {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -51,13 +51,13 @@ namespace Events.Server.Config
                         },
                         new string[] {}
                     }
-                });
-             });
+                 });
+            });
 
             return service;
         }
 
-       public static IServiceCollection ConfigureAuthorization(this IServiceCollection services)
+        public static IServiceCollection ConfigureAuthorization(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -72,7 +72,7 @@ namespace Events.Server.Config
                 options.DefaultAuthenticateScheme = "Smart";
                 options.DefaultChallengeScheme = "Smart";
 
-            }).AddPolicyScheme("Smart", "Authorization Bearer or Apikey", options =>
+            }).AddPolicyScheme("Smart", "Basic Authorization or Apikey", options =>
             {
                 options.ForwardDefaultSelector = context =>
                 {
@@ -82,15 +82,11 @@ namespace Events.Server.Config
                         return ApiKeyDefaults.AuthenticationScheme;
 
                     var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-                    //if (authHeader?.StartsWith("Bearer ") == true)
-                    //{
-                    //    return JwtBearerDefaults.AuthenticationScheme;
-                    //}
                     if (authHeader?.StartsWith("Basic ") == true)
                     {
                         return "Basic";
                     }
-                    return "Basic";
+                    return null;
                 };
             })
             .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(ApiKeyDefaults.AuthenticationScheme, null)
