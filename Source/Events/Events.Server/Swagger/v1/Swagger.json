@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Topics/GetTopics": {
+    "/api/Topics": {
       "get": {
         "tags": [
           "Topics"
@@ -32,9 +32,46 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Topics"
+        ],
+        "operationId": "DeleteTopic",
+        "parameters": [
+          {
+            "name": "topicName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "/api/Topics/GetTopic/{id}": {
+    "/api/Topics/{id}": {
       "get": {
         "tags": [
           "Topics"
@@ -73,14 +110,15 @@
         }
       }
     },
-    "/api/Topics/PushMessage": {
+    "/api/Topics/{topicName}": {
       "post": {
         "tags": [
           "Topics"
         ],
+        "operationId": "AddMessage",
         "parameters": [
           {
-            "name": "topicName",
+            "name": "topicId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -89,6 +127,14 @@
           {
             "name": "message",
             "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topicName",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -101,63 +147,26 @@
         }
       }
     },
-    "/api/Topics/DeleteEntry": {
+    "/api/Topics/message": {
       "delete": {
         "tags": [
           "Topics"
         ],
+        "operationId": "DeleteMessage",
         "parameters": [
           {
-            "name": "topicName",
+            "name": "topicId",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "entryId",
+            "name": "messageId",
             "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Topic"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Topic"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Topic"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Topics/DeleteTopic": {
-      "delete": {
-        "tags": [
-          "Topics"
-        ],
-        "parameters": [
-          {
-            "name": "topicName",
-            "in": "query",
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -209,7 +218,7 @@
       "Topic": {
         "type": "object",
         "properties": {
-          "name": {
+          "id": {
             "type": "string",
             "nullable": true
           },
@@ -234,12 +243,12 @@
         "description": "Please enter a valid token",
         "scheme": "Bearer",
         "bearerFormat": "JWT"
+      },
+      "ApiKey": {
+        "type": "apiKey",
+        "name": "ApiKey",
+        "in": "header"
       }
     }
-  },
-  "security": [
-    {
-      "Bearer": [ ]
-    }
-  ]
+  }
 }

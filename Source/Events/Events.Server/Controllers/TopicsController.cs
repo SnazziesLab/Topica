@@ -1,15 +1,18 @@
 ﻿using Events.Sdk.Data;
 using Events.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Server.Controllers
 {
-    [Authorize(Roles = "read")]
+    [Authorize(Roles = "read", Policy ="ApiKey")]
     [ApiController]
     [Route("api/[controller]")]
     public class TopicsController : ControllerBase
     {
+
+
         private IStore Store { get; set; }
 
         public TopicsController(IStore store)
@@ -46,7 +49,7 @@ namespace Events.Server.Controllers
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete(Name = nameof(DeleteMessage))]
+        [HttpDelete("message",Name = nameof(DeleteMessage))]
         public ActionResult<Topic> DeleteMessage(string topicId, Guid messageId)
         {
             Store.DeleteEntry(topicId, messageId);

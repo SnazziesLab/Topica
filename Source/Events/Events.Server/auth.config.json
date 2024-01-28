@@ -1,20 +1,25 @@
 ﻿{
-  "tokens": [
+  "salt": "awdwaujdioawjd",
+  "ApiKeys": [
     {
-      "token": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
-      "roles": ["read", "write"]
-    }
-  ],
-  "ui": [
-    {
-      "username": "admin",
-      "password": "admin",
-      "roles": [ "read", "write" ]
+      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "Roles": [ "read", "write" ]
     },
     {
-      "username": "guest",
-      "password": "guest",
-      "roles": [ "read" ]
+      "ApiKey": "aawdwa22",
+      "Roles": [ "read"]
+    }
+  ],
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "admin",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "Username": "guest",
+      "Password": "guest",
+      "Roles": [ "read" ]
     }
   ]
 }
