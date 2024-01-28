@@ -1,6 +1,6 @@
-# Zevents
+# Topica
 
-Zevents is an event tracking service designed to make tracking of any given topics and their historical events easily.
+Topica is an event tracking service designed to make tracking of any given topics and their historical events easily.
 This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline.
 
 See what [scenarios](./Scenarios) this is useful with.
@@ -9,30 +9,33 @@ See what [scenarios](./Scenarios) this is useful with.
 ## Setup
 
 ### Auth Setup
-This app uses a simple username and password system. This is setup via passing a json file like following.
+This app allows use of simple user pass or api key to auth. This is setup via passing a json file like following.
+* Auth data is not persistent, the in-memory AuthDb is populated at server startup.
 ```js
-[
-  {
-    "username": "UIAdmin",
-    "password": "password",
-    "roles": [ "read", "write" ]
-  },
-  {
-    "username": "UIGuest",
-    "password": "password",
-    "roles": [ "read" ]
-  },
-  {
-    "username": "service",
-    "password": "password",
-    "roles": [ "read", "write" ]
-  },
-  {
-    "username": "readonly",
-    "password": "password",
-    "roles": [ "read" ]
-  }
-]
+{
+  "ApiKeys": [
+    {
+      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "ApiKey": "aawdwa22",
+      "Roles": [ "read" ]
+    }
+  ],
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "admin",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "Username": "guest",
+      "Password": "guest",
+      "Roles": [ "read" ]
+    }
+  ]
+}
 ```
 
 ## Service Usage
