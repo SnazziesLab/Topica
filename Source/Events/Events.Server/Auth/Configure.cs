@@ -1,11 +1,10 @@
 ﻿using AspNetCore.Authentication.ApiKey;
-using Events.Server.Auth;
 using Events.Server.Auth.ApiKey;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace Events.Server.Config
+namespace Events.Server.Auth
 {
     public static class Configure
     {
