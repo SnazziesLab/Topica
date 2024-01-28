@@ -5,11 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Events.Server.Auth;
 
-public class ApiKeyAuthorizationHandler : AuthorizationHandler<RoleRequirements>
+public class RoleAuthorizationHandler : AuthorizationHandler<RoleRequirements>
 {
     private readonly AuthDbContext _context;
 
-    public ApiKeyAuthorizationHandler(AuthDbContext context)
+    public RoleAuthorizationHandler(AuthDbContext context)
     {
         _context = context;
     }

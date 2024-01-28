@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace Events.Server.Auth
+namespace Events.Server.Auth.ApiKey
 {
     public class ApiKeyAuthenticationOptions : AuthenticationSchemeOptions
     {
@@ -8,7 +8,7 @@ namespace Events.Server.Auth
 
         public string Scheme => DefaultScheme;
 
-        public string ApiKeyHeaderName { get; set; } = "X-API-KEY";
+        public string ApiKeyHeaderName = "X-API-KEY";
     }
 
 }

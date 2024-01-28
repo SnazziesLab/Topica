@@ -2,6 +2,7 @@ using AspNetCore.Authentication.ApiKey;
 using Events;
 using Events.Server;
 using Events.Server.Auth;
+using Events.Server.Auth.ApiKey;
 using Events.Server.Data.Db;
 using Events.Server.Services;
 using Events.Services;
@@ -27,7 +28,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
     .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddSingleton<IStore, InMemoryStore>();
-builder.Services.AddScoped<IAuthorizationHandler, ApiKeyAuthorizationHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 // builder.Services.AddSingleton<QueueIngestService>();
 // builder.Services.AddHostedService(e => e.GetRequiredService<QueueIngestService>());
 builder.Services.AddScoped<UserManager>();
@@ -96,31 +97,30 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "ApiKey";
-    options.DefaultAuthenticateScheme = ApiKeyDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = "Smart";
+    options.DefaultChallengeScheme = "Smart";
 
-}).AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>("ApiKey", null);
+}).AddPolicyScheme("Smart", "Authorization Bearer or Apikey", options =>
+{
+    options.ForwardDefaultSelector = context =>
+    {
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultScheme = "Smart";
-//    options.DefaultChallengeScheme = "Smart";
-//})
-//.AddPolicyScheme("Smart", "Authorization Bearer or Apikey", options =>
-//{
-//    options.ForwardDefaultSelector = context =>
-//    {
+        var apiHeader = context.Request.Headers[new ApiKeyAuthenticationOptions().ApiKeyHeaderName].FirstOrDefault();
+        if (apiHeader != null)
+            return ApiKeyDefaults.AuthenticationScheme;
 
-//        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+        if (authHeader?.StartsWith("Bearer ") == true)
+        {
+            return JwtBearerDefaults.AuthenticationScheme;
+        }
 
-//        if (authHeader?.StartsWith("Bearer ") == true)
-//        {
-//            return JwtBearerDefaults.AuthenticationScheme;
-//        }
+        return "Basic";
+    };
+})
+.AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(ApiKeyDefaults.AuthenticationScheme, null)
+.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
-//        return ApiKeyDefaults.AuthenticationScheme;
-//    };
-//});
 
 var app = builder.Build();
 
