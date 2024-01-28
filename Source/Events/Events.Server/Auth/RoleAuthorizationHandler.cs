@@ -7,11 +7,8 @@ namespace Events.Server.Auth;
 
 public class RoleAuthorizationHandler : AuthorizationHandler<RoleRequirements>
 {
-    private readonly AuthDbContext _context;
-
-    public RoleAuthorizationHandler(AuthDbContext context)
+    public RoleAuthorizationHandler()
     {
-        _context = context;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RoleRequirements roleRequirements)
