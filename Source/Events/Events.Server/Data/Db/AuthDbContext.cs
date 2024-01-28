@@ -1,5 +1,4 @@
 ﻿using Events.Server.Config;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Events.Server.Data.Db

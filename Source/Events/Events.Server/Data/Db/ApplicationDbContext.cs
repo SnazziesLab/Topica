@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Events.Server.Data.Db
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Topic> Topics { get; set; }
 

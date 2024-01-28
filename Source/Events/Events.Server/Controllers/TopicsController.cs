@@ -1,7 +1,6 @@
 ﻿using Events.Sdk.Data;
 using Events.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Events.Server.Controllers

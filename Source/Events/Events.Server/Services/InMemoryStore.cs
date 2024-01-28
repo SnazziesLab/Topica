@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace Events.Services
 {
-    public class InMemoryStore: IStore
+    public class InMemoryStore : IStore
     {
         ConcurrentDictionary<string, Topic> Events { get; set; } = [];
 
@@ -14,7 +14,7 @@ namespace Events.Services
 
         public bool TryGetTopic(string topicId, out Topic? topic)
         {
-            var result =  Events.TryGetValue(topicId, out var value);
+            var result = Events.TryGetValue(topicId, out var value);
 
             topic = value;
             return result;

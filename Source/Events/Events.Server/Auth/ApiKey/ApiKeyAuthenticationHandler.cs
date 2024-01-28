@@ -1,7 +1,6 @@
 ﻿using Events.Server.Data.Db;
 using Events.Server.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;

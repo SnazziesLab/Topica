@@ -1,22 +1,11 @@
-using AspNetCore.Authentication.ApiKey;
-using Events;
-using Events.Server;
 using Events.Server.Auth;
-using Events.Server.Auth.ApiKey;
 using Events.Server.Config;
 using Events.Server.Data.Db;
 using Events.Server.Services;
 using Events.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Diagnostics;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
