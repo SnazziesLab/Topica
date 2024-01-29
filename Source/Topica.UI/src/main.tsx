@@ -15,10 +15,13 @@ const store = createStore<object>({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider store={store}>
+          <AuthProvider store={store}>
+
       <BrowserRouter>
-        <App />
+              <App />
       </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+
+
   </React.StrictMode>
 );
