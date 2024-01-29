@@ -4,10 +4,12 @@
 Cargo.toml
 README.md
 docs/Entry.md
+docs/LoginApi.md
 docs/Topic.md
 docs/TopicsApi.md
 git_push.sh
 src/apis/configuration.rs
+src/apis/login_api.rs
 src/apis/mod.rs
 src/apis/topics_api.rs
 src/lib.rs

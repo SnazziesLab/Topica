@@ -3,10 +3,12 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_login.go
 api_topics.go
 client.go
 configuration.go
 docs/Entry.md
+docs/LoginAPI.md
 docs/Topic.md
 docs/TopicsAPI.md
 git_push.sh
@@ -15,5 +17,6 @@ go.sum
 model_entry.go
 model_topic.go
 response.go
+test/api_login_test.go
 test/api_topics_test.go
 utils.go

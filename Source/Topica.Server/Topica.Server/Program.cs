@@ -31,7 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(e =>
             throw new ArgumentOutOfRangeException($"DbType is not supported: {builder.Configuration["DbType"]}");
     }
 });
-
+builder.Services.AddSingleton<IConfiguration>(e => builder.Configuration);
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>();
@@ -48,13 +48,14 @@ builder.Services.ConfigureSwaggerGen();
 builder.Services.ConfigureAuthorization();
 
 builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    policy
-       .AllowAnyHeader()
-       .AllowAnyMethod()
-       .AllowAnyOrigin());
-});
+            {
+                options.AddDefaultPolicy(policy =>
+                policy.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .SetIsOriginAllowed(_ => true)
+                        .AllowCredentials()
+                        .WithExposedHeaders("WWW-Authenticate", "Authenticate", "Authorization"));
+            });
 
 
 var app = builder.Build();
@@ -87,6 +88,14 @@ using (var scope = app.Services.CreateScope())
     }
     await authDb.SaveChangesAsync();
 }
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin();
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+    options.SetIsOriginAllowed(_ => true);
+    options.WithExposedHeaders("WWW-Authenticate", "Authenticate","Authorization");
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -95,7 +104,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

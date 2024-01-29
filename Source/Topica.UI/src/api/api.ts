@@ -1,6 +1,6 @@
 
 
-import * as eventsClient from "@event-client"
+import * as eventsClient from "@topica/client"
 import {notification} from "antd"
 const middlewares: eventsClient.Middleware[] = [
     {
@@ -8,7 +8,8 @@ const middlewares: eventsClient.Middleware[] = [
             console.debug("pre middleware");
             const req = { ...e };
             const requestHeaders = new Headers(req.init.headers);
-            requestHeaders.append("Authorization", getCookie("token"));
+            getCookie("token") && requestHeaders.append("Authorization", getCookie("token"));
+            requestHeaders.append("Access-Control-Allow-Origin", "*");
             req.init.headers = requestHeaders;
             return Promise.resolve(req);
         },
@@ -31,10 +32,14 @@ const middlewares: eventsClient.Middleware[] = [
 
 const eventsConfig = () =>
     new eventsClient.Configuration({
-        basePath: import.meta.env.API_URL,
+        basePath: import.meta.env.VITE_API_SERVER_URL,
         middleware: middlewares
     });
-export const orgsApi = new eventsClient.EventsApi(eventsConfig());
+
+export const topicApi = new eventsClient.TopicsApi(eventsConfig());
+export const loginApi = new eventsClient.LoginApi( new eventsClient.Configuration({
+    basePath: import.meta.env.VITE_API_SERVER_URL,
+}));
 
 export function getCookie(name: string) {
     const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));

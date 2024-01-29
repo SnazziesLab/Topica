@@ -25,6 +25,7 @@ namespace Events.Server.Auth
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            var authKey = Request.Headers.Authorization;
             // Read the Authorization Header
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");

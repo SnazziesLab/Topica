@@ -17,6 +17,8 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "ahooks": "^3.7.9",
+    "jwt-decode": "^4.0.0",
     "ts-command-line-args": "^2.5.1"
   },
   "keywords": [],

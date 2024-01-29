@@ -8,6 +8,39 @@ security:
 - Basic: []
   ApiKey: []
 paths:
+  /api/Login:
+    post:
+      operationId: Login
+      parameters:
+      - explode: true
+        in: query
+        name: username
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: password
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      tags:
+      - Login
   /api/Topics:
     delete:
       operationId: DeleteTopic

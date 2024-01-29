@@ -3,6 +3,7 @@
 .openapi-generator-ignore
 README.md
 package.json
+src/apis/LoginApi.ts
 src/apis/TopicsApi.ts
 src/apis/index.ts
 src/index.ts

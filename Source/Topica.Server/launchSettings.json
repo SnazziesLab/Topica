@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "events.server": "StartDebugging"
+        "events.server": "StartDebugging",
+        "topica.server": "StartDebugging"
       }
     }
   }

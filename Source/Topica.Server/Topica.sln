@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topica.Server", "Topica.Server\Topica.Server.csproj", "{0BD0A844-A3FB-4D1E-B4BE-7E5068C40F20}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F2A08EAE-3B75-4D52-9EE0-67573C95D035}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB6E6A45-B9A0-4CF5-ABD0-487B74C97E65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0BD0A844-A3FB-4D1E-B4BE-7E5068C40F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0BD0A844-A3FB-4D1E-B4BE-7E5068C40F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD0A844-A3FB-4D1E-B4BE-7E5068C40F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD0A844-A3FB-4D1E-B4BE-7E5068C40F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A08EAE-3B75-4D52-9EE0-67573C95D035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A08EAE-3B75-4D52-9EE0-67573C95D035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A08EAE-3B75-4D52-9EE0-67573C95D035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A08EAE-3B75-4D52-9EE0-67573C95D035}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
