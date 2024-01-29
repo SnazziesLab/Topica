@@ -7,8 +7,8 @@
 <p align="center">
 <a href="https://github.com/SnazziesLab/Topica/releases">
 <img src="https://img.shields.io/github/v/release/SnazziesLab/Topica?style=flat-square"/>
-<img src="https://github.com/SnazziesLab/Topica/actions/workflows/docker-publish.yml/badge.svg?branch=master")/>
 </a>
+<img src="https://github.com/SnazziesLab/Topica/actions/workflows/docker-publish.yml/badge.svg?branch=master"/>
 </p>
 
 Topica is an event tracking service designed to make tracking of any given topics and their historical events easily.
@@ -18,7 +18,14 @@ See what [scenarios](./Scenarios) this is useful with.
 
 ## Setup
 
-### Auth Setup
+### environment variables
+
+| name                          | Description                                | Options                               |
+| ----------------------------- | ------------------------------------------ | ------------------------------------- |
+| DbType                        | Db type used to store app data             | Postgres, SqlServer, Sqlite, InMemory |
+| DbConnectionString (Optional) | Db connection string for none in-memory Db |                                       |
+
+### auth.config.json
 
 This app allows use of simple user pass or api key to auth. This is setup via passing a json file like following.
 
@@ -51,9 +58,16 @@ This app allows use of simple user pass or api key to auth. This is setup via pa
 }
 ```
 
-## Service Usage
+## Usage
 
-###### Post job events for `Job1`
+### Clients
+
+Using open api generator, a bunch of http clients can help you easily communicate with the server api through your app.
+See [Clients]("./Source/Clients).
+
+### Basic usage concept
+
+##### Post job events for `Job1`
 
 Post `/api/Topics/PushMessage?Topic=Job1&Message=job1%created`
 
@@ -61,7 +75,7 @@ Post `/api/Topics/PushMessage?Topic=Job1&Message=job1%processing`
 
 Post `/api/Topics/PushMessage?Topic=Job1&Message=job1%completed`
 
-###### Get all event history of `Job1`
+##### Get all event history of `Job1`
 
 Get `/api/Topics/GetTopic/Job1`
 
