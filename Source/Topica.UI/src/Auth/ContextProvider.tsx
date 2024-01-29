@@ -1,9 +1,10 @@
 import React, { createContext, useState } from "react";
+import { User } from "../pages/useAuth";
 
 interface AuthContextProps {
-  isLoggedIn: boolean;
-  login: () => void;
-  logout: () => void;
+    user: User | null;
+    setUser: (value: User | null) => void
+    isLoggedIn: boolean;
 }
 
 export const AuthContext = createContext<Partial<AuthContextProps>>({});
@@ -11,16 +12,19 @@ export const AuthContext = createContext<Partial<AuthContextProps>>({});
 const AuthProvider: React.FunctionComponent<{ children: React.ReactNode }> = (
   props
 ) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = () => setIsLoggedIn(true);
-  const logout = () => setIsLoggedIn(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  const isLoggedIn = user != null;
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, setUser }}>
       {props.children}
     </AuthContext.Provider>
   );
 };
 
 export default AuthProvider;
+
+
+

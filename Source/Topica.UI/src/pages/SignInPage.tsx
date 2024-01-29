@@ -9,9 +9,9 @@ export const SignInPage: React.FunctionComponent = () => {
   const navigation = useNavigate();
 
   const onFinish = (values: Login) => {
-    authenticate(values).then((success) => {
-      if (success) navigation("/");
-    });
+    authenticate(values).then(() =>  {
+      console.debug("navigate to /");
+      navigation("/")});
   };
 
   return (
@@ -23,11 +23,13 @@ export const SignInPage: React.FunctionComponent = () => {
     >
       <Form.Item
         name="username"
+        
         rules={[{ required: true, message: "Please input your Username!" }]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Username"
+          autoComplete="on"
         />
       </Form.Item>
       <Form.Item
@@ -38,6 +40,7 @@ export const SignInPage: React.FunctionComponent = () => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
+          autoComplete="on"
         />
       </Form.Item>
       <Form.Item>

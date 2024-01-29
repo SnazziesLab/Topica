@@ -1,19 +1,17 @@
 import "./App.css";
 import {
-  BrowserRouter,
   Outlet,
   Route,
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { User, useAuth } from "./pages/useAuth";
+import { useAuth } from "./pages/useAuth";
 import { SignInPage } from "./pages/SignInPage";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import { Children, useEffect } from "react";
 import { Button } from "antd";
+import { useEffect} from "react";
 
 export function App() {
-  const user = useAuthUser<User>();
+  const { user } = useAuth();
   console.log(user);
   return (
     <Routes>
@@ -28,11 +26,14 @@ export function App() {
 }
 
 export function RequireAuth() {
-  const user = useAuthUser<User>();
+  const { user } = useAuth();
   const navigation = useNavigate();
+
   useEffect(() => {
     if (user === null) navigation("/login");
-  });
+}, [navigation, user]);
+
+  console.log(user);
   return (
     <>
       <Outlet />
@@ -41,7 +42,6 @@ export function RequireAuth() {
 }
 
 export function Layout() {
-  const user = useAuthUser<User>();
   const { signOut } = useAuth();
   const navigation = useNavigate();
   return (
