@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Topica.Server", "Topica.Server.csproj", "{E25A1BAA-7F49-402E-B0B5-926BC9F8174D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E25A1BAA-7F49-402E-B0B5-926BC9F8174D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E25A1BAA-7F49-402E-B0B5-926BC9F8174D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E25A1BAA-7F49-402E-B0B5-926BC9F8174D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E25A1BAA-7F49-402E-B0B5-926BC9F8174D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {726FD4ED-1C6C-4E8B-966E-3F21C7E2BAD1}
+	EndGlobalSection
+EndGlobal
