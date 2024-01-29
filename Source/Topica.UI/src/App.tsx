@@ -18,7 +18,7 @@ export function App() {
       <Route path="/login" element={<SignInPage />} />
       <Route element={<Layout />}>
         <Route element={<RequireAuth />}>
-          <Route path="/" element={<>{user?.name}</>} />
+          <Route path="/" element={<>{user?.name} {user?.roles}</>} />
         </Route>
       </Route>
     </Routes>

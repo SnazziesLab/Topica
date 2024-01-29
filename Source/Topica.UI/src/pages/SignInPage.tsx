@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAuth, Login } from "./useAuth";
 import { useNavigate } from "react-router-dom";
+import { ResponseError } from "@topica/client";
 
 export const SignInPage: React.FunctionComponent = () => {
   const { authenticate } = useAuth();
   const navigation = useNavigate();
-
+  const [error, setError] = useState<string>()
   const onFinish = (values: Login) => {
     authenticate(values).then(() =>  {
       console.debug("navigate to /");
-      navigation("/")});
+      navigation("/")}).catch(async (e: ResponseError) => setError(await e.response.text()));
   };
 
   return (
@@ -43,7 +44,9 @@ export const SignInPage: React.FunctionComponent = () => {
           autoComplete="on"
         />
       </Form.Item>
+
       <Form.Item>
+      {error && <div style={{color:"red"}}>{error}</div>}
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>

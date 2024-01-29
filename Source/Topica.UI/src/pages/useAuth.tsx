@@ -3,6 +3,7 @@ import { loginApi } from "../api/api";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { useContext} from "react";
 import { AuthContext } from "../Auth/ContextProvider";
+import { ResponseError } from "@topica/client";
 export interface Login {
   username: string;
   password: string;
@@ -29,7 +30,7 @@ export function useAuth() {
     setToken("");
     authContext.setUser?.(null);
   };
-  const authenticate = (values: Login) => {
+  const authenticate = (values: Login): Promise<void | ResponseError>  => {
     return loginApi
       .loginRaw(values)
       .then((response) => {
@@ -48,7 +49,7 @@ export function useAuth() {
         setToken(jwtHeaderValue);
         return Promise.resolve();
       })
-      .catch((e: string) => {
+      .catch((e: ResponseError) => {
         console.error(e);
         return Promise.reject(e);
       });
