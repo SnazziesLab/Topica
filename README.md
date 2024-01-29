@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/SnazziesLab/Topica/releases">
 <img src="https://img.shields.io/github/v/release/SnazziesLab/Topica?style=flat-square"/>
+<img src="https://github.com/SnazziesLab/Topica/actions/workflows/docker-publish.yml/badge.svg?branch=master")/>
 </a>
 </p>
 
