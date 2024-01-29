@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  topica.server:
+    image: ${DOCKER_REGISTRY-}topica.server
+    container_name: topica.server
+    ports:
+      - 8780:8080
+    build:
+      context: ./Topica.Server/Topica.Server
+      dockerfile: Dockerfile
+  topica.ui:
+    image: ${DOCKER_REGISTRY-}topica.ui
+    container_name: topica.ui
+    ports:
+      - 8680:80
+    environment:
+      - VITE_API_SERVER_URL=https://localhost:8780
+    build:
+      context: .
+      dockerfile: Dockerfile.UI

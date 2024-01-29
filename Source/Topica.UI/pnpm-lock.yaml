@@ -12,8 +12,8 @@ dependencies:
     specifier: 3.0.2-alpha.19
     version: 3.0.2-alpha.19(next@14.1.0)(react-dom@18.2.0)(react-router@6.21.3)(react@18.2.0)
   '@topica/client':
-    specifier: file://../Clients/v1/TypeScript/Topica.Client
-    version: file:../Clients/v1/TypeScript/Topica.Client
+    specifier: file://../Clients/TypeScript/Topica.Client
+    version: file:../Clients/TypeScript/Topica.Client
   '@uidotdev/usehooks':
     specifier: ^2.4.1
     version: 2.4.1(react-dom@18.2.0)(react@18.2.0)
@@ -23,6 +23,9 @@ dependencies:
   antd:
     specifier: ^5.13.3
     version: 5.13.3(react-dom@18.2.0)(react@18.2.0)
+  jwt-decode:
+    specifier: ^4.0.0
+    version: 4.0.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -1692,6 +1695,11 @@ packages:
       string-convert: 0.2.1
     dev: false
 
+  /jwt-decode@4.0.0:
+    resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
+    engines: {node: '>=18'}
+    dev: false
+
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
     dependencies:
@@ -2768,7 +2776,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  file:../Clients/v1/TypeScript/Topica.Client:
-    resolution: {directory: ../Clients/v1/TypeScript/Topica.Client, type: directory}
-    name: topica
+  file:../Clients/TypeScript/Topica.Client:
+    resolution: {directory: ../Clients/TypeScript/Topica.Client, type: directory}
+    name: '@topica/client'
     dev: false

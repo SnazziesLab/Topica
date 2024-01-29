@@ -4,8 +4,8 @@ import { execute } from "./Execute";
 
 const tempFolder = path.join(__dirname, "../temp");
 const version = fse.readFileSync(path.join(__dirname, "../version.txt"));
-const appName = "topica";
-
+const appName = "Topica";
+const lowered = "Topica".toLowerCase();
 if (fse.existsSync(tempFolder)) fse.removeSync(tempFolder);
 fse.mkdirSync(tempFolder);
 collectSwaggerFoldersIntoTemp([
@@ -20,12 +20,13 @@ if (fse.existsSync(CodeGenPath))
 if (!fse.existsSync(CodeGenPath))
   fse.mkdirsSync(CodeGenPath);
 
+const swaggerFile = `temp/Swagger/${appName}.Server/Swagger.json`
 execute(`npx @openapitools/openapi-generator-cli version-manager set 7.2.0`)
-execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/${appName}.Server/v1/Swagger.json -g rust -o ${CodeGenPath}/v1/Rust/${appName}.Client --additional-properties=packageVersion=${version},packageName=${appName}`)
-execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/${appName}.Server/v1/Swagger.json -g typescript-fetch -o ${CodeGenPath}/v1/TypeScript/${appName}.Client -p npmName=${appName} --additional-properties=npmVersion=${version},stringEnums=true`)
-execute(`npx @openapitools/openapi-generator-cli generate -i temp/Swagger/${appName}.Server/v1/Swagger.json -g go -o ${CodeGenPath}/v1/Go/${appName}.Client --additional-properties=enumClassPrefix=true,packageVersion=${version},packageName=${appName}`)
+execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g rust -o ${CodeGenPath}/Rust/${appName}.Client --additional-properties=packageVersion=${version},packageName=${lowered}_client`)
+execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g typescript-fetch -o ${CodeGenPath}/TypeScript/${appName}.Client -p npmName=@${lowered}/client --additional-properties=npmVersion=${version},stringEnums=true`)
+execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g go -o ${CodeGenPath}/Go/${appName}.Client --additional-properties=enumClassPrefix=true,packageVersion=${version},packageName=${lowered}client`)
 
-execute(`cd ${CodeGenPath}/v1/TypeScript/${appName}.Client && npm i && npm run build `)
+execute(`cd ${CodeGenPath}/TypeScript/${appName}.Client && npm i && npm run build`)
 
 function collectSwaggerFoldersIntoTemp(swaggerPaths: string[]) {
   swaggerPaths.forEach((e) => {

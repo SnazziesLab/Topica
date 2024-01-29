@@ -1,0 +1,28 @@
+FROM node:20-alpine as setup
+
+RUN npm install -g pnpm
+WORKDIR /
+COPY ./Clients/TypeScript ./Clients/TypeScript
+
+WORKDIR /src
+COPY ./Topica.UI .
+
+WORKDIR /Clients/TypeScript/Topica.Client
+RUN pnpm i
+
+FROM setup as install
+WORKDIR /src
+RUN pnpm clean
+RUN pnpm i --frozen-lockfile
+
+FROM install as Build
+WORKDIR /src
+RUN pnpm build
+
+FROM node:20-alpine as App
+RUN npm i -g serve
+COPY --from=Build src/dist ./dist
+
+EXPOSE 80
+
+CMD [ "serve", "-s", "dist", "-l", "80" ]
