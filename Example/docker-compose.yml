@@ -5,8 +5,7 @@ services:
   topica-server:
     image: ghcr.io/snazzieslab/topica:nightly
     ports:
-      - 8180:8080
-      - 8181:8081
+      - 8080:8080
     environment:
       DbType: InMemory
       DbConnectionString:
