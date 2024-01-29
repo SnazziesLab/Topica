@@ -11,6 +11,10 @@ namespace Events.Services
         {
             return Events.Keys;
         }
+        public int GetTopicsCount()
+        {
+            return Events.Count;
+        }
 
         public bool TryGetTopic(string topicId, out Topic? topic)
         {

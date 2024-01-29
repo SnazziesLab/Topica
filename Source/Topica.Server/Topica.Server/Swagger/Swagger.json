@@ -118,6 +118,36 @@
         }
       }
     },
+    "/Count": {
+      "get": {
+        "tags": [
+          "Topics"
+        ],
+        "operationId": "GetCount",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Topics/{id}": {
       "get": {
         "tags": [

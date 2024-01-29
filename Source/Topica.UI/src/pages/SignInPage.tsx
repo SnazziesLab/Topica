@@ -16,6 +16,7 @@ export const SignInPage: React.FunctionComponent = () => {
   };
 
   return (
+    <div style={{display: "flex", height:"inherit", justifyContent: "center", alignItems: "center"}}>
     <Form<Login>
       name="normal_login"
       className="login-form"
@@ -52,5 +53,6 @@ export const SignInPage: React.FunctionComponent = () => {
         </Button>
       </Form.Item>
     </Form>
+    </div>
   );
 };

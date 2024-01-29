@@ -23,6 +23,12 @@ namespace Events.Server.Controllers
             return Ok(Store.GetTopics());
         }
 
+        [HttpGet("/Count", Name = nameof(GetCount))]
+        public ActionResult<Topic> GetCount()
+        {
+            return Ok(Store.GetTopics());
+        }
+
         [HttpGet("{id}", Name = nameof(GetTopic))]
         public ActionResult<Topic> GetTopic(string id)
         {

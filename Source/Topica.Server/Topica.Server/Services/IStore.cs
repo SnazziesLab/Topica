@@ -10,5 +10,6 @@ namespace Events.Services
         bool TryGetTopic(string topicId, out Topic? topic);
         ICollection<string> GetTopics();
         void UpsertTopic(Topic topic);
+        int GetTopicsCount();
     }
 }

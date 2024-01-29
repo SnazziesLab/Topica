@@ -1,14 +1,13 @@
-import "./App.css";
-import {
-  Outlet,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./pages/useAuth";
 import { SignInPage } from "./pages/SignInPage";
-import { Button } from "antd";
-import { useEffect} from "react";
+import { Button, Menu, MenuProps } from "antd";
+import { useEffect, useState } from "react";
+import {
+  DashOutlined,
+  DashboardOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 export function App() {
   const { user } = useAuth();
@@ -18,7 +17,14 @@ export function App() {
       <Route path="/login" element={<SignInPage />} />
       <Route element={<Layout />}>
         <Route element={<RequireAuth />}>
-          <Route path="/" element={<>{user?.name} {user?.roles}</>} />
+          <Route
+            path="/"
+            element={
+              <>
+                {user?.name} {user?.roles}
+              </>
+            }
+          />
         </Route>
       </Route>
     </Routes>
@@ -31,7 +37,7 @@ export function RequireAuth() {
 
   useEffect(() => {
     if (user === null) navigation("/login");
-}, [navigation, user]);
+  }, [navigation, user]);
 
   console.log(user);
   return (
@@ -44,10 +50,20 @@ export function RequireAuth() {
 export function Layout() {
   const { signOut } = useAuth();
   const navigation = useNavigate();
+  const [current, setCurrent] = useState("dashboard");
+
+  const onClick: MenuProps["onClick"] = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
   return (
     <div>
-      <div>
-        header
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      >
         <Button
           onClick={() => {
             signOut();
@@ -56,8 +72,23 @@ export function Layout() {
         >
           Sign Out
         </Button>
+      </Menu>
+      <div style={{margin: 20}}>
+        <Outlet />
       </div>
-      <Outlet />
     </div>
   );
 }
+
+const items: MenuProps["items"] = [
+  {
+    label: "Dashboard",
+    key: "dashboard",
+    icon: <DashboardOutlined />,
+  },
+  {
+    label: "User",
+    key: "user",
+    icon: <UserOutlined />,
+  },
+];
