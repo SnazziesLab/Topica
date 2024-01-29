@@ -30,15 +30,20 @@ const middlewares: eventsClient.Middleware[] = [
     }
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const url = import.meta.env.VITE_API_URL;
+
 const eventsConfig = () =>
     new eventsClient.Configuration({
-        basePath: import.meta.env.VITE_API_SERVER_URL,
+        basePath: url,
         middleware: middlewares
     });
 
+
 export const topicApi = new eventsClient.TopicsApi(eventsConfig());
 export const loginApi = new eventsClient.LoginApi( new eventsClient.Configuration({
-    basePath: import.meta.env.VITE_API_SERVER_URL,
+    basePath: url,
 }));
 
 export function getCookie(name: string) {
