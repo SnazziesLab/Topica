@@ -24,9 +24,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(e =>
         case "Sqlite":
             e.UseSqlite(builder.Configuration["DbConnectionString"]);
             break;
-        default:
+        case "InMemory":
             e.UseInMemoryDatabase("Data");
             break;
+        default:
+            throw new ArgumentOutOfRangeException($"DbType is not supported: {builder.Configuration["DbType"]}");
     }
 });
 

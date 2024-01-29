@@ -62,7 +62,7 @@ namespace Events.Server.Auth
             {
                 options.AddPolicy("Smart", policy =>
                 {
-                    policy.AddAuthenticationSchemes(new[] { ApiKeyDefaults.AuthenticationScheme,  "Basic" });
+                    policy.AddAuthenticationSchemes(new[] { ApiKeyDefaults.AuthenticationScheme, "Basic" });
                     policy.Requirements.Add(new RoleRequirements());
                 });
             });

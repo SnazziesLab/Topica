@@ -1,0 +1,14 @@
+version: "3.8"
+name: tapico
+
+services:
+  topica-server:
+    image: ghcr.io/snazzieslab/topica:nightly
+    ports:
+      - 8180:8080
+      - 8181:8081
+    environment:
+      DbType: InMemory
+      DbConnectionString:
+    volumes:
+      - ./auth.config.json:/app/auth.config.json

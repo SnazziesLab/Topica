@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  events.server:
-    image: ${DOCKER_REGISTRY-}eventsserver
-    build:
-      context: .
-      dockerfile: Events.Server/Dockerfile

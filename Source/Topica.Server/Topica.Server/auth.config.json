@@ -1,0 +1,24 @@
+﻿{
+  "ApiKeys": [
+    {
+      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "ApiKey": "aawdwa22",
+      "Roles": [ "read" ]
+    }
+  ],
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "admin",
+      "Roles": [ "read", "write" ]
+    },
+    {
+      "Username": "guest",
+      "Password": "guest",
+      "Roles": [ "read" ]
+    }
+  ]
+}

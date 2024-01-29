@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  topica.server:
+    image: ${DOCKER_REGISTRY-}topicaserver
+    build:
+      context: .
+      dockerfile: Topica.Server/Dockerfile
