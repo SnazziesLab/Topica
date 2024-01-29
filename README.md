@@ -11,10 +11,27 @@
 <img src="https://github.com/SnazziesLab/Topica/actions/workflows/docker-publish.yml/badge.svg?branch=master"/>
 </p>
 
-Topica is an event tracking service designed to make tracking of any given topics and their historical events easily.
+Topica is an event/topic tracking service designed to make it easy to track any given topics and their history.
 This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline.
 
-See what [scenarios](./Scenarios) this is useful with.
+See what [scenarios](./Scenarios) this can help with.
+
+## License
+
+I will eventually pick the right license for this project.
+
+For now, you're free to use Topica in your own projects or in commercial settings free of charge. I am not liable for any damages caused.
+All rights to Branding and Brand Resources are reserved. (i.e name, logo)
+
+Rights to contribution made is transfered to repo owner immediately upon submission unless specified otherwise.
+
+| Permissions       | Limitations      |
+| ----------------- | ---------------- |
+| ✅ Private use    | ❌ Distribution  |
+| ✅ Modification   | ❌ Trademark use |
+| ✅ Commercial use | ❌ Patent use    |
+|                   | ❌ Warranty      |
+|                   | ❌ Liability     |
 
 ## Example docker-compose
 
@@ -86,6 +103,6 @@ Get `/api/Topics/GetTopic/Job1`
 
 ## Roadmap
 
-There are currently no roadmaps. Feature suggestions are welcome.
+There are currently no major features planned. Feature suggestions are welcome.
 
-## License
+## Look
