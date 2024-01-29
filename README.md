@@ -16,16 +16,21 @@ This service enables tracking of specific asynchronous jobs' progress or identif
 
 See what [scenarios](./Scenarios) this is useful with.
 
+## Example docker-compose
+
+1. `cd Example`
+2. `docker-compose up`
+
 ## Setup
 
-### environment variables
+### Env Variables
 
 | name                          | Description                                | Options                               |
 | ----------------------------- | ------------------------------------------ | ------------------------------------- |
 | DbType                        | Db type used to store app data             | Postgres, SqlServer, Sqlite, InMemory |
 | DbConnectionString (Optional) | Db connection string for none in-memory Db |                                       |
 
-### auth.config.json
+### Auth Config (auth.config.json)
 
 This app allows use of simple user pass or api key to auth. This is setup via passing a json file like following.
 
@@ -81,6 +86,6 @@ Get `/api/Topics/GetTopic/Job1`
 
 ## Roadmap
 
-There is no roadmap as of current. Feature suggestions are welcome.
+There are currently no roadmaps. Feature suggestions are welcome.
 
 ## License
