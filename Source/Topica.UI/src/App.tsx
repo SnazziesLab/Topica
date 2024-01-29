@@ -3,11 +3,7 @@ import { useAuth } from "./pages/useAuth";
 import { SignInPage } from "./pages/SignInPage";
 import { Button, Menu, MenuProps } from "antd";
 import { useEffect, useState } from "react";
-import {
-  DashOutlined,
-  DashboardOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { DashboardOutlined, UserOutlined } from "@ant-design/icons";
 
 export function App() {
   const { user } = useAuth();
@@ -73,7 +69,7 @@ export function Layout() {
           Sign Out
         </Button>
       </Menu>
-      <div style={{margin: 20}}>
+      <div style={{ margin: 20 }}>
         <Outlet />
       </div>
     </div>
