@@ -3,7 +3,7 @@ import fse from "fs-extra";
 import { execute } from "./Execute";
 
 const tempFolder = path.join(__dirname, "../temp");
-const version = "1.0.0";
+const version = fse.readFileSync(path.join(__dirname, "../version.txt"));
 const appName = "topica";
 
 if (fse.existsSync(tempFolder)) fse.removeSync(tempFolder);
