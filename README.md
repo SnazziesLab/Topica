@@ -14,7 +14,7 @@
 Topica is an event/topic tracking service designed to make it easy to track any given topics and their history.
 This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline.
 
-See what [scenarios](./Scenarios) this can help with.
+See what [scenarios](./Scenarios) topica can help with.
 
 ## License
 
