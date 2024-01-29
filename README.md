@@ -18,10 +18,10 @@ See what [scenarios](./Scenarios) topica can help with.
 
 ## License
 
+All rights reserved.
 I will eventually pick the right license for this project.
 
-For now, you're free to use Topica in your own projects or in commercial settings free of charge. I am not liable for any damages caused.
-All rights to Branding and Brand Resources are reserved. (i.e name, logo)
+You're free to use Topica in your own projects or in commercial settings free of charge. I am not liable for any damages caused.
 
 Rights to contribution made is transfered to repo owner immediately upon submission unless specified otherwise.
 
@@ -105,4 +105,4 @@ Get `/api/Topics/GetTopic/Job1`
 
 There are currently no major features planned. Feature suggestions are welcome.
 
-## Look
+See [milestones](https://github.com/SnazziesLab/Topica/milestones) for things being currently worked on.
