@@ -1,0 +1,13 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/TopicsApi.ts
+src/apis/index.ts
+src/index.ts
+src/models/Entry.ts
+src/models/Topic.ts
+src/models/index.ts
+src/runtime.ts
+tsconfig.json

@@ -1,0 +1,16 @@
+.gitignore
+.openapi-generator-ignore
+.travis.yml
+Cargo.toml
+README.md
+docs/Entry.md
+docs/Topic.md
+docs/TopicsApi.md
+git_push.sh
+src/apis/configuration.rs
+src/apis/mod.rs
+src/apis/topics_api.rs
+src/lib.rs
+src/models/entry.rs
+src/models/mod.rs
+src/models/topic.rs

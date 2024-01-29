@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: "Topica.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+  version: "1.0"
+servers:
+- url: /
+security:
+- Basic: []
+  ApiKey: []
+paths:
+  /api/Topics:
+    delete:
+      operationId: DeleteTopic
+      parameters:
+      - explode: true
+        in: query
+        name: topicName
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+    get:
+      operationId: GetTopics
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/{id}:
+    get:
+      operationId: GetTopic
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/AddMessage:
+    post:
+      operationId: AddMessage
+      parameters:
+      - explode: true
+        in: query
+        name: topicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: message
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/message:
+    delete:
+      operationId: DeleteMessage
+      parameters:
+      - explode: true
+        in: query
+        name: topicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: messageId
+        required: false
+        schema:
+          format: uuid
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+components:
+  schemas:
+    Entry:
+      additionalProperties: false
+      example:
+        createdOn: 2000-01-23T04:56:07.000+00:00
+        content: content
+        entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        createdOn:
+          format: date-time
+          type: string
+        content:
+          nullable: true
+          type: string
+        entryId:
+          format: uuid
+          type: string
+      type: object
+    Topic:
+      additionalProperties: false
+      example:
+        id: id
+        history:
+        - createdOn: 2000-01-23T04:56:07.000+00:00
+          content: content
+          entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - createdOn: 2000-01-23T04:56:07.000+00:00
+          content: content
+          entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdOn: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          nullable: true
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+        history:
+          items:
+            $ref: '#/components/schemas/Entry'
+          nullable: true
+          type: array
+      type: object
+  securitySchemes:
+    Basic:
+      description: Basic Authorization header using the Bearer scheme.
+      scheme: basic
+      type: http
+    ApiKey:
+      in: header
+      name: X-API-KEY
+      type: apiKey
