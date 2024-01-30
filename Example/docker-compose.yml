@@ -15,4 +15,4 @@ services:
   topica-ui:
     image: ghcr.io/snazzieslab/topica.ui:nightly
     ports:
-      - 3000:8080
+      - 3000:80
