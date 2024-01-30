@@ -161,7 +161,7 @@ type ApiDeleteMessageRequest struct {
 	messageId string
 }
 
-func (r ApiDeleteMessageRequest) Execute() (*Topic, *http.Response, error) {
+func (r ApiDeleteMessageRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteMessageExecute(r)
 }
 
@@ -183,18 +183,16 @@ func (a *TopicsAPIService) DeleteMessage(ctx context.Context, topicId string, me
 }
 
 // Execute executes the request
-//  @return Topic
-func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Topic
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteMessage")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/Topics/{topicId}/messages/{messageId}"
@@ -215,7 +213,7 @@ func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*Top
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json", "text/json"}
+	localVarHTTPHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -238,19 +236,19 @@ func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*Top
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -258,19 +256,10 @@ func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*Top
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 type ApiDeleteTopicRequest struct {
@@ -279,7 +268,7 @@ type ApiDeleteTopicRequest struct {
 	topicId string
 }
 
-func (r ApiDeleteTopicRequest) Execute() (*Topic, *http.Response, error) {
+func (r ApiDeleteTopicRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteTopicExecute(r)
 }
 
@@ -299,18 +288,16 @@ func (a *TopicsAPIService) DeleteTopic(ctx context.Context, topicId string) ApiD
 }
 
 // Execute executes the request
-//  @return Topic
-func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Topic
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteTopic")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/Topics/{topicId}"
@@ -330,7 +317,7 @@ func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*Topic, 
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json", "text/json"}
+	localVarHTTPHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -353,19 +340,19 @@ func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*Topic, 
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -373,19 +360,10 @@ func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*Topic, 
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 type ApiGetCountRequest struct {
@@ -393,7 +371,7 @@ type ApiGetCountRequest struct {
 	ApiService *TopicsAPIService
 }
 
-func (r ApiGetCountRequest) Execute() (*Topic, *http.Response, error) {
+func (r ApiGetCountRequest) Execute() (int32, *http.Response, error) {
 	return r.ApiService.GetCountExecute(r)
 }
 
@@ -411,13 +389,13 @@ func (a *TopicsAPIService) GetCount(ctx context.Context) ApiGetCountRequest {
 }
 
 // Execute executes the request
-//  @return Topic
-func (a *TopicsAPIService) GetCountExecute(r ApiGetCountRequest) (*Topic, *http.Response, error) {
+//  @return int32
+func (a *TopicsAPIService) GetCountExecute(r ApiGetCountRequest) (int32, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Topic
+		localVarReturnValue  int32
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetCount")
@@ -483,6 +461,17 @@ func (a *TopicsAPIService) GetCountExecute(r ApiGetCountRequest) (*Topic, *http.
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ProblemDetails
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -599,6 +588,17 @@ func (a *TopicsAPIService) GetTopicExecute(r ApiGetTopicRequest) (*Topic, *http.
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ProblemDetails
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -619,7 +619,7 @@ type ApiGetTopicsRequest struct {
 	ApiService *TopicsAPIService
 }
 
-func (r ApiGetTopicsRequest) Execute() (*Topic, *http.Response, error) {
+func (r ApiGetTopicsRequest) Execute() ([]string, *http.Response, error) {
 	return r.ApiService.GetTopicsExecute(r)
 }
 
@@ -637,13 +637,13 @@ func (a *TopicsAPIService) GetTopics(ctx context.Context) ApiGetTopicsRequest {
 }
 
 // Execute executes the request
-//  @return Topic
-func (a *TopicsAPIService) GetTopicsExecute(r ApiGetTopicsRequest) (*Topic, *http.Response, error) {
+//  @return []string
+func (a *TopicsAPIService) GetTopicsExecute(r ApiGetTopicsRequest) ([]string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Topic
+		localVarReturnValue  []string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetTopics")

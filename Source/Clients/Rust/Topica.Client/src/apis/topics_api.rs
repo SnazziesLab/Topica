@@ -40,6 +40,7 @@ pub enum DeleteTopicError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetCountError {
+    Status404(crate::models::ProblemDetails),
     UnknownValue(serde_json::Value),
 }
 
@@ -47,6 +48,7 @@ pub enum GetCountError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTopicError {
+    Status404(crate::models::ProblemDetails),
     UnknownValue(serde_json::Value),
 }
 
@@ -103,7 +105,7 @@ pub async fn add_message(configuration: &configuration::Configuration, topic_id:
     }
 }
 
-pub async fn delete_message(configuration: &configuration::Configuration, topic_id: &str, message_id: &str) -> Result<crate::models::Topic, Error<DeleteMessageError>> {
+pub async fn delete_message(configuration: &configuration::Configuration, topic_id: &str, message_id: &str) -> Result<(), Error<DeleteMessageError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -133,7 +135,7 @@ pub async fn delete_message(configuration: &configuration::Configuration, topic_
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(())
     } else {
         let local_var_entity: Option<DeleteMessageError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -141,7 +143,7 @@ pub async fn delete_message(configuration: &configuration::Configuration, topic_
     }
 }
 
-pub async fn delete_topic(configuration: &configuration::Configuration, topic_id: &str) -> Result<crate::models::Topic, Error<DeleteTopicError>> {
+pub async fn delete_topic(configuration: &configuration::Configuration, topic_id: &str) -> Result<(), Error<DeleteTopicError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -171,7 +173,7 @@ pub async fn delete_topic(configuration: &configuration::Configuration, topic_id
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(())
     } else {
         let local_var_entity: Option<DeleteTopicError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -179,7 +181,7 @@ pub async fn delete_topic(configuration: &configuration::Configuration, topic_id
     }
 }
 
-pub async fn get_count(configuration: &configuration::Configuration, ) -> Result<crate::models::Topic, Error<GetCountError>> {
+pub async fn get_count(configuration: &configuration::Configuration, ) -> Result<i32, Error<GetCountError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -255,7 +257,7 @@ pub async fn get_topic(configuration: &configuration::Configuration, topic_id: &
     }
 }
 
-pub async fn get_topics(configuration: &configuration::Configuration, ) -> Result<crate::models::Topic, Error<GetTopicsError>> {
+pub async fn get_topics(configuration: &configuration::Configuration, ) -> Result<Vec<String>, Error<GetTopicsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

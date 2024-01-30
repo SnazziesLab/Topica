@@ -61,13 +61,19 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Topic'
+                items:
+                  type: string
+                type: array
             application/json:
               schema:
-                $ref: '#/components/schemas/Topic'
+                items:
+                  type: string
+                type: array
             text/json:
               schema:
-                $ref: '#/components/schemas/Topic'
+                items:
+                  type: string
+                type: array
           description: Success
       summary: Gets all Topic Ids.
       tags:
@@ -111,17 +117,32 @@ paths:
     get:
       operationId: GetCount
       responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
         "200":
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/Topic'
+                format: int32
+                type: integer
             application/json:
               schema:
-                $ref: '#/components/schemas/Topic'
+                format: int32
+                type: integer
             text/json:
               schema:
-                $ref: '#/components/schemas/Topic'
+                format: int32
+                type: integer
           description: Success
       tags:
       - Topics
@@ -138,16 +159,6 @@ paths:
         style: simple
       responses:
         "200":
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
           description: Success
       tags:
       - Topics
@@ -162,6 +173,18 @@ paths:
           type: string
         style: simple
       responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
         "200":
           content:
             text/plain:
@@ -197,16 +220,6 @@ paths:
         style: simple
       responses:
         "200":
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
           description: Success
       tags:
       - Topics

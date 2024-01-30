@@ -41,10 +41,9 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 		var topicId string
 		var messageId string
 
-		resp, httpRes, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
+		httpRes, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
 
 		require.Nil(t, err)
-		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -55,10 +54,9 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 		var topicId string
 
-		resp, httpRes, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
+		httpRes, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
 
 		require.Nil(t, err)
-		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

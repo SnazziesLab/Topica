@@ -44,7 +44,7 @@ Name | Type | Description  | Required | Notes
 
 ## delete_message
 
-> crate::models::Topic delete_message(topic_id, message_id)
+> delete_message(topic_id, message_id)
 
 
 ### Parameters
@@ -57,7 +57,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Topic**](Topic.md)
+ (empty response body)
 
 ### Authorization
 
@@ -66,14 +66,14 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
 ## delete_topic
 
-> crate::models::Topic delete_topic(topic_id)
+> delete_topic(topic_id)
 
 
 ### Parameters
@@ -85,7 +85,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Topic**](Topic.md)
+ (empty response body)
 
 ### Authorization
 
@@ -94,14 +94,14 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
 ## get_count
 
-> crate::models::Topic get_count()
+> i32 get_count()
 
 
 ### Parameters
@@ -110,7 +110,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::Topic**](Topic.md)
+**i32**
 
 ### Authorization
 
@@ -154,7 +154,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_topics
 
-> crate::models::Topic get_topics()
+> Vec<String> get_topics()
 Gets all Topic Ids.
 
 ### Parameters
@@ -163,7 +163,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::Topic**](Topic.md)
+**Vec<String>**
 
 ### Authorization
 

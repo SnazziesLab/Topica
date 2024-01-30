@@ -81,7 +81,7 @@ Name | Type | Description  | Notes
 
 ## DeleteMessage
 
-> Topic DeleteMessage(ctx, topicId, messageId).Execute()
+> DeleteMessage(ctx, topicId, messageId).Execute()
 
 
 
@@ -103,13 +103,11 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
+	r, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteMessage`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteMessage`: %v\n", resp)
 }
 ```
 
@@ -134,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Topic**](Topic.md)
+ (empty response body)
 
 ### Authorization
 
@@ -143,7 +141,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -152,7 +150,7 @@ Name | Type | Description  | Notes
 
 ## DeleteTopic
 
-> Topic DeleteTopic(ctx, topicId).Execute()
+> DeleteTopic(ctx, topicId).Execute()
 
 
 
@@ -173,13 +171,11 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
+	r, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteTopic`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteTopic`: %v\n", resp)
 }
 ```
 
@@ -202,7 +198,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Topic**](Topic.md)
+ (empty response body)
 
 ### Authorization
 
@@ -211,7 +207,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -220,7 +216,7 @@ Name | Type | Description  | Notes
 
 ## GetCount
 
-> Topic GetCount(ctx).Execute()
+> int32 GetCount(ctx).Execute()
 
 
 
@@ -245,7 +241,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetCount``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCount`: Topic
+	// response from `GetCount`: int32
 	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetCount`: %v\n", resp)
 }
 ```
@@ -261,7 +257,7 @@ Other parameters are passed through a pointer to a apiGetCountRequest struct via
 
 ### Return type
 
-[**Topic**](Topic.md)
+**int32**
 
 ### Authorization
 
@@ -347,7 +343,7 @@ Name | Type | Description  | Notes
 
 ## GetTopics
 
-> Topic GetTopics(ctx).Execute()
+> []string GetTopics(ctx).Execute()
 
 Gets all Topic Ids.
 
@@ -372,7 +368,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetTopics`: Topic
+	// response from `GetTopics`: []string
 	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTopics`: %v\n", resp)
 }
 ```
@@ -388,7 +384,7 @@ Other parameters are passed through a pointer to a apiGetTopicsRequest struct vi
 
 ### Return type
 
-[**Topic**](Topic.md)
+**[]string**
 
 ### Authorization
 
