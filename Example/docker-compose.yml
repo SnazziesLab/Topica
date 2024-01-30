@@ -1,5 +1,5 @@
 version: "3.8"
-name: tapico
+name: topica-demo
 
 services:
   topica-server:
