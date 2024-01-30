@@ -1,38 +1,38 @@
 {
-  "name": "topica-ui",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "clean": "npx rimraf node_modules"
-  },
-  "dependencies": {
-    "@ant-design/icons": "^5.2.6",
-    "@auth-kit/react-router": "3.0.2-alpha.19",
-    "@topica/client": "file://../Clients/TypeScript/Topica.Client",
-    "@uidotdev/usehooks": "^2.4.1",
-    "ahooks": "^3.7.9",
-    "antd": "^5.13.3",
-    "jwt-decode": "^4.0.0",
-    "react": "^18.2.0",
-    "react-auth-kit": "^3.0.1",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.3"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.19.1",
-    "@typescript-eslint/parser": "^6.19.1",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.12"
-  }
+    "name": "topica-ui",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
+        "clean": "npx rimraf node_modules"
+    },
+    "dependencies": {
+        "@ant-design/icons": "^5.2.6",
+        "@auth-kit/react-router": "3.0.2-alpha.19",
+        "@topica/client": "file://../Clients/TypeScript/Topica.Client",
+        "@uidotdev/usehooks": "^2.4.1",
+        "ahooks": "^3.7.9",
+        "antd": "^5.13.3",
+        "jwt-decode": "^4.0.0",
+        "react": "^18.2.0",
+        "react-auth-kit": "^3.0.1",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.21.3"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.48",
+        "@types/react-dom": "^18.2.18",
+        "@typescript-eslint/eslint-plugin": "^6.20.0",
+        "@typescript-eslint/parser": "^6.20.0",
+        "@vitejs/plugin-react-swc": "^3.5.0",
+        "eslint": "^8.56.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.5",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.12"
+    }
 }
