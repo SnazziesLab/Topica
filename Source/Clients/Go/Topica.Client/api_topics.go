@@ -23,51 +23,55 @@ import (
 // TopicsAPIService TopicsAPI service
 type TopicsAPIService service
 
-type ApiAddMessageAsyncRequest struct {
+type ApiAddMessageRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
 	topicId *string
 	message *string
 }
 
-func (r ApiAddMessageAsyncRequest) TopicId(topicId string) ApiAddMessageAsyncRequest {
+// If topicId is null, a GUID will be generated in place
+func (r ApiAddMessageRequest) TopicId(topicId string) ApiAddMessageRequest {
 	r.topicId = &topicId
 	return r
 }
 
-func (r ApiAddMessageAsyncRequest) Message(message string) ApiAddMessageAsyncRequest {
+// 
+func (r ApiAddMessageRequest) Message(message string) ApiAddMessageRequest {
 	r.message = &message
 	return r
 }
 
-func (r ApiAddMessageAsyncRequest) Execute() (*http.Response, error) {
-	return r.ApiService.AddMessageAsyncExecute(r)
+func (r ApiAddMessageRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.AddMessageExecute(r)
 }
 
 /*
-AddMessageAsync Method for AddMessageAsync
+AddMessage Creates a message under topic id.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAddMessageAsyncRequest
+ @return ApiAddMessageRequest
 */
-func (a *TopicsAPIService) AddMessageAsync(ctx context.Context) ApiAddMessageAsyncRequest {
-	return ApiAddMessageAsyncRequest{
+func (a *TopicsAPIService) AddMessage(ctx context.Context) ApiAddMessageRequest {
+	return ApiAddMessageRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *TopicsAPIService) AddMessageAsyncExecute(r ApiAddMessageAsyncRequest) (*http.Response, error) {
+//  @return string
+func (a *TopicsAPIService) AddMessageExecute(r ApiAddMessageRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.AddMessageAsync")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.AddMessage")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/Topics"
@@ -92,7 +96,7 @@ func (a *TopicsAPIService) AddMessageAsyncExecute(r ApiAddMessageAsyncRequest) (
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json", "text/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -115,19 +119,19 @@ func (a *TopicsAPIService) AddMessageAsyncExecute(r ApiAddMessageAsyncRequest) (
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -135,49 +139,52 @@ func (a *TopicsAPIService) AddMessageAsyncExecute(r ApiAddMessageAsyncRequest) (
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteMessageAsyncRequest struct {
+type ApiDeleteMessageRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
-	topicId *string
-	messageId *string
+	topicId string
+	messageId string
 }
 
-func (r ApiDeleteMessageAsyncRequest) TopicId(topicId string) ApiDeleteMessageAsyncRequest {
-	r.topicId = &topicId
-	return r
-}
-
-func (r ApiDeleteMessageAsyncRequest) MessageId(messageId string) ApiDeleteMessageAsyncRequest {
-	r.messageId = &messageId
-	return r
-}
-
-func (r ApiDeleteMessageAsyncRequest) Execute() (*Topic, *http.Response, error) {
-	return r.ApiService.DeleteMessageAsyncExecute(r)
+func (r ApiDeleteMessageRequest) Execute() (*Topic, *http.Response, error) {
+	return r.ApiService.DeleteMessageExecute(r)
 }
 
 /*
-DeleteMessageAsync Method for DeleteMessageAsync
+DeleteMessage Method for DeleteMessage
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeleteMessageAsyncRequest
+ @param topicId
+ @param messageId
+ @return ApiDeleteMessageRequest
 */
-func (a *TopicsAPIService) DeleteMessageAsync(ctx context.Context) ApiDeleteMessageAsyncRequest {
-	return ApiDeleteMessageAsyncRequest{
+func (a *TopicsAPIService) DeleteMessage(ctx context.Context, topicId string, messageId string) ApiDeleteMessageRequest {
+	return ApiDeleteMessageRequest{
 		ApiService: a,
 		ctx: ctx,
+		topicId: topicId,
+		messageId: messageId,
 	}
 }
 
 // Execute executes the request
 //  @return Topic
-func (a *TopicsAPIService) DeleteMessageAsyncExecute(r ApiDeleteMessageAsyncRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) DeleteMessageExecute(r ApiDeleteMessageRequest) (*Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -185,23 +192,19 @@ func (a *TopicsAPIService) DeleteMessageAsyncExecute(r ApiDeleteMessageAsyncRequ
 		localVarReturnValue  *Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteMessageAsync")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteMessage")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/Topics/message"
+	localVarPath := localBasePath + "/api/Topics/{topicId}/messages/{messageId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"messageId"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.topicId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "topicId", r.topicId, "")
-	}
-	if r.messageId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "messageId", r.messageId, "")
-	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -270,37 +273,34 @@ func (a *TopicsAPIService) DeleteMessageAsyncExecute(r ApiDeleteMessageAsyncRequ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteTopicAsyncRequest struct {
+type ApiDeleteTopicRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
-	topicName *string
+	topicId string
 }
 
-func (r ApiDeleteTopicAsyncRequest) TopicName(topicName string) ApiDeleteTopicAsyncRequest {
-	r.topicName = &topicName
-	return r
-}
-
-func (r ApiDeleteTopicAsyncRequest) Execute() (*Topic, *http.Response, error) {
-	return r.ApiService.DeleteTopicAsyncExecute(r)
+func (r ApiDeleteTopicRequest) Execute() (*Topic, *http.Response, error) {
+	return r.ApiService.DeleteTopicExecute(r)
 }
 
 /*
-DeleteTopicAsync Method for DeleteTopicAsync
+DeleteTopic Method for DeleteTopic
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeleteTopicAsyncRequest
+ @param topicId
+ @return ApiDeleteTopicRequest
 */
-func (a *TopicsAPIService) DeleteTopicAsync(ctx context.Context) ApiDeleteTopicAsyncRequest {
-	return ApiDeleteTopicAsyncRequest{
+func (a *TopicsAPIService) DeleteTopic(ctx context.Context, topicId string) ApiDeleteTopicRequest {
+	return ApiDeleteTopicRequest{
 		ApiService: a,
 		ctx: ctx,
+		topicId: topicId,
 	}
 }
 
 // Execute executes the request
 //  @return Topic
-func (a *TopicsAPIService) DeleteTopicAsyncExecute(r ApiDeleteTopicAsyncRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) DeleteTopicExecute(r ApiDeleteTopicRequest) (*Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -308,20 +308,18 @@ func (a *TopicsAPIService) DeleteTopicAsyncExecute(r ApiDeleteTopicAsyncRequest)
 		localVarReturnValue  *Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteTopicAsync")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.DeleteTopic")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/Topics"
+	localVarPath := localBasePath + "/api/Topics/{topicId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.topicName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "topicName", r.topicName, "")
-	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -390,23 +388,23 @@ func (a *TopicsAPIService) DeleteTopicAsyncExecute(r ApiDeleteTopicAsyncRequest)
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetCountAsyncRequest struct {
+type ApiGetCountRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
 }
 
-func (r ApiGetCountAsyncRequest) Execute() (*Topic, *http.Response, error) {
-	return r.ApiService.GetCountAsyncExecute(r)
+func (r ApiGetCountRequest) Execute() (*Topic, *http.Response, error) {
+	return r.ApiService.GetCountExecute(r)
 }
 
 /*
-GetCountAsync Method for GetCountAsync
+GetCount Method for GetCount
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCountAsyncRequest
+ @return ApiGetCountRequest
 */
-func (a *TopicsAPIService) GetCountAsync(ctx context.Context) ApiGetCountAsyncRequest {
-	return ApiGetCountAsyncRequest{
+func (a *TopicsAPIService) GetCount(ctx context.Context) ApiGetCountRequest {
+	return ApiGetCountRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -414,7 +412,7 @@ func (a *TopicsAPIService) GetCountAsync(ctx context.Context) ApiGetCountAsyncRe
 
 // Execute executes the request
 //  @return Topic
-func (a *TopicsAPIService) GetCountAsyncExecute(r ApiGetCountAsyncRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) GetCountExecute(r ApiGetCountRequest) (*Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -422,7 +420,7 @@ func (a *TopicsAPIService) GetCountAsyncExecute(r ApiGetCountAsyncRequest) (*Top
 		localVarReturnValue  *Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetCountAsync")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetCount")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -504,7 +502,7 @@ func (a *TopicsAPIService) GetCountAsyncExecute(r ApiGetCountAsyncRequest) (*Top
 type ApiGetTopicRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
-	id string
+	topicId string
 }
 
 func (r ApiGetTopicRequest) Execute() (*Topic, *http.Response, error) {
@@ -515,14 +513,14 @@ func (r ApiGetTopicRequest) Execute() (*Topic, *http.Response, error) {
 GetTopic Method for GetTopic
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id
+ @param topicId
  @return ApiGetTopicRequest
 */
-func (a *TopicsAPIService) GetTopic(ctx context.Context, id string) ApiGetTopicRequest {
+func (a *TopicsAPIService) GetTopic(ctx context.Context, topicId string) ApiGetTopicRequest {
 	return ApiGetTopicRequest{
 		ApiService: a,
 		ctx: ctx,
-		id: id,
+		topicId: topicId,
 	}
 }
 
@@ -541,8 +539,8 @@ func (a *TopicsAPIService) GetTopicExecute(r ApiGetTopicRequest) (*Topic, *http.
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/Topics/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+	localVarPath := localBasePath + "/api/Topics/{topicId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -616,23 +614,23 @@ func (a *TopicsAPIService) GetTopicExecute(r ApiGetTopicRequest) (*Topic, *http.
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetTopicsAsyncRequest struct {
+type ApiGetTopicsRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
 }
 
-func (r ApiGetTopicsAsyncRequest) Execute() (*Topic, *http.Response, error) {
-	return r.ApiService.GetTopicsAsyncExecute(r)
+func (r ApiGetTopicsRequest) Execute() (*Topic, *http.Response, error) {
+	return r.ApiService.GetTopicsExecute(r)
 }
 
 /*
-GetTopicsAsync Method for GetTopicsAsync
+GetTopics Gets all Topic Ids.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetTopicsAsyncRequest
+ @return ApiGetTopicsRequest
 */
-func (a *TopicsAPIService) GetTopicsAsync(ctx context.Context) ApiGetTopicsAsyncRequest {
-	return ApiGetTopicsAsyncRequest{
+func (a *TopicsAPIService) GetTopics(ctx context.Context) ApiGetTopicsRequest {
+	return ApiGetTopicsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -640,7 +638,7 @@ func (a *TopicsAPIService) GetTopicsAsync(ctx context.Context) ApiGetTopicsAsync
 
 // Execute executes the request
 //  @return Topic
-func (a *TopicsAPIService) GetTopicsAsyncExecute(r ApiGetTopicsAsyncRequest) (*Topic, *http.Response, error) {
+func (a *TopicsAPIService) GetTopicsExecute(r ApiGetTopicsRequest) (*Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -648,7 +646,7 @@ func (a *TopicsAPIService) GetTopicsAsyncExecute(r ApiGetTopicsAsyncRequest) (*T
 		localVarReturnValue  *Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetTopicsAsync")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.GetTopics")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -711,6 +709,17 @@ func (a *TopicsAPIService) GetTopicsAsyncExecute(r ApiGetTopicsAsyncRequest) (*T
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ProblemDetails
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

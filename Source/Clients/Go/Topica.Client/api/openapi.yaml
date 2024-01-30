@@ -42,34 +42,21 @@ paths:
       tags:
       - Login
   /api/Topics:
-    delete:
-      operationId: DeleteTopicAsync
-      parameters:
-      - explode: true
-        in: query
-        name: topicName
-        required: false
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/Topic'
-          description: Success
-      tags:
-      - Topics
     get:
-      operationId: GetTopicsAsync
+      operationId: GetTopics
       responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
         "200":
           content:
             text/plain:
@@ -82,19 +69,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: Success
+      summary: Gets all Topic Ids.
       tags:
       - Topics
     post:
-      operationId: AddMessageAsync
+      operationId: AddMessage
       parameters:
-      - explode: true
+      - description: "If topicId is null, a GUID will be generated in place"
+        explode: true
         in: query
         name: topicId
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - description: ""
+        explode: true
         in: query
         name: message
         required: false
@@ -103,12 +93,23 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
           description: Success
+      summary: Creates a message under topic id.
       tags:
       - Topics
   /api/Topics/Count:
     get:
-      operationId: GetCountAsync
+      operationId: GetCount
       responses:
         "200":
           content:
@@ -124,13 +125,13 @@ paths:
           description: Success
       tags:
       - Topics
-  /api/Topics/{id}:
-    get:
-      operationId: GetTopic
+  /api/Topics/{topicId}:
+    delete:
+      operationId: DeleteTopic
       parameters:
       - explode: false
         in: path
-        name: id
+        name: topicId
         required: true
         schema:
           type: string
@@ -150,25 +151,50 @@ paths:
           description: Success
       tags:
       - Topics
-  /api/Topics/message:
-    delete:
-      operationId: DeleteMessageAsync
+    get:
+      operationId: GetTopic
       parameters:
-      - explode: true
-        in: query
+      - explode: false
+        in: path
         name: topicId
-        required: false
+        required: true
         schema:
           type: string
-        style: form
-      - explode: true
-        in: query
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/{topicId}/messages/{messageId}:
+    delete:
+      operationId: DeleteMessage
+      parameters:
+      - explode: false
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
         name: messageId
-        required: false
+        required: true
         schema:
           format: uuid
           type: string
-        style: form
+        style: simple
       responses:
         "200":
           content:
@@ -201,6 +227,26 @@ components:
           type: string
         entryId:
           format: uuid
+          type: string
+      type: object
+    ProblemDetails:
+      additionalProperties: {}
+      properties:
+        type:
+          nullable: true
+          type: string
+        title:
+          nullable: true
+          type: string
+        status:
+          format: int32
+          nullable: true
+          type: integer
+        detail:
+          nullable: true
+          type: string
+        instance:
+          nullable: true
           type: string
       type: object
     Topic:

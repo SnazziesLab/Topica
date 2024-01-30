@@ -22,22 +22,11 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test TopicsAPIService AddMessageAsync", func(t *testing.T) {
+	t.Run("Test TopicsAPIService AddMessage", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.TopicsAPI.AddMessageAsync(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test TopicsAPIService DeleteMessageAsync", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.TopicsAPI.DeleteMessageAsync(context.Background()).Execute()
+		resp, httpRes, err := apiClient.TopicsAPI.AddMessage(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -45,11 +34,14 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test TopicsAPIService DeleteTopicAsync", func(t *testing.T) {
+	t.Run("Test TopicsAPIService DeleteMessage", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.TopicsAPI.DeleteTopicAsync(context.Background()).Execute()
+		var topicId string
+		var messageId string
+
+		resp, httpRes, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -57,11 +49,25 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test TopicsAPIService GetCountAsync", func(t *testing.T) {
+	t.Run("Test TopicsAPIService DeleteTopic", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.TopicsAPI.GetCountAsync(context.Background()).Execute()
+		var topicId string
+
+		resp, httpRes, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test TopicsAPIService GetCount", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.TopicsAPI.GetCount(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -73,9 +79,9 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var id string
+		var topicId string
 
-		resp, httpRes, err := apiClient.TopicsAPI.GetTopic(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.TopicsAPI.GetTopic(context.Background(), topicId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -83,11 +89,11 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test TopicsAPIService GetTopicsAsync", func(t *testing.T) {
+	t.Run("Test TopicsAPIService GetTopics", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.TopicsAPI.GetTopicsAsync(context.Background()).Execute()
+		resp, httpRes, err := apiClient.TopicsAPI.GetTopics(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

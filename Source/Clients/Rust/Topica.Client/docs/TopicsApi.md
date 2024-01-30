@@ -4,31 +4,31 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_message_async**](TopicsApi.md#add_message_async) | **POST** /api/Topics | 
-[**delete_message_async**](TopicsApi.md#delete_message_async) | **DELETE** /api/Topics/message | 
-[**delete_topic_async**](TopicsApi.md#delete_topic_async) | **DELETE** /api/Topics | 
-[**get_count_async**](TopicsApi.md#get_count_async) | **GET** /api/Topics/Count | 
-[**get_topic**](TopicsApi.md#get_topic) | **GET** /api/Topics/{id} | 
-[**get_topics_async**](TopicsApi.md#get_topics_async) | **GET** /api/Topics | 
+[**add_message**](TopicsApi.md#add_message) | **POST** /api/Topics | Creates a message under topic id.
+[**delete_message**](TopicsApi.md#delete_message) | **DELETE** /api/Topics/{topicId}/messages/{messageId} | 
+[**delete_topic**](TopicsApi.md#delete_topic) | **DELETE** /api/Topics/{topicId} | 
+[**get_count**](TopicsApi.md#get_count) | **GET** /api/Topics/Count | 
+[**get_topic**](TopicsApi.md#get_topic) | **GET** /api/Topics/{topicId} | 
+[**get_topics**](TopicsApi.md#get_topics) | **GET** /api/Topics | Gets all Topic Ids.
 
 
 
-## add_message_async
+## add_message
 
-> add_message_async(topic_id, message)
-
+> String add_message(topic_id, message)
+Creates a message under topic id.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**topic_id** | Option<**String**> |  |  |
+**topic_id** | Option<**String**> | If topicId is null, a GUID will be generated in place |  |
 **message** | Option<**String**> |  |  |
 
 ### Return type
 
- (empty response body)
+**String**
 
 ### Authorization
 
@@ -37,14 +37,14 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## delete_message_async
+## delete_message
 
-> crate::models::Topic delete_message_async(topic_id, message_id)
+> crate::models::Topic delete_message(topic_id, message_id)
 
 
 ### Parameters
@@ -52,8 +52,8 @@ Name | Type | Description  | Required | Notes
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**topic_id** | Option<**String**> |  |  |
-**message_id** | Option<**uuid::Uuid**> |  |  |
+**topic_id** | **String** |  | [required] |
+**message_id** | **uuid::Uuid** |  | [required] |
 
 ### Return type
 
@@ -71,9 +71,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## delete_topic_async
+## delete_topic
 
-> crate::models::Topic delete_topic_async(topic_name)
+> crate::models::Topic delete_topic(topic_id)
 
 
 ### Parameters
@@ -81,7 +81,7 @@ Name | Type | Description  | Required | Notes
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**topic_name** | Option<**String**> |  |  |
+**topic_id** | **String** |  | [required] |
 
 ### Return type
 
@@ -99,9 +99,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## get_count_async
+## get_count
 
-> crate::models::Topic get_count_async()
+> crate::models::Topic get_count()
 
 
 ### Parameters
@@ -126,7 +126,7 @@ This endpoint does not need any parameter.
 
 ## get_topic
 
-> crate::models::Topic get_topic(id)
+> crate::models::Topic get_topic(topic_id)
 
 
 ### Parameters
@@ -134,7 +134,7 @@ This endpoint does not need any parameter.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**id** | **String** |  | [required] |
+**topic_id** | **String** |  | [required] |
 
 ### Return type
 
@@ -152,10 +152,10 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## get_topics_async
+## get_topics
 
-> crate::models::Topic get_topics_async()
-
+> crate::models::Topic get_topics()
+Gets all Topic Ids.
 
 ### Parameters
 

@@ -15,29 +15,32 @@
 
 import * as runtime from '../runtime';
 import type {
+  ProblemDetails,
   Topic,
 } from '../models/index';
 import {
+    ProblemDetailsFromJSON,
+    ProblemDetailsToJSON,
     TopicFromJSON,
     TopicToJSON,
 } from '../models/index';
 
-export interface AddMessageAsyncRequest {
+export interface AddMessageRequest {
     topicId?: string;
     message?: string;
 }
 
-export interface DeleteMessageAsyncRequest {
-    topicId?: string;
-    messageId?: string;
+export interface DeleteMessageRequest {
+    topicId: string;
+    messageId: string;
 }
 
-export interface DeleteTopicAsyncRequest {
-    topicName?: string;
+export interface DeleteTopicRequest {
+    topicId: string;
 }
 
 export interface GetTopicRequest {
-    id: string;
+    topicId: string;
 }
 
 /**
@@ -46,8 +49,9 @@ export interface GetTopicRequest {
 export class TopicsApi extends runtime.BaseAPI {
 
     /**
+     * Creates a message under topic id.
      */
-    async addMessageAsyncRaw(requestParameters: AddMessageAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addMessageRaw(requestParameters: AddMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
         if (requestParameters.topicId !== undefined) {
@@ -74,27 +78,33 @@ export class TopicsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Creates a message under topic id.
+     */
+    async addMessage(requestParameters: AddMessageRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.addMessageRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      */
-    async addMessageAsync(requestParameters: AddMessageAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addMessageAsyncRaw(requestParameters, initOverrides);
-    }
+    async deleteMessageRaw(requestParameters: DeleteMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
+            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling deleteMessage.');
+        }
 
-    /**
-     */
-    async deleteMessageAsyncRaw(requestParameters: DeleteMessageAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+        if (requestParameters.messageId === null || requestParameters.messageId === undefined) {
+            throw new runtime.RequiredError('messageId','Required parameter requestParameters.messageId was null or undefined when calling deleteMessage.');
+        }
+
         const queryParameters: any = {};
-
-        if (requestParameters.topicId !== undefined) {
-            queryParameters['topicId'] = requestParameters.topicId;
-        }
-
-        if (requestParameters.messageId !== undefined) {
-            queryParameters['messageId'] = requestParameters.messageId;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -106,7 +116,7 @@ export class TopicsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Topics/message`,
+            path: `/api/Topics/{topicId}/messages/{messageId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))).replace(`{${"messageId"}}`, encodeURIComponent(String(requestParameters.messageId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -117,19 +127,19 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async deleteMessageAsync(requestParameters: DeleteMessageAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.deleteMessageAsyncRaw(requestParameters, initOverrides);
+    async deleteMessage(requestParameters: DeleteMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.deleteMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async deleteTopicAsyncRaw(requestParameters: DeleteTopicAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
-        const queryParameters: any = {};
-
-        if (requestParameters.topicName !== undefined) {
-            queryParameters['topicName'] = requestParameters.topicName;
+    async deleteTopicRaw(requestParameters: DeleteTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
+            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling deleteTopic.');
         }
+
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -141,7 +151,7 @@ export class TopicsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Topics`,
+            path: `/api/Topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -152,14 +162,14 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async deleteTopicAsync(requestParameters: DeleteTopicAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.deleteTopicAsyncRaw(requestParameters, initOverrides);
+    async deleteTopic(requestParameters: DeleteTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.deleteTopicRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getCountAsyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+    async getCountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -183,16 +193,16 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getCountAsync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.getCountAsyncRaw(initOverrides);
+    async getCount(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.getCountRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
     async getTopicRaw(requestParameters: GetTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getTopic.');
+        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
+            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling getTopic.');
         }
 
         const queryParameters: any = {};
@@ -207,7 +217,7 @@ export class TopicsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Topics/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/api/Topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -224,8 +234,9 @@ export class TopicsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Gets all Topic Ids.
      */
-    async getTopicsAsyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+    async getTopicsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -248,9 +259,10 @@ export class TopicsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Gets all Topic Ids.
      */
-    async getTopicsAsync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.getTopicsAsyncRaw(initOverrides);
+    async getTopics(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.getTopicsRaw(initOverrides);
         return await response.value();
     }
 

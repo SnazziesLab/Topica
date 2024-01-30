@@ -5,6 +5,7 @@ Cargo.toml
 README.md
 docs/Entry.md
 docs/LoginApi.md
+docs/ProblemDetails.md
 docs/Topic.md
 docs/TopicsApi.md
 git_push.sh
@@ -15,4 +16,5 @@ src/apis/topics_api.rs
 src/lib.rs
 src/models/entry.rs
 src/models/mod.rs
+src/models/problem_details.rs
 src/models/topic.rs

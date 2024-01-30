@@ -4,20 +4,20 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddMessageAsync**](TopicsAPI.md#AddMessageAsync) | **Post** /api/Topics | 
-[**DeleteMessageAsync**](TopicsAPI.md#DeleteMessageAsync) | **Delete** /api/Topics/message | 
-[**DeleteTopicAsync**](TopicsAPI.md#DeleteTopicAsync) | **Delete** /api/Topics | 
-[**GetCountAsync**](TopicsAPI.md#GetCountAsync) | **Get** /api/Topics/Count | 
-[**GetTopic**](TopicsAPI.md#GetTopic) | **Get** /api/Topics/{id} | 
-[**GetTopicsAsync**](TopicsAPI.md#GetTopicsAsync) | **Get** /api/Topics | 
+[**AddMessage**](TopicsAPI.md#AddMessage) | **Post** /api/Topics | Creates a message under topic id.
+[**DeleteMessage**](TopicsAPI.md#DeleteMessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
+[**DeleteTopic**](TopicsAPI.md#DeleteTopic) | **Delete** /api/Topics/{topicId} | 
+[**GetCount**](TopicsAPI.md#GetCount) | **Get** /api/Topics/Count | 
+[**GetTopic**](TopicsAPI.md#GetTopic) | **Get** /api/Topics/{topicId} | 
+[**GetTopics**](TopicsAPI.md#GetTopics) | **Get** /api/Topics | Gets all Topic Ids.
 
 
 
-## AddMessageAsync
+## AddMessage
 
-> AddMessageAsync(ctx).TopicId(topicId).Message(message).Execute()
+> string AddMessage(ctx).TopicId(topicId).Message(message).Execute()
 
-
+Creates a message under topic id.
 
 ### Example
 
@@ -32,16 +32,18 @@ import (
 )
 
 func main() {
-	topicId := "topicId_example" // string |  (optional)
+	topicId := "topicId_example" // string | If topicId is null, a GUID will be generated in place (optional)
 	message := "message_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.TopicsAPI.AddMessageAsync(context.Background()).TopicId(topicId).Message(message).Execute()
+	resp, r, err := apiClient.TopicsAPI.AddMessage(context.Background()).TopicId(topicId).Message(message).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.AddMessageAsync``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.AddMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `AddMessage`: string
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.AddMessage`: %v\n", resp)
 }
 ```
 
@@ -51,17 +53,17 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAddMessageAsyncRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAddMessageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **topicId** | **string** |  | 
+ **topicId** | **string** | If topicId is null, a GUID will be generated in place | 
  **message** | **string** |  | 
 
 ### Return type
 
- (empty response body)
+**string**
 
 ### Authorization
 
@@ -70,16 +72,16 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
 
-## DeleteMessageAsync
+## DeleteMessage
 
-> Topic DeleteMessageAsync(ctx).TopicId(topicId).MessageId(messageId).Execute()
+> Topic DeleteMessage(ctx, topicId, messageId).Execute()
 
 
 
@@ -96,34 +98,39 @@ import (
 )
 
 func main() {
-	topicId := "topicId_example" // string |  (optional)
-	messageId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
+	topicId := "topicId_example" // string | 
+	messageId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.DeleteMessageAsync(context.Background()).TopicId(topicId).MessageId(messageId).Execute()
+	resp, r, err := apiClient.TopicsAPI.DeleteMessage(context.Background(), topicId, messageId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteMessageAsync``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteMessageAsync`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteMessageAsync`: %v\n", resp)
+	// response from `DeleteMessage`: Topic
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteMessage`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**topicId** | **string** |  | 
+**messageId** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteMessageAsyncRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDeleteMessageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **topicId** | **string** |  | 
- **messageId** | **string** |  | 
+
+
 
 ### Return type
 
@@ -143,9 +150,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteTopicAsync
+## DeleteTopic
 
-> Topic DeleteTopicAsync(ctx).TopicName(topicName).Execute()
+> Topic DeleteTopic(ctx, topicId).Execute()
 
 
 
@@ -162,32 +169,36 @@ import (
 )
 
 func main() {
-	topicName := "topicName_example" // string |  (optional)
+	topicId := "topicId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.DeleteTopicAsync(context.Background()).TopicName(topicName).Execute()
+	resp, r, err := apiClient.TopicsAPI.DeleteTopic(context.Background(), topicId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteTopicAsync``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.DeleteTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteTopicAsync`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteTopicAsync`: %v\n", resp)
+	// response from `DeleteTopic`: Topic
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.DeleteTopic`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**topicId** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteTopicAsyncRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDeleteTopicRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **topicName** | **string** |  | 
+
 
 ### Return type
 
@@ -207,9 +218,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetCountAsync
+## GetCount
 
-> Topic GetCountAsync(ctx).Execute()
+> Topic GetCount(ctx).Execute()
 
 
 
@@ -229,13 +240,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.GetCountAsync(context.Background()).Execute()
+	resp, r, err := apiClient.TopicsAPI.GetCount(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetCountAsync``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetCount``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCountAsync`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetCountAsync`: %v\n", resp)
+	// response from `GetCount`: Topic
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetCount`: %v\n", resp)
 }
 ```
 
@@ -245,7 +256,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetCountAsyncRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetCountRequest struct via the builder pattern
 
 
 ### Return type
@@ -268,7 +279,7 @@ Other parameters are passed through a pointer to a apiGetCountAsyncRequest struc
 
 ## GetTopic
 
-> Topic GetTopic(ctx, id).Execute()
+> Topic GetTopic(ctx, topicId).Execute()
 
 
 
@@ -285,11 +296,11 @@ import (
 )
 
 func main() {
-	id := "id_example" // string | 
+	topicId := "topicId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.GetTopic(context.Background(), id).Execute()
+	resp, r, err := apiClient.TopicsAPI.GetTopic(context.Background(), topicId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -305,7 +316,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string** |  | 
+**topicId** | **string** |  | 
 
 ### Other Parameters
 
@@ -334,11 +345,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetTopicsAsync
+## GetTopics
 
-> Topic GetTopicsAsync(ctx).Execute()
+> Topic GetTopics(ctx).Execute()
 
-
+Gets all Topic Ids.
 
 ### Example
 
@@ -356,13 +367,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.GetTopicsAsync(context.Background()).Execute()
+	resp, r, err := apiClient.TopicsAPI.GetTopics(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopicsAsync``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetTopicsAsync`: Topic
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTopicsAsync`: %v\n", resp)
+	// response from `GetTopics`: Topic
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTopics`: %v\n", resp)
 }
 ```
 
@@ -372,7 +383,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetTopicsAsyncRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetTopicsRequest struct via the builder pattern
 
 
 ### Return type

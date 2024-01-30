@@ -56,8 +56,29 @@
         "tags": [
           "Topics"
         ],
-        "operationId": "GetTopicsAsync",
+        "summary": "Gets all Topic Ids.",
+        "operationId": "GetTopics",
         "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Success",
             "content": {
@@ -84,11 +105,13 @@
         "tags": [
           "Topics"
         ],
-        "operationId": "AddMessageAsync",
+        "summary": "Creates a message under topic id.",
+        "operationId": "AddMessage",
         "parameters": [
           {
             "name": "topicId",
             "in": "query",
+            "description": "If topicId is null, a GUID will be generated in place",
             "schema": {
               "type": "string"
             }
@@ -96,26 +119,7 @@
           {
             "name": "message",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Topics"
-        ],
-        "operationId": "DeleteTopicAsync",
-        "parameters": [
-          {
-            "name": "topicName",
-            "in": "query",
+            "description": "",
             "schema": {
               "type": "string"
             }
@@ -127,17 +131,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Topic"
+                  "type": "string"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Topic"
+                  "type": "string"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Topic"
+                  "type": "string"
                 }
               }
             }
@@ -150,7 +154,7 @@
         "tags": [
           "Topics"
         ],
-        "operationId": "GetCountAsync",
+        "operationId": "GetCount",
         "responses": {
           "200": {
             "description": "Success",
@@ -175,7 +179,7 @@
         }
       }
     },
-    "/api/Topics/{id}": {
+    "/api/Topics/{topicId}": {
       "get": {
         "tags": [
           "Topics"
@@ -183,7 +187,45 @@
         "operationId": "GetTopic",
         "parameters": [
           {
-            "name": "id",
+            "name": "topicId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Topics"
+        ],
+        "operationId": "DeleteTopic",
+        "parameters": [
+          {
+            "name": "topicId",
             "in": "path",
             "required": true,
             "schema": {
@@ -215,23 +257,25 @@
         }
       }
     },
-    "/api/Topics/message": {
+    "/api/Topics/{topicId}/messages/{messageId}": {
       "delete": {
         "tags": [
           "Topics"
         ],
-        "operationId": "DeleteMessageAsync",
+        "operationId": "DeleteMessage",
         "parameters": [
           {
             "name": "topicId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
             "name": "messageId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -282,6 +326,33 @@
           }
         },
         "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
       },
       "Topic": {
         "type": "object",

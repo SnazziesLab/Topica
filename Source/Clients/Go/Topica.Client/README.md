@@ -78,17 +78,18 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *LoginAPI* | [**Login**](docs/LoginAPI.md#login) | **Post** /api/Login | 
-*TopicsAPI* | [**AddMessageAsync**](docs/TopicsAPI.md#addmessageasync) | **Post** /api/Topics | 
-*TopicsAPI* | [**DeleteMessageAsync**](docs/TopicsAPI.md#deletemessageasync) | **Delete** /api/Topics/message | 
-*TopicsAPI* | [**DeleteTopicAsync**](docs/TopicsAPI.md#deletetopicasync) | **Delete** /api/Topics | 
-*TopicsAPI* | [**GetCountAsync**](docs/TopicsAPI.md#getcountasync) | **Get** /api/Topics/Count | 
-*TopicsAPI* | [**GetTopic**](docs/TopicsAPI.md#gettopic) | **Get** /api/Topics/{id} | 
-*TopicsAPI* | [**GetTopicsAsync**](docs/TopicsAPI.md#gettopicsasync) | **Get** /api/Topics | 
+*TopicsAPI* | [**AddMessage**](docs/TopicsAPI.md#addmessage) | **Post** /api/Topics | Creates a message under topic id.
+*TopicsAPI* | [**DeleteMessage**](docs/TopicsAPI.md#deletemessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
+*TopicsAPI* | [**DeleteTopic**](docs/TopicsAPI.md#deletetopic) | **Delete** /api/Topics/{topicId} | 
+*TopicsAPI* | [**GetCount**](docs/TopicsAPI.md#getcount) | **Get** /api/Topics/Count | 
+*TopicsAPI* | [**GetTopic**](docs/TopicsAPI.md#gettopic) | **Get** /api/Topics/{topicId} | 
+*TopicsAPI* | [**GetTopics**](docs/TopicsAPI.md#gettopics) | **Get** /api/Topics | Gets all Topic Ids.
 
 
 ## Documentation For Models
 
  - [Entry](docs/Entry.md)
+ - [ProblemDetails](docs/ProblemDetails.md)
  - [Topic](docs/Topic.md)
 
 

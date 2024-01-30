@@ -17,22 +17,29 @@ namespace Events.Server.Controllers
             Store = store;
         }
 
-        [HttpGet(Name = nameof(GetTopicsAsync))]
-        public async Task<ActionResult<Topic>> GetTopicsAsync()
+
+        /// <summary>
+        /// Gets all Topic Ids.
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<Topic>(StatusCodes.Status200OK)]
+        [HttpGet(Name = nameof(GetTopics))]
+        public async Task<ActionResult<Topic>> GetTopics()
         {
             return Ok(await Store.GetTopicsAsync());
         }
 
-        [HttpGet("Count", Name = nameof(GetCountAsync))]
-        public async Task<ActionResult<Topic>> GetCountAsync()
+        [HttpGet("Count", Name = nameof(GetCount))]
+        public async Task<ActionResult<Topic>> GetCount()
         {
             return Ok(await Store.GetTopicsCountAsync());
         }
 
-        [HttpGet("{id}", Name = nameof(GetTopic))]
-        public async Task<ActionResult<Topic>> GetTopic(string id)
+        [HttpGet("{topicId}", Name = nameof(GetTopic))]
+        public async Task<ActionResult<Topic>> GetTopic(string topicId)
         {
-            var topic = await Store.GetTopicAsync(id);
+            var topic = await Store.GetTopicAsync(topicId);
 
             if (topic is null)
                 return NotFound();
@@ -40,20 +47,28 @@ namespace Events.Server.Controllers
             return Ok(topic);
         }
 
+        /// <summary>
+        /// Creates a message under topic id.
+        /// </summary>
+        /// <param name="topicId">If topicId is null, a GUID will be generated in place</param>
+        /// <param name="message"></param>
+        /// <returns>Topic Id</returns>
+        [ProducesResponseType<string>(StatusCodes.Status200OK)]
         [Authorize(Roles = "write")]
-        [HttpPost( Name = nameof(AddMessageAsync))]
-        public async Task<ActionResult> AddMessageAsync(string? topicId, string message)
+        [HttpPost(Name = nameof(AddMessage))]
+        public async Task<ActionResult> AddMessage(string? topicId, string message)
         {
-            var id = topicId ?? Guid.NewGuid().ToString();
-            var msg = new Message() { TopicId = id, Content = message };
+            if (string.IsNullOrEmpty(topicId))
+                topicId = Guid.NewGuid().ToString();
+            var msg = new Message() { TopicId = topicId, Content = message };
             await Store.AddMessageAsync(msg);
 
-            return Ok(id);
+            return Ok(topicId);
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete("message", Name = nameof(DeleteMessageAsync))]
-        public async Task<ActionResult<Topic>> DeleteMessageAsync(string topicId, Guid messageId)
+        [HttpDelete("{topicId}/messages/{messageId}", Name = nameof(DeleteMessage))]
+        public async Task<ActionResult<Topic>> DeleteMessage(string topicId, Guid messageId)
         {
             await Store.DeleteEntryAsync(topicId, messageId);
 
@@ -61,10 +76,10 @@ namespace Events.Server.Controllers
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete(Name = nameof(DeleteTopicAsync))]
-        public async Task<ActionResult<Topic>> DeleteTopicAsync(string topicName)
+        [HttpDelete("{topicId}", Name = nameof(DeleteTopic))]
+        public async Task<ActionResult<Topic>> DeleteTopic(string topicId)
         {
-            await Store.DeleteTopicAsync(topicName);
+            await Store.DeleteTopicAsync(topicId);
 
             return Ok();
         }
