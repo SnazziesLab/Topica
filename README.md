@@ -42,11 +42,11 @@ Rights to contribution made is transfered to repo owner immediately upon submiss
 
 ### Env Variables
 
-| name                          | Description                                                     | Options                               |
-| ----------------------------- | --------------------------------------------------------------- | ------------------------------------- |
-| SecretKey                     | Secret string used for creating Symmetric Security Key at login | `random long string`                  |
-| DbType                        | Db type used to store app data                                  | Postgres, SqlServer, Sqlite, InMemory |
-| DbConnectionString (Optional) | Db connection string for none in-memory Db                      |                                       |
+| name                          | Description                                                          | Options                                               |
+| ----------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------- |
+| SecretKey                     | Long secret string used for creating Symmetric Security Key at login | `string`                                              |
+| DbType                        | Db type used to store app data                                       | `'Postgres'`, `'SqlServer'`, `'Sqlite'`, `'InMemory'` |
+| DbConnectionString (Optional) | Db connection string for none in-memory Db                           | `string`                                              |
 
 ### Auth Config (auth.config.json)
 
@@ -80,6 +80,10 @@ This app allows use of simple user pass or api key to auth. This is setup via pa
   ]
 }
 ```
+
+## API
+
+See [Open API Spec](./Source/Topica.Server/Topica.Server/Swagger/Swagger.json)
 
 ## Usage
 
