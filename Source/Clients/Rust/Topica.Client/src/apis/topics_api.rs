@@ -15,24 +15,31 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method [`add_message`]
+/// struct for typed errors of method [`add_message_async`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AddMessageError {
+pub enum AddMessageAsyncError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_message`]
+/// struct for typed errors of method [`delete_message_async`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DeleteMessageError {
+pub enum DeleteMessageAsyncError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_topic`]
+/// struct for typed errors of method [`delete_topic_async`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DeleteTopicError {
+pub enum DeleteTopicAsyncError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_count_async`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetCountAsyncError {
     UnknownValue(serde_json::Value),
 }
 
@@ -43,20 +50,20 @@ pub enum GetTopicError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_topics`]
+/// struct for typed errors of method [`get_topics_async`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GetTopicsError {
+pub enum GetTopicsAsyncError {
     UnknownValue(serde_json::Value),
 }
 
 
-pub async fn add_message(configuration: &configuration::Configuration, topic_id: Option<&str>, message: Option<&str>) -> Result<(), Error<AddMessageError>> {
+pub async fn add_message_async(configuration: &configuration::Configuration, topic_id: Option<&str>, message: Option<&str>) -> Result<(), Error<AddMessageAsyncError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/api/Topics/AddMessage", local_var_configuration.base_path);
+    let local_var_uri_str = format!("{}/api/Topics", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = topic_id {
@@ -89,13 +96,13 @@ pub async fn add_message(configuration: &configuration::Configuration, topic_id:
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
-        let local_var_entity: Option<AddMessageError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<AddMessageAsyncError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-pub async fn delete_message(configuration: &configuration::Configuration, topic_id: Option<&str>, message_id: Option<&str>) -> Result<crate::models::Topic, Error<DeleteMessageError>> {
+pub async fn delete_message_async(configuration: &configuration::Configuration, topic_id: Option<&str>, message_id: Option<&str>) -> Result<crate::models::Topic, Error<DeleteMessageAsyncError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -133,13 +140,13 @@ pub async fn delete_message(configuration: &configuration::Configuration, topic_
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<DeleteMessageError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<DeleteMessageAsyncError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-pub async fn delete_topic(configuration: &configuration::Configuration, topic_name: Option<&str>) -> Result<crate::models::Topic, Error<DeleteTopicError>> {
+pub async fn delete_topic_async(configuration: &configuration::Configuration, topic_name: Option<&str>) -> Result<crate::models::Topic, Error<DeleteTopicAsyncError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -174,7 +181,45 @@ pub async fn delete_topic(configuration: &configuration::Configuration, topic_na
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<DeleteTopicError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<DeleteTopicAsyncError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn get_count_async(configuration: &configuration::Configuration, ) -> Result<crate::models::Topic, Error<GetCountAsyncError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/api/Topics/Count", local_var_configuration.base_path);
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_auth_conf) = local_var_configuration.basic_auth {
+        local_var_req_builder = local_var_req_builder.basic_auth(local_var_auth_conf.0.to_owned(), local_var_auth_conf.1.to_owned());
+    };
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-API-KEY", local_var_value);
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetCountAsyncError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
@@ -218,7 +263,7 @@ pub async fn get_topic(configuration: &configuration::Configuration, id: &str) -
     }
 }
 
-pub async fn get_topics(configuration: &configuration::Configuration, ) -> Result<crate::models::Topic, Error<GetTopicsError>> {
+pub async fn get_topics_async(configuration: &configuration::Configuration, ) -> Result<crate::models::Topic, Error<GetTopicsAsyncError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -250,7 +295,7 @@ pub async fn get_topics(configuration: &configuration::Configuration, ) -> Resul
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<GetTopicsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<GetTopicsAsyncError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

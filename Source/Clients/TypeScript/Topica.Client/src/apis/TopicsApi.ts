@@ -22,17 +22,17 @@ import {
     TopicToJSON,
 } from '../models/index';
 
-export interface AddMessageRequest {
+export interface AddMessageAsyncRequest {
     topicId?: string;
     message?: string;
 }
 
-export interface DeleteMessageRequest {
+export interface DeleteMessageAsyncRequest {
     topicId?: string;
     messageId?: string;
 }
 
-export interface DeleteTopicRequest {
+export interface DeleteTopicAsyncRequest {
     topicName?: string;
 }
 
@@ -47,7 +47,7 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async addMessageRaw(requestParameters: AddMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addMessageAsyncRaw(requestParameters: AddMessageAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         if (requestParameters.topicId !== undefined) {
@@ -68,7 +68,7 @@ export class TopicsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Topics/AddMessage`,
+            path: `/api/Topics`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -79,13 +79,13 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async addMessage(requestParameters: AddMessageRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addMessageRaw(requestParameters, initOverrides);
+    async addMessageAsync(requestParameters: AddMessageAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addMessageAsyncRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async deleteMessageRaw(requestParameters: DeleteMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+    async deleteMessageAsyncRaw(requestParameters: DeleteMessageAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         const queryParameters: any = {};
 
         if (requestParameters.topicId !== undefined) {
@@ -117,14 +117,14 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async deleteMessage(requestParameters: DeleteMessageRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.deleteMessageRaw(requestParameters, initOverrides);
+    async deleteMessageAsync(requestParameters: DeleteMessageAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.deleteMessageAsyncRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async deleteTopicRaw(requestParameters: DeleteTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+    async deleteTopicAsyncRaw(requestParameters: DeleteTopicAsyncRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         const queryParameters: any = {};
 
         if (requestParameters.topicName !== undefined) {
@@ -152,8 +152,39 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async deleteTopic(requestParameters: DeleteTopicRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.deleteTopicRaw(requestParameters, initOverrides);
+    async deleteTopicAsync(requestParameters: DeleteTopicAsyncRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.deleteTopicAsyncRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getCountAsyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Topics/Count`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TopicFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getCountAsync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.getCountAsyncRaw(initOverrides);
         return await response.value();
     }
 
@@ -194,7 +225,7 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getTopicsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
+    async getTopicsAsyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -218,8 +249,8 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getTopics(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
-        const response = await this.getTopicsRaw(initOverrides);
+    async getTopicsAsync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Topic> {
+        const response = await this.getTopicsAsyncRaw(initOverrides);
         return await response.value();
     }
 

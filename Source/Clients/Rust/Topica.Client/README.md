@@ -26,11 +26,12 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *LoginApi* | [**login**](docs/LoginApi.md#login) | **POST** /api/Login | 
-*TopicsApi* | [**add_message**](docs/TopicsApi.md#add_message) | **POST** /api/Topics/AddMessage | 
-*TopicsApi* | [**delete_message**](docs/TopicsApi.md#delete_message) | **DELETE** /api/Topics/message | 
-*TopicsApi* | [**delete_topic**](docs/TopicsApi.md#delete_topic) | **DELETE** /api/Topics | 
+*TopicsApi* | [**add_message_async**](docs/TopicsApi.md#add_message_async) | **POST** /api/Topics | 
+*TopicsApi* | [**delete_message_async**](docs/TopicsApi.md#delete_message_async) | **DELETE** /api/Topics/message | 
+*TopicsApi* | [**delete_topic_async**](docs/TopicsApi.md#delete_topic_async) | **DELETE** /api/Topics | 
+*TopicsApi* | [**get_count_async**](docs/TopicsApi.md#get_count_async) | **GET** /api/Topics/Count | 
 *TopicsApi* | [**get_topic**](docs/TopicsApi.md#get_topic) | **GET** /api/Topics/{id} | 
-*TopicsApi* | [**get_topics**](docs/TopicsApi.md#get_topics) | **GET** /api/Topics | 
+*TopicsApi* | [**get_topics_async**](docs/TopicsApi.md#get_topics_async) | **GET** /api/Topics | 
 
 
 ## Documentation For Models
