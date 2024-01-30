@@ -23,10 +23,10 @@ namespace Events.Server.Controllers
             return Ok(await Store.GetTopicsAsync());
         }
 
-        [HttpGet("/Count", Name = nameof(GetCountAsync))]
+        [HttpGet("Count", Name = nameof(GetCountAsync))]
         public async Task<ActionResult<Topic>> GetCountAsync()
         {
-            return Ok(await Store.GetTopicsAsync());
+            return Ok(await Store.GetTopicsCountAsync());
         }
 
         [HttpGet("{id}", Name = nameof(GetTopic))]
@@ -41,7 +41,7 @@ namespace Events.Server.Controllers
         }
 
         [Authorize(Roles = "write")]
-        [HttpPost("[Action]", Name = nameof(AddMessageAsync))]
+        [HttpPost( Name = nameof(AddMessageAsync))]
         public async Task<ActionResult> AddMessageAsync(string? topicId, string message)
         {
             var id = topicId ?? Guid.NewGuid().ToString();

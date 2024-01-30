@@ -80,6 +80,33 @@
           }
         }
       },
+      "post": {
+        "tags": [
+          "Topics"
+        ],
+        "operationId": "AddMessageAsync",
+        "parameters": [
+          {
+            "name": "topicId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Topics"
@@ -118,7 +145,7 @@
         }
       }
     },
-    "/Count": {
+    "/api/Topics/Count": {
       "get": {
         "tags": [
           "Topics"
@@ -184,35 +211,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Topics/AddMessage": {
-      "post": {
-        "tags": [
-          "Topics"
-        ],
-        "operationId": "AddMessageAsync",
-        "parameters": [
-          {
-            "name": "topicId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "message",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
           }
         }
       }
