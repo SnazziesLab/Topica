@@ -3,7 +3,7 @@ name: tapico
 
 services:
   topica-server:
-    image: ghcr.io/snazzieslab/topica.server:nightly
+    image: ghcr.io/snazzieslab/topica.server:latest
     ports:
       - 8080:8080
     environment:
@@ -13,6 +13,6 @@ services:
     volumes:
       - ./auth.config.json:/app/auth.config.json
   topica-ui:
-    image: ghcr.io/snazzieslab/topica.ui:nightly
+    image: ghcr.io/snazzieslab/topica.ui:latest
     ports:
       - 3000:80
