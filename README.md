@@ -42,10 +42,11 @@ Rights to contribution made is transfered to repo owner immediately upon submiss
 
 ### Env Variables
 
-| name                          | Description                                | Options                               |
-| ----------------------------- | ------------------------------------------ | ------------------------------------- |
-| DbType                        | Db type used to store app data             | Postgres, SqlServer, Sqlite, InMemory |
-| DbConnectionString (Optional) | Db connection string for none in-memory Db |                                       |
+| name                          | Description                                                     | Options                               |
+| ----------------------------- | --------------------------------------------------------------- | ------------------------------------- |
+| SecretKey                     | Secret string used for creating Symmetric Security Key at login | `random long string`                  |
+| DbType                        | Db type used to store app data                                  | Postgres, SqlServer, Sqlite, InMemory |
+| DbConnectionString (Optional) | Db connection string for none in-memory Db                      |                                       |
 
 ### Auth Config (auth.config.json)
 
