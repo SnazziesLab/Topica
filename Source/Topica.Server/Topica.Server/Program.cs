@@ -6,6 +6,7 @@ using Events.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -97,7 +98,11 @@ using (var scope = app.Services.CreateScope())
             });
     }
     await authDb.SaveChangesAsync();
+
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
 }
+
 app.UseCors(options =>
 {
     options.AllowAnyOrigin();
