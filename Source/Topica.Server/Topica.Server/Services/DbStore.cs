@@ -23,7 +23,7 @@ namespace Events.Services
             return await ApplicationDbContext.Topics.CountAsync();
         }
 
-        public async Task<Topic?> GetTopic(string topicId)
+        public async Task<Topic?> GetTopicAsync(string topicId)
         {
             var result = await ApplicationDbContext.Topics.SingleOrDefaultAsync(e => e.Id == topicId);
 

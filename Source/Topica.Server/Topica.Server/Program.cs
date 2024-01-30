@@ -17,8 +17,10 @@ var dbType = builder.Configuration["DbType"];
 if (dbType == "InMemory")
     builder.Services.AddSingleton<IStore, InMemoryStore>();
 else
+{
     builder.Services.AddSingleton<IStore, DbStore>();
-
+   
+}
 builder.Services.AddDbContext<ApplicationDbContext>(e =>
 {
     switch (dbType)
@@ -32,11 +34,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(e =>
         case "Sqlite":
             e.UseSqlite(builder.Configuration["DbConnectionString"]);
             break;
+        case "InMemory":
+            e.UseInMemoryDatabase("App");
+            break;
         default:
             throw new ArgumentOutOfRangeException($"DbType is not supported: {dbType}");
     }
 });
-
 
 builder.Services.AddSingleton<IConfiguration>(e => builder.Configuration);
 

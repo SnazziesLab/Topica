@@ -17,54 +17,54 @@ namespace Events.Server.Controllers
             Store = store;
         }
 
-        [HttpGet(Name = nameof(GetTopics))]
-        public ActionResult<Topic> GetTopics()
+        [HttpGet(Name = nameof(GetTopicsAsync))]
+        public async Task<ActionResult<Topic>> GetTopicsAsync()
         {
-            return Ok(Store.GetTopicsAsync());
+            return Ok(await Store.GetTopicsAsync());
         }
 
-        [HttpGet("/Count", Name = nameof(GetCount))]
-        public ActionResult<Topic> GetCount()
+        [HttpGet("/Count", Name = nameof(GetCountAsync))]
+        public async Task<ActionResult<Topic>> GetCountAsync()
         {
-            return Ok(Store.GetTopicsAsync());
+            return Ok(await Store.GetTopicsAsync());
         }
 
         [HttpGet("{id}", Name = nameof(GetTopic))]
-        public ActionResult<Topic> GetTopic(string id)
+        public async Task<ActionResult<Topic>> GetTopic(string id)
         {
-            var ok = Store.TryGetTopic(id, out var @event);
+            var topic = await Store.GetTopicAsync(id);
 
-            if (!ok)
+            if (topic is null)
                 return NotFound();
 
-            return Ok(@event);
+            return Ok(topic);
         }
 
         [Authorize(Roles = "write")]
-        [HttpPost("[Action]", Name = nameof(AddMessage))]
-        public ActionResult AddMessage(string? topicId, string message)
+        [HttpPost("[Action]", Name = nameof(AddMessageAsync))]
+        public async Task<ActionResult> AddMessageAsync(string? topicId, string message)
         {
             var id = topicId ?? Guid.NewGuid().ToString();
             var msg = new Message() { TopicId = id, Content = message };
-            Store.AddMessageAsync(msg);
+            await Store.AddMessageAsync(msg);
 
             return Ok(id);
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete("message", Name = nameof(DeleteMessage))]
-        public ActionResult<Topic> DeleteMessage(string topicId, Guid messageId)
+        [HttpDelete("message", Name = nameof(DeleteMessageAsync))]
+        public async Task<ActionResult<Topic>> DeleteMessageAsync(string topicId, Guid messageId)
         {
-            Store.DeleteEntryAsync(topicId, messageId);
+            await Store.DeleteEntryAsync(topicId, messageId);
 
             return Ok();
         }
 
         [Authorize(Roles = "write")]
-        [HttpDelete(Name = nameof(DeleteTopic))]
-        public ActionResult<Topic> DeleteTopic(string topicName)
+        [HttpDelete(Name = nameof(DeleteTopicAsync))]
+        public async Task<ActionResult<Topic>> DeleteTopicAsync(string topicName)
         {
-            Store.DeleteTopicAsync(topicName);
+            await Store.DeleteTopicAsync(topicName);
 
             return Ok();
         }

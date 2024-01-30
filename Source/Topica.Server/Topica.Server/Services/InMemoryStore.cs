@@ -16,7 +16,7 @@ namespace Events.Services
             return Events.Count;
         }
 
-        public async Task<Topic?> GetTopic(string topicId)
+        public async Task<Topic?> GetTopicAsync(string topicId)
         {
             Events.TryGetValue(topicId, out var value);
 

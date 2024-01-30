@@ -11,7 +11,7 @@ namespace Events.Server.Data.Db
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-  : base(options)
+            : base(options)
         {
         }
 

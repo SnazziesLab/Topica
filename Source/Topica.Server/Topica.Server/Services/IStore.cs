@@ -6,7 +6,7 @@ namespace Events.Services
     {
         Task<ICollection<string>> GetTopicsAsync();
         Task<int> GetTopicsCountAsync();
-        Task<Topic?> GetTopic(string topicId);
+        Task<Topic?> GetTopicAsync(string topicId);
         Task DeleteTopicAsync(string topicId);
         Task AddOrUpdateTopicAsync(Topic topic);
         Task DeleteEntryAsync(string topicName, Guid entryId);
