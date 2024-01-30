@@ -73,6 +73,10 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+
+
     var jsonString = await File.ReadAllTextAsync("auth.config.json");
     var authConfig = JsonSerializer.Deserialize<AuthConfig>(jsonString) ?? throw new NullReferenceException("Invalid Auth config");
 
@@ -99,8 +103,7 @@ using (var scope = app.Services.CreateScope())
     }
     await authDb.SaveChangesAsync();
 
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+
 }
 
 app.UseCors(options =>
