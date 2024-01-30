@@ -32,13 +32,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(e =>
         case "Sqlite":
             e.UseSqlite(builder.Configuration["DbConnectionString"]);
             break;
-        case "InMemory":
-            e.UseInMemoryDatabase("Data");
-            break;
         default:
             throw new ArgumentOutOfRangeException($"DbType is not supported: {dbType}");
     }
 });
+
+
 builder.Services.AddSingleton<IConfiguration>(e => builder.Configuration);
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
