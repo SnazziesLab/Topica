@@ -11,9 +11,17 @@ using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AuthDbContext>(e => e.UseInMemoryDatabase("Auth"));
+
+var dbType = builder.Configuration["DbType"];
+
+if (dbType == "InMemory")
+    builder.Services.AddSingleton<IStore, InMemoryStore>();
+else
+    builder.Services.AddSingleton<IStore, DbStore>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(e =>
 {
-    switch (builder.Configuration["DbType"])
+    switch (dbType)
     {
         case "Postgres":
             e.UseNpgsql(builder.Configuration["DbConnectionString"]);
@@ -28,7 +36,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(e =>
             e.UseInMemoryDatabase("Data");
             break;
         default:
-            throw new ArgumentOutOfRangeException($"DbType is not supported: {builder.Configuration["DbType"]}");
+            throw new ArgumentOutOfRangeException($"DbType is not supported: {dbType}");
     }
 });
 builder.Services.AddSingleton<IConfiguration>(e => builder.Configuration);
@@ -38,7 +46,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
 
 builder.Services.AddSingleton(e => new PasswordHasher());
 
-builder.Services.AddSingleton<IStore, InMemoryStore>();
 builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 
 builder.Services.AddControllers();
@@ -94,7 +101,7 @@ app.UseCors(options =>
     options.AllowAnyMethod();
     options.AllowAnyHeader();
     options.SetIsOriginAllowed(_ => true);
-    options.WithExposedHeaders("WWW-Authenticate", "Authenticate","Authorization");
+    options.WithExposedHeaders("WWW-Authenticate", "Authenticate", "Authorization");
 });
 
 // Configure the HTTP request pipeline.

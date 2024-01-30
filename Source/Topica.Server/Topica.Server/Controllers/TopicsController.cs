@@ -20,13 +20,13 @@ namespace Events.Server.Controllers
         [HttpGet(Name = nameof(GetTopics))]
         public ActionResult<Topic> GetTopics()
         {
-            return Ok(Store.GetTopics());
+            return Ok(Store.GetTopicsAsync());
         }
 
         [HttpGet("/Count", Name = nameof(GetCount))]
         public ActionResult<Topic> GetCount()
         {
-            return Ok(Store.GetTopics());
+            return Ok(Store.GetTopicsAsync());
         }
 
         [HttpGet("{id}", Name = nameof(GetTopic))]
@@ -46,7 +46,7 @@ namespace Events.Server.Controllers
         {
             var id = topicId ?? Guid.NewGuid().ToString();
             var msg = new Message() { TopicId = id, Content = message };
-            Store.AddMessage(msg);
+            Store.AddMessageAsync(msg);
 
             return Ok(id);
         }
@@ -55,7 +55,7 @@ namespace Events.Server.Controllers
         [HttpDelete("message", Name = nameof(DeleteMessage))]
         public ActionResult<Topic> DeleteMessage(string topicId, Guid messageId)
         {
-            Store.DeleteEntry(topicId, messageId);
+            Store.DeleteEntryAsync(topicId, messageId);
 
             return Ok();
         }
@@ -64,7 +64,7 @@ namespace Events.Server.Controllers
         [HttpDelete(Name = nameof(DeleteTopic))]
         public ActionResult<Topic> DeleteTopic(string topicName)
         {
-            Store.DeleteTopic(topicName);
+            Store.DeleteTopicAsync(topicName);
 
             return Ok();
         }

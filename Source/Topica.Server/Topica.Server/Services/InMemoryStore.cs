@@ -7,34 +7,33 @@ namespace Events.Services
     {
         ConcurrentDictionary<string, Topic> Events { get; set; } = [];
 
-        public ICollection<string> GetTopics()
+        public async Task<ICollection<string>> GetTopicsAsync()
         {
             return Events.Keys;
         }
-        public int GetTopicsCount()
+        public async Task<int> GetTopicsCountAsync()
         {
             return Events.Count;
         }
 
-        public bool TryGetTopic(string topicId, out Topic? topic)
+        public async Task<Topic?> GetTopic(string topicId)
         {
-            var result = Events.TryGetValue(topicId, out var value);
+            Events.TryGetValue(topicId, out var value);
 
-            topic = value;
-            return result;
+            return value;
         }
 
-        public void UpsertTopic(Topic topic)
+        public async Task AddOrUpdateTopicAsync(Topic topic)
         {
             Events.AddOrUpdate(topic.Id, topic, (id, value) => value = topic);
         }
 
-        public void DeleteTopic(string topicName)
+        public async Task DeleteTopicAsync(string topicName)
         {
             Events.TryRemove(topicName, out var _);
         }
 
-        public void AddMessage(Message message)
+        public async Task AddMessageAsync(Message message)
         {
             var newEntry = new Entry(message.CreatedOn, message.Content);
 
@@ -57,7 +56,7 @@ namespace Events.Services
             }
         }
 
-        public void DeleteEntry(string topicName, Guid entryId)
+        public async Task DeleteEntryAsync(string topicName, Guid entryId)
         {
             if (Events.TryGetValue(topicName, out var @event))
             {

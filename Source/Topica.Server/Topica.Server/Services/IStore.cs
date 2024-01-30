@@ -4,12 +4,12 @@ namespace Events.Services
 {
     public interface IStore
     {
-        void AddMessage(Message message);
-        void DeleteEntry(string topicName, Guid entryId);
-        void DeleteTopic(string topicName);
-        bool TryGetTopic(string topicId, out Topic? topic);
-        ICollection<string> GetTopics();
-        void UpsertTopic(Topic topic);
-        int GetTopicsCount();
+        Task<ICollection<string>> GetTopicsAsync();
+        Task<int> GetTopicsCountAsync();
+        Task<Topic?> GetTopic(string topicId);
+        Task DeleteTopicAsync(string topicId);
+        Task AddOrUpdateTopicAsync(Topic topic);
+        Task DeleteEntryAsync(string topicName, Guid entryId);
+        Task AddMessageAsync(Message message);
     }
 }
