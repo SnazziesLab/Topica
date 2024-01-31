@@ -104,7 +104,7 @@ Post `/api/Topics?Topic=Job1&Message=job1%completed`
 
 ##### Get all event history of `Job1`
 
-Get `/api/Topics/GetTopic/Job1`
+Get `/api/Topics/Job1`
 
 ## Roadmap
 
