@@ -3,6 +3,7 @@ using Events.Server.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Collections.Concurrent;
+using Topica.Server.Data;
 
 namespace Events.Services
 {
@@ -14,9 +15,19 @@ namespace Events.Services
         {
             ApplicationDbContext = applicationDbContext;
         }
-        public async Task<ICollection<string>> GetTopicsAsync()
+        public async Task<PaginatedResponse<TopicMeta>> GetTopicsAsync(int page = 0, int pageSize = 25, string? search = null)
         {
-            return await ApplicationDbContext.Topics.Select(e => e.Id).ToArrayAsync();
+
+            var query = ApplicationDbContext.Topics.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(e => e.Id.Contains(search));
+
+            var total = query.CountAsync();
+            var data = query.Skip(page * pageSize).Take(pageSize).ToArrayAsync();
+
+            await Task.WhenAll(total, data);
+            return new(data: data.Result, page: page, pageSize: pageSize, total: total.Result);
         }
         public async Task<int> GetTopicsCountAsync()
         {

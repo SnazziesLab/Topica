@@ -1,10 +1,11 @@
 ﻿using Events.Sdk.Data;
+using Topica.Server.Data;
 
 namespace Events.Services
 {
     public interface IStore
     {
-        Task<ICollection<string>> GetTopicsAsync();
+        Task<PaginatedResponse<TopicMeta>> GetTopicsAsync(int page = 0, int pageSize = 25, string? search = null);
         Task<int> GetTopicsCountAsync();
         Task<Topic?> GetTopicAsync(string topicId);
         Task DeleteTopicAsync(string topicId);

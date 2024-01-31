@@ -17,12 +17,15 @@ import * as runtime from '../runtime';
 import type {
   ProblemDetails,
   Topic,
+  TopicMetaPaginatedResponse,
 } from '../models/index';
 import {
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
     TopicFromJSON,
     TopicToJSON,
+    TopicMetaPaginatedResponseFromJSON,
+    TopicMetaPaginatedResponseToJSON,
 } from '../models/index';
 
 export interface AddMessageRequest {
@@ -41,6 +44,12 @@ export interface DeleteTopicRequest {
 
 export interface GetTopicRequest {
     topicId: string;
+}
+
+export interface GetTopicsRequest {
+    page?: number;
+    pageSize?: number;
+    search?: string;
 }
 
 /**
@@ -179,45 +188,6 @@ export class TopicsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getCountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
-        }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
-        }
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Topics/Count`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<number>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     */
-    async getCount(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
-        const response = await this.getCountRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
     async getTopicRaw(requestParameters: GetTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Topic>> {
         if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
             throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling getTopic.');
@@ -256,10 +226,21 @@ export class TopicsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all Topic Ids.
      */
-    async getTopicsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+    async getTopicsRaw(requestParameters: GetTopicsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TopicMetaPaginatedResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['pageSize'] = requestParameters.pageSize;
+        }
+
+        if (requestParameters.search !== undefined) {
+            queryParameters['search'] = requestParameters.search;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -281,14 +262,52 @@ export class TopicsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => TopicMetaPaginatedResponseFromJSON(jsonValue));
     }
 
     /**
-     * Gets all Topic Ids.
      */
-    async getTopics(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
-        const response = await this.getTopicsRaw(initOverrides);
+    async getTopics(requestParameters: GetTopicsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TopicMetaPaginatedResponse> {
+        const response = await this.getTopicsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getTotalRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Topics/Total`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async getTotal(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.getTotalRaw(initOverrides);
         return await response.value();
     }
 

@@ -7,9 +7,9 @@ Method | HTTP request | Description
 [**AddMessage**](TopicsAPI.md#AddMessage) | **Post** /api/Topics | Creates a message under topic id.
 [**DeleteMessage**](TopicsAPI.md#DeleteMessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
 [**DeleteTopic**](TopicsAPI.md#DeleteTopic) | **Delete** /api/Topics/{topicId} | 
-[**GetCount**](TopicsAPI.md#GetCount) | **Get** /api/Topics/Count | 
 [**GetTopic**](TopicsAPI.md#GetTopic) | **Get** /api/Topics/{topicId} | 
-[**GetTopics**](TopicsAPI.md#GetTopics) | **Get** /api/Topics | Gets all Topic Ids.
+[**GetTopics**](TopicsAPI.md#GetTopics) | **Get** /api/Topics | 
+[**GetTotal**](TopicsAPI.md#GetTotal) | **Get** /api/Topics/Total | 
 
 
 
@@ -214,65 +214,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetCount
-
-> int32 GetCount(ctx).Execute()
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.GetCount(context.Background()).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetCount``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `GetCount`: int32
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetCount`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetCountRequest struct via the builder pattern
-
-
-### Return type
-
-**int32**
-
-### Authorization
-
-[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## GetTopic
 
 > Topic GetTopic(ctx, topicId).Execute()
@@ -343,9 +284,77 @@ Name | Type | Description  | Notes
 
 ## GetTopics
 
-> []string GetTopics(ctx).Execute()
+> TopicMetaPaginatedResponse GetTopics(ctx).Page(page).PageSize(pageSize).Search(search).Execute()
 
-Gets all Topic Ids.
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	page := int32(56) // int32 |  (optional) (default to 0)
+	pageSize := int32(56) // int32 |  (optional) (default to 25)
+	search := "search_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TopicsAPI.GetTopics(context.Background()).Page(page).PageSize(pageSize).Search(search).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetTopics`: TopicMetaPaginatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTopics`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetTopicsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **page** | **int32** |  | [default to 0]
+ **pageSize** | **int32** |  | [default to 25]
+ **search** | **string** |  | 
+
+### Return type
+
+[**TopicMetaPaginatedResponse**](TopicMetaPaginatedResponse.md)
+
+### Authorization
+
+[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTotal
+
+> int32 GetTotal(ctx).Execute()
+
+
 
 ### Example
 
@@ -363,13 +372,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.GetTopics(context.Background()).Execute()
+	resp, r, err := apiClient.TopicsAPI.GetTotal(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTopics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.GetTotal``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetTopics`: []string
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTopics`: %v\n", resp)
+	// response from `GetTotal`: int32
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.GetTotal`: %v\n", resp)
 }
 ```
 
@@ -379,12 +388,12 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetTopicsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetTotalRequest struct via the builder pattern
 
 
 ### Return type
 
-**[]string**
+**int32**
 
 ### Authorization
 

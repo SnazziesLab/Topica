@@ -61,18 +61,6 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test TopicsAPIService GetCount", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.TopicsAPI.GetCount(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test TopicsAPIService GetTopic", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -92,6 +80,18 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.TopicsAPI.GetTopics(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test TopicsAPIService GetTotal", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.TopicsAPI.GetTotal(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

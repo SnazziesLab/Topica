@@ -6,3 +6,7 @@ pub mod problem_details;
 pub use self::problem_details::ProblemDetails;
 pub mod topic;
 pub use self::topic::Topic;
+pub mod topic_meta;
+pub use self::topic_meta::TopicMeta;
+pub mod topic_meta_paginated_response;
+pub use self::topic_meta_paginated_response::TopicMetaPaginatedResponse;

@@ -81,9 +81,9 @@ Class | Method | HTTP request | Description
 *TopicsAPI* | [**AddMessage**](docs/TopicsAPI.md#addmessage) | **Post** /api/Topics | Creates a message under topic id.
 *TopicsAPI* | [**DeleteMessage**](docs/TopicsAPI.md#deletemessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
 *TopicsAPI* | [**DeleteTopic**](docs/TopicsAPI.md#deletetopic) | **Delete** /api/Topics/{topicId} | 
-*TopicsAPI* | [**GetCount**](docs/TopicsAPI.md#getcount) | **Get** /api/Topics/Count | 
 *TopicsAPI* | [**GetTopic**](docs/TopicsAPI.md#gettopic) | **Get** /api/Topics/{topicId} | 
-*TopicsAPI* | [**GetTopics**](docs/TopicsAPI.md#gettopics) | **Get** /api/Topics | Gets all Topic Ids.
+*TopicsAPI* | [**GetTopics**](docs/TopicsAPI.md#gettopics) | **Get** /api/Topics | 
+*TopicsAPI* | [**GetTotal**](docs/TopicsAPI.md#gettotal) | **Get** /api/Topics/Total | 
 
 
 ## Documentation For Models
@@ -92,6 +92,8 @@ Class | Method | HTTP request | Description
  - [LoginModel](docs/LoginModel.md)
  - [ProblemDetails](docs/ProblemDetails.md)
  - [Topic](docs/Topic.md)
+ - [TopicMeta](docs/TopicMeta.md)
+ - [TopicMetaPaginatedResponse](docs/TopicMetaPaginatedResponse.md)
 
 
 ## Documentation For Authorization

@@ -8,6 +8,8 @@ docs/LoginApi.md
 docs/LoginModel.md
 docs/ProblemDetails.md
 docs/Topic.md
+docs/TopicMeta.md
+docs/TopicMetaPaginatedResponse.md
 docs/TopicsApi.md
 git_push.sh
 src/apis/configuration.rs
@@ -20,3 +22,5 @@ src/models/login_model.rs
 src/models/mod.rs
 src/models/problem_details.rs
 src/models/topic.rs
+src/models/topic_meta.rs
+src/models/topic_meta_paginated_response.rs

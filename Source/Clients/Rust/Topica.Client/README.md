@@ -29,9 +29,9 @@ Class | Method | HTTP request | Description
 *TopicsApi* | [**add_message**](docs/TopicsApi.md#add_message) | **POST** /api/Topics | Creates a message under topic id.
 *TopicsApi* | [**delete_message**](docs/TopicsApi.md#delete_message) | **DELETE** /api/Topics/{topicId}/messages/{messageId} | 
 *TopicsApi* | [**delete_topic**](docs/TopicsApi.md#delete_topic) | **DELETE** /api/Topics/{topicId} | 
-*TopicsApi* | [**get_count**](docs/TopicsApi.md#get_count) | **GET** /api/Topics/Count | 
 *TopicsApi* | [**get_topic**](docs/TopicsApi.md#get_topic) | **GET** /api/Topics/{topicId} | 
-*TopicsApi* | [**get_topics**](docs/TopicsApi.md#get_topics) | **GET** /api/Topics | Gets all Topic Ids.
+*TopicsApi* | [**get_topics**](docs/TopicsApi.md#get_topics) | **GET** /api/Topics | 
+*TopicsApi* | [**get_total**](docs/TopicsApi.md#get_total) | **GET** /api/Topics/Total | 
 
 
 ## Documentation For Models
@@ -40,6 +40,8 @@ Class | Method | HTTP request | Description
  - [LoginModel](docs/LoginModel.md)
  - [ProblemDetails](docs/ProblemDetails.md)
  - [Topic](docs/Topic.md)
+ - [TopicMeta](docs/TopicMeta.md)
+ - [TopicMetaPaginatedResponse](docs/TopicMetaPaginatedResponse.md)
 
 
 To get access to the crate's generated documentation, use:

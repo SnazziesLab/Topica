@@ -41,6 +41,32 @@ paths:
   /api/Topics:
     get:
       operationId: GetTopics
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 25
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "404":
           content:
@@ -58,21 +84,14 @@ paths:
           content:
             text/plain:
               schema:
-                items:
-                  type: string
-                type: array
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
             application/json:
               schema:
-                items:
-                  type: string
-                type: array
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
             text/json:
               schema:
-                items:
-                  type: string
-                type: array
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
           description: Success
-      summary: Gets all Topic Ids.
       tags:
       - Topics
     post:
@@ -110,9 +129,9 @@ paths:
       summary: Creates a message under topic id.
       tags:
       - Topics
-  /api/Topics/Count:
+  /api/Topics/Total:
     get:
-      operationId: GetCount
+      operationId: GetTotal
       responses:
         "404":
           content:
@@ -296,6 +315,46 @@ components:
             $ref: '#/components/schemas/Entry'
           nullable: true
           type: array
+      type: object
+    TopicMeta:
+      additionalProperties: false
+      example:
+        id: id
+        createdOn: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          nullable: true
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+      type: object
+    TopicMetaPaginatedResponse:
+      additionalProperties: false
+      example:
+        total: 1
+        data:
+        - id: id
+          createdOn: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          createdOn: 2000-01-23T04:56:07.000+00:00
+        pageSize: 6
+        page: 0
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/TopicMeta'
+          nullable: true
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        total:
+          format: int32
+          type: integer
       type: object
   securitySchemes:
     Basic:

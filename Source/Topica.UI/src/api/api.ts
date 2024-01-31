@@ -36,7 +36,7 @@ const postAuthMiddlewares: eventsClient.Middleware[] = [
             console.debug("pre middleware");
             const req = { ...e };
             const requestHeaders = new Headers(req.init.headers);
-            getCookie("token") && requestHeaders.append("Authorization", getCookie("token"));
+            getCookie("token") && requestHeaders.append("Authorization", `${getCookie("_auth")} ${getCookie("token")}`);
             requestHeaders.append("Access-Control-Allow-Origin", "*");
             req.init.headers = requestHeaders;
             return Promise.resolve(req);

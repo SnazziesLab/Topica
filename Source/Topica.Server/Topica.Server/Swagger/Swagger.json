@@ -59,8 +59,34 @@
         "tags": [
           "Topics"
         ],
-        "summary": "Gets all Topic Ids.",
         "operationId": "GetTopics",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "404": {
             "description": "Not Found",
@@ -87,26 +113,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/TopicMetaPaginatedResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/TopicMetaPaginatedResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/TopicMetaPaginatedResponse"
                 }
               }
             }
@@ -161,12 +178,12 @@
         }
       }
     },
-    "/api/Topics/Count": {
+    "/api/Topics/Total": {
       "get": {
         "tags": [
           "Topics"
         ],
-        "operationId": "GetCount",
+        "operationId": "GetTotal",
         "responses": {
           "404": {
             "description": "Not Found",
@@ -406,6 +423,45 @@
               "$ref": "#/components/schemas/Entry"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TopicMeta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TopicMetaPaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopicMeta"
+            },
+            "nullable": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

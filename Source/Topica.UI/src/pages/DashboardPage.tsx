@@ -5,10 +5,9 @@ import { topicsApi } from "../api/api";
 
 export const DashboardPage: React.FunctionComponent = () => {
   const [search, setSearch] = useState("");
-    const {data} = useRequest(() => topicsApi.getTopics());
-
-    const rows = data?.map(e=> { return {key:e}});
-
+    const {data, refresh: refreshData} = useRequest(() => topicsApi.getTopics());
+    const {data: total} = useRequest(() => topicsApi.getTotal());
+    const [page, setPage] = useState({page: 0, pageSize:25})
   return (
     <div
       style={{
@@ -48,7 +47,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                 }}
               >
                 <h3>Total Topics</h3>
-                <div style={{fontWeight:"bold", fontSize:"1.5rem"}}>30</div>
+                <div style={{fontWeight:"bold", fontSize:"1.5rem"}}>{total}</div>
               </div>
             </Card>
           </div>
@@ -63,6 +62,7 @@ export const DashboardPage: React.FunctionComponent = () => {
         >
           <Button type="primary">New Topic</Button>
           <Button type="primary">New Message</Button>
+          <Button type="primary" onClick={refreshData}>Refresh</Button>
           <Button disabled danger type="primary">
             Delete
           </Button>
@@ -75,7 +75,7 @@ export const DashboardPage: React.FunctionComponent = () => {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search"
           />
-          <Table columns={columns} dataSource={rows ?? undefined}></Table>
+          <Table columns={columns} pagination={{pageSize:page.pageSize, defaultPageSize: 25, current:page.page, position: ["topRight", "bottomRight"], total:data?.total}}   dataSource={data?.data ?? undefined}></Table>
         </div>
       </div>
     </div>

@@ -12,6 +12,8 @@ docs/LoginAPI.md
 docs/LoginModel.md
 docs/ProblemDetails.md
 docs/Topic.md
+docs/TopicMeta.md
+docs/TopicMetaPaginatedResponse.md
 docs/TopicsAPI.md
 git_push.sh
 go.mod
@@ -20,6 +22,8 @@ model_entry.go
 model_login_model.go
 model_problem_details.go
 model_topic.go
+model_topic_meta.go
+model_topic_meta_paginated_response.go
 response.go
 test/api_login_test.go
 test/api_topics_test.go

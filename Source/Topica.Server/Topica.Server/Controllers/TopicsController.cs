@@ -2,6 +2,7 @@
 using Events.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Topica.Server.Data;
 
 namespace Events.Server.Controllers
 {
@@ -17,23 +18,18 @@ namespace Events.Server.Controllers
             Store = store;
         }
 
-
-        /// <summary>
-        /// Gets all Topic Ids.
-        /// </summary>
-        /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType<string[]>(StatusCodes.Status200OK)]
+        [ProducesResponseType<PaginatedResponse<TopicMeta>>(StatusCodes.Status200OK)]
         [HttpGet(Name = nameof(GetTopics))]
-        public async Task<ActionResult<string[]>> GetTopics()
+        public async Task<ActionResult<PaginatedResponse<TopicMeta>>> GetTopics(int page = 0, int pageSize = 25, string? search = null)
         {
-            return Ok(await Store.GetTopicsAsync());
+            return Ok(await Store.GetTopicsAsync(page, pageSize, search));
         }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType<int>(StatusCodes.Status200OK)]
-        [HttpGet("Count", Name = nameof(GetCount))]
-        public async Task<ActionResult<int>> GetCount()
+        [HttpGet("Total", Name = nameof(GetTotal))]
+        public async Task<ActionResult<int>> GetTotal()
         {
             return Ok(await Store.GetTopicsCountAsync());
         }

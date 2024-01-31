@@ -11,6 +11,8 @@ src/models/Entry.ts
 src/models/LoginModel.ts
 src/models/ProblemDetails.ts
 src/models/Topic.ts
+src/models/TopicMeta.ts
+src/models/TopicMetaPaginatedResponse.ts
 src/models/index.ts
 src/runtime.ts
 tsconfig.json
