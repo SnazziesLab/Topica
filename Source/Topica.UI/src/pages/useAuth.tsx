@@ -20,10 +20,10 @@ interface MyDecodedToken extends JwtPayload {
 export function useAuth() {
   const authContext = useContext(AuthContext);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [auth, setAuth] = useCookieState("_auth", {
+  const [, setAuth] = useCookieState("_auth", {
     defaultValue: "",
   });
-  const [token, setToken] = useCookieState("token", {
+  const [, setToken] = useCookieState("token", {
     defaultValue: ""
   });
   
