@@ -29,8 +29,12 @@ import {
 } from '../models/index';
 
 export interface AddMessageRequest {
-    topicId?: string;
+    topicId: string;
     message?: string;
+}
+
+export interface CreateTopicRequest {
+    topicId?: string;
 }
 
 export interface DeleteMessageRequest {
@@ -61,11 +65,11 @@ export class TopicsApi extends runtime.BaseAPI {
      * Creates a message under topic id.
      */
     async addMessageRaw(requestParameters: AddMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const queryParameters: any = {};
-
-        if (requestParameters.topicId !== undefined) {
-            queryParameters['topicId'] = requestParameters.topicId;
+        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
+            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling addMessage.');
         }
+
+        const queryParameters: any = {};
 
         if (requestParameters.message !== undefined) {
             queryParameters['message'] = requestParameters.message;
@@ -85,7 +89,7 @@ export class TopicsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/Topics`,
+            path: `/api/Topics/{topicId}/messages`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -101,8 +105,51 @@ export class TopicsApi extends runtime.BaseAPI {
     /**
      * Creates a message under topic id.
      */
-    async addMessage(requestParameters: AddMessageRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+    async addMessage(requestParameters: AddMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
         const response = await this.addMessageRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async createTopicRaw(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.topicId !== undefined) {
+            queryParameters['topicId'] = requestParameters.topicId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/Topics`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async createTopic(requestParameters: CreateTopicRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.createTopicRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

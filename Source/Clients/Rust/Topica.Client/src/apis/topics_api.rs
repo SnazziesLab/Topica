@@ -22,6 +22,14 @@ pub enum AddMessageError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`create_topic`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateTopicError {
+    Status400(String),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`delete_message`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -61,17 +69,14 @@ pub enum GetTotalError {
 }
 
 
-pub async fn add_message(configuration: &configuration::Configuration, topic_id: Option<&str>, message: Option<&str>) -> Result<String, Error<AddMessageError>> {
+pub async fn add_message(configuration: &configuration::Configuration, topic_id: &str, message: Option<&str>) -> Result<String, Error<AddMessageError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/api/Topics", local_var_configuration.base_path);
+    let local_var_uri_str = format!("{}/api/Topics/{topicId}/messages", local_var_configuration.base_path, topicId=crate::apis::urlencode(topic_id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_str) = topic_id {
-        local_var_req_builder = local_var_req_builder.query(&[("topicId", &local_var_str.to_string())]);
-    }
     if let Some(ref local_var_str) = message {
         local_var_req_builder = local_var_req_builder.query(&[("message", &local_var_str.to_string())]);
     }
@@ -108,6 +113,55 @@ pub async fn add_message(configuration: &configuration::Configuration, topic_id:
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<AddMessageError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn create_topic(configuration: &configuration::Configuration, topic_id: Option<&str>) -> Result<String, Error<CreateTopicError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/api/Topics", local_var_configuration.base_path);
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = topic_id {
+        local_var_req_builder = local_var_req_builder.query(&[("topicId", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_auth_conf) = local_var_configuration.basic_auth {
+        local_var_req_builder = local_var_req_builder.basic_auth(local_var_auth_conf.0.to_owned(), local_var_auth_conf.1.to_owned());
+    };
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-API-KEY", local_var_value);
+    };
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("Authorization", local_var_value);
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<CreateTopicError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

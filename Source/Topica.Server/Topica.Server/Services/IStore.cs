@@ -12,5 +12,6 @@ namespace Events.Services
         Task AddOrUpdateTopicAsync(Topic topic);
         Task DeleteEntryAsync(string topicName, Guid entryId);
         Task AddMessageAsync(Message message);
+        Task<bool> TryAddTopicAsync(Topic topic);
     }
 }

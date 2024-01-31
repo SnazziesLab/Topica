@@ -33,6 +33,11 @@ namespace Events.Services
             return value;
         }
 
+        public async Task<bool> TryAddTopicAsync(Topic topic)
+        {
+            return Events.TryAdd(topic.Id, topic);
+        }
+
         public async Task AddOrUpdateTopicAsync(Topic topic)
         {
             Events.AddOrUpdate(topic.Id, topic, (id, value) => value = topic);

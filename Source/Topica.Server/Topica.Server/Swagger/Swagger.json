@@ -130,31 +130,41 @@
           }
         }
       },
-      "post": {
+      "put": {
         "tags": [
           "Topics"
         ],
-        "summary": "Creates a message under topic id.",
-        "operationId": "AddMessage",
+        "operationId": "CreateTopic",
         "parameters": [
           {
             "name": "topicId",
             "in": "query",
-            "description": "If topicId is null, a GUID will be generated in place",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "message",
-            "in": "query",
-            "description": "",
             "schema": {
               "type": "string"
             }
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Success",
             "content": {
@@ -308,6 +318,56 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Topics/{topicId}/messages": {
+      "post": {
+        "tags": [
+          "Topics"
+        ],
+        "summary": "Creates a message under topic id.",
+        "operationId": "AddMessage",
+        "parameters": [
+          {
+            "name": "topicId",
+            "in": "path",
+            "description": "If topicId is null, a GUID will be generated in place",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }

@@ -4,7 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddMessage**](TopicsAPI.md#AddMessage) | **Post** /api/Topics | Creates a message under topic id.
+[**AddMessage**](TopicsAPI.md#AddMessage) | **Post** /api/Topics/{topicId}/messages | Creates a message under topic id.
+[**CreateTopic**](TopicsAPI.md#CreateTopic) | **Put** /api/Topics | 
 [**DeleteMessage**](TopicsAPI.md#DeleteMessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
 [**DeleteTopic**](TopicsAPI.md#DeleteTopic) | **Delete** /api/Topics/{topicId} | 
 [**GetTopic**](TopicsAPI.md#GetTopic) | **Get** /api/Topics/{topicId} | 
@@ -15,7 +16,7 @@ Method | HTTP request | Description
 
 ## AddMessage
 
-> string AddMessage(ctx).TopicId(topicId).Message(message).Execute()
+> string AddMessage(ctx, topicId).Message(message).Execute()
 
 Creates a message under topic id.
 
@@ -32,12 +33,12 @@ import (
 )
 
 func main() {
-	topicId := "topicId_example" // string | If topicId is null, a GUID will be generated in place (optional)
+	topicId := "topicId_example" // string | If topicId is null, a GUID will be generated in place
 	message := "message_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.AddMessage(context.Background()).TopicId(topicId).Message(message).Execute()
+	resp, r, err := apiClient.TopicsAPI.AddMessage(context.Background(), topicId).Message(message).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.AddMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -50,6 +51,10 @@ func main() {
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**topicId** | **string** | If topicId is null, a GUID will be generated in place | 
 
 ### Other Parameters
 
@@ -58,8 +63,72 @@ Other parameters are passed through a pointer to a apiAddMessageRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **topicId** | **string** | If topicId is null, a GUID will be generated in place | 
+
  **message** | **string** |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateTopic
+
+> string CreateTopic(ctx).TopicId(topicId).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	topicId := "topicId_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TopicsAPI.CreateTopic(context.Background()).TopicId(topicId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.CreateTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateTopic`: string
+	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.CreateTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **topicId** | **string** |  | 
 
 ### Return type
 

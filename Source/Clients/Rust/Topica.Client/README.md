@@ -26,7 +26,8 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *LoginApi* | [**login**](docs/LoginApi.md#login) | **POST** /api/Login | 
-*TopicsApi* | [**add_message**](docs/TopicsApi.md#add_message) | **POST** /api/Topics | Creates a message under topic id.
+*TopicsApi* | [**add_message**](docs/TopicsApi.md#add_message) | **POST** /api/Topics/{topicId}/messages | Creates a message under topic id.
+*TopicsApi* | [**create_topic**](docs/TopicsApi.md#create_topic) | **PUT** /api/Topics | 
 *TopicsApi* | [**delete_message**](docs/TopicsApi.md#delete_message) | **DELETE** /api/Topics/{topicId}/messages/{messageId} | 
 *TopicsApi* | [**delete_topic**](docs/TopicsApi.md#delete_topic) | **DELETE** /api/Topics/{topicId} | 
 *TopicsApi* | [**get_topic**](docs/TopicsApi.md#get_topic) | **GET** /api/Topics/{topicId} | 

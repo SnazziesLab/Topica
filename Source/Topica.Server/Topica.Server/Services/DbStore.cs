@@ -98,5 +98,10 @@ namespace Events.Services
             await ApplicationDbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> TryAddTopicAsync(Topic topic)
+        {
+            var result = await ApplicationDbContext.Topics.AddAsync(topic);
+            return result is null;
+        }
     }
 }

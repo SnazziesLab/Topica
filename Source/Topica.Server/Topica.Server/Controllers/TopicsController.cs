@@ -33,6 +33,19 @@ namespace Events.Server.Controllers
         {
             return Ok(await Store.GetTopicsCountAsync());
         }
+        [ProducesResponseType<string>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<string>(StatusCodes.Status200OK)]
+        [HttpPut(Name = nameof(CreateTopic))]
+        public async Task<ActionResult<string>> CreateTopic(string? topicId)
+        {
+            if (string.IsNullOrEmpty(topicId))
+                topicId = Guid.NewGuid().ToString();
+            var success = await Store.TryAddTopicAsync(new Topic { Id = topicId });
+            if (success is false)
+                return BadRequest("Failed to create topic");
+
+            return Ok(topicId);
+        }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType<Topic>(StatusCodes.Status200OK)]
@@ -55,7 +68,7 @@ namespace Events.Server.Controllers
         /// <returns>Topic Id</returns>
         [ProducesResponseType<string>(StatusCodes.Status200OK)]
         [Authorize(Roles = "write")]
-        [HttpPost(Name = nameof(AddMessage))]
+        [HttpPost("{topicId}/messages", Name = nameof(AddMessage))]
         public async Task<ActionResult<string>> AddMessage(string? topicId, string message)
         {
             if (string.IsNullOrEmpty(topicId))

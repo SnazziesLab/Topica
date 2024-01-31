@@ -26,14 +26,8 @@ type TopicsAPIService service
 type ApiAddMessageRequest struct {
 	ctx context.Context
 	ApiService *TopicsAPIService
-	topicId *string
+	topicId string
 	message *string
-}
-
-// If topicId is null, a GUID will be generated in place
-func (r ApiAddMessageRequest) TopicId(topicId string) ApiAddMessageRequest {
-	r.topicId = &topicId
-	return r
 }
 
 // 
@@ -50,12 +44,14 @@ func (r ApiAddMessageRequest) Execute() (string, *http.Response, error) {
 AddMessage Creates a message under topic id.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param topicId If topicId is null, a GUID will be generated in place
  @return ApiAddMessageRequest
 */
-func (a *TopicsAPIService) AddMessage(ctx context.Context) ApiAddMessageRequest {
+func (a *TopicsAPIService) AddMessage(ctx context.Context, topicId string) ApiAddMessageRequest {
 	return ApiAddMessageRequest{
 		ApiService: a,
 		ctx: ctx,
+		topicId: topicId,
 	}
 }
 
@@ -74,15 +70,13 @@ func (a *TopicsAPIService) AddMessageExecute(r ApiAddMessageRequest) (string, *h
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/Topics"
+	localVarPath := localBasePath + "/api/Topics/{topicId}/messages"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.topicId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "topicId", r.topicId, "")
-	}
 	if r.message != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "message", r.message, "")
 	}
@@ -152,6 +146,151 @@ func (a *TopicsAPIService) AddMessageExecute(r ApiAddMessageRequest) (string, *h
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCreateTopicRequest struct {
+	ctx context.Context
+	ApiService *TopicsAPIService
+	topicId *string
+}
+
+func (r ApiCreateTopicRequest) TopicId(topicId string) ApiCreateTopicRequest {
+	r.topicId = &topicId
+	return r
+}
+
+func (r ApiCreateTopicRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.CreateTopicExecute(r)
+}
+
+/*
+CreateTopic Method for CreateTopic
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateTopicRequest
+*/
+func (a *TopicsAPIService) CreateTopic(ctx context.Context) ApiCreateTopicRequest {
+	return ApiCreateTopicRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *TopicsAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicsAPIService.CreateTopic")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/Topics"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.topicId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "topicId", r.topicId, "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json", "text/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-KEY"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Bearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

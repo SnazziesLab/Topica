@@ -26,7 +26,21 @@ func Test_topicaclient_TopicsAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.TopicsAPI.AddMessage(context.Background()).Execute()
+		var topicId string
+
+		resp, httpRes, err := apiClient.TopicsAPI.AddMessage(context.Background(), topicId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test TopicsAPIService CreateTopic", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.TopicsAPI.CreateTopic(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

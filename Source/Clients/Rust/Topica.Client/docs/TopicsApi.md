@@ -4,7 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_message**](TopicsApi.md#add_message) | **POST** /api/Topics | Creates a message under topic id.
+[**add_message**](TopicsApi.md#add_message) | **POST** /api/Topics/{topicId}/messages | Creates a message under topic id.
+[**create_topic**](TopicsApi.md#create_topic) | **PUT** /api/Topics | 
 [**delete_message**](TopicsApi.md#delete_message) | **DELETE** /api/Topics/{topicId}/messages/{messageId} | 
 [**delete_topic**](TopicsApi.md#delete_topic) | **DELETE** /api/Topics/{topicId} | 
 [**get_topic**](TopicsApi.md#get_topic) | **GET** /api/Topics/{topicId} | 
@@ -23,8 +24,36 @@ Creates a message under topic id.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**topic_id** | Option<**String**> | If topicId is null, a GUID will be generated in place |  |
+**topic_id** | **String** | If topicId is null, a GUID will be generated in place | [required] |
 **message** | Option<**String**> |  |  |
+
+### Return type
+
+**String**
+
+### Authorization
+
+[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## create_topic
+
+> String create_topic(topic_id)
+
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**topic_id** | Option<**String**> |  |  |
 
 ### Return type
 

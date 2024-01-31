@@ -78,7 +78,8 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *LoginAPI* | [**Login**](docs/LoginAPI.md#login) | **Post** /api/Login | 
-*TopicsAPI* | [**AddMessage**](docs/TopicsAPI.md#addmessage) | **Post** /api/Topics | Creates a message under topic id.
+*TopicsAPI* | [**AddMessage**](docs/TopicsAPI.md#addmessage) | **Post** /api/Topics/{topicId}/messages | Creates a message under topic id.
+*TopicsAPI* | [**CreateTopic**](docs/TopicsAPI.md#createtopic) | **Put** /api/Topics | 
 *TopicsAPI* | [**DeleteMessage**](docs/TopicsAPI.md#deletemessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
 *TopicsAPI* | [**DeleteTopic**](docs/TopicsAPI.md#deletetopic) | **Delete** /api/Topics/{topicId} | 
 *TopicsAPI* | [**GetTopic**](docs/TopicsAPI.md#gettopic) | **Get** /api/Topics/{topicId} | 
