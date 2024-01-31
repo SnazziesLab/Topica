@@ -24,7 +24,7 @@ namespace Events.Services
                 query = query.Where(e => e.Id.Contains(search));
 
             var total = query.CountAsync();
-            var data = query.Skip(page * pageSize).Take(pageSize).ToArrayAsync();
+            var data = query.Skip(page * pageSize).Take(pageSize).OrderBy(e=> e.CreatedOn).ToArrayAsync();
 
             await Task.WhenAll(total, data);
             return new(data: data.Result, page: page, pageSize: pageSize, total: total.Result);

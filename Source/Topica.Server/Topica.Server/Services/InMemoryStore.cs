@@ -16,7 +16,7 @@ namespace Events.Services
             if (!string.IsNullOrEmpty(search))
                 query = query.Where(e => e.Id.Contains(search)).ToArray();
 
-            var data = query.Skip(page * pageSize).Take(pageSize).ToArray();
+            var data = query.Skip(page * pageSize).Take(pageSize).OrderBy(e => e.CreatedOn).ToArray();
 
             var total = Events.Count();
             return new(data: data, page: page, pageSize: pageSize, total: total);
