@@ -14,10 +14,16 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  LoginModel,
+} from '../models/index';
+import {
+    LoginModelFromJSON,
+    LoginModelToJSON,
+} from '../models/index';
 
 export interface LoginRequest {
-    username?: string;
-    password?: string;
+    loginModel?: LoginModel;
 }
 
 /**
@@ -30,15 +36,9 @@ export class LoginApi extends runtime.BaseAPI {
     async loginRaw(requestParameters: LoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
-        if (requestParameters.username !== undefined) {
-            queryParameters['username'] = requestParameters.username;
-        }
-
-        if (requestParameters.password !== undefined) {
-            queryParameters['password'] = requestParameters.password;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
@@ -47,11 +47,16 @@ export class LoginApi extends runtime.BaseAPI {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/Login`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: LoginModelToJSON(requestParameters.loginModel),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {

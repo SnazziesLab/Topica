@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## Login
 
-> string Login(ctx).Username(username).Password(password).Execute()
+> string Login(ctx).LoginModel(loginModel).Execute()
 
 
 
@@ -27,12 +27,11 @@ import (
 )
 
 func main() {
-	username := "username_example" // string |  (optional)
-	password := "password_example" // string |  (optional)
+	loginModel := *openapiclient.NewLoginModel() // LoginModel |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.LoginAPI.Login(context.Background()).Username(username).Password(password).Execute()
+	resp, r, err := apiClient.LoginAPI.Login(context.Background()).LoginModel(loginModel).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `LoginAPI.Login``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -53,8 +52,7 @@ Other parameters are passed through a pointer to a apiLoginRequest struct via th
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** |  | 
- **password** | **string** |  | 
+ **loginModel** | [**LoginModel**](LoginModel.md) |  | 
 
 ### Return type
 
@@ -62,11 +60,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey)
+[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json, text/json, application/*+json
 - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

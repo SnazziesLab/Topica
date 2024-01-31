@@ -23,7 +23,7 @@ pub enum LoginError {
 }
 
 
-pub async fn login(configuration: &configuration::Configuration, username: Option<&str>, password: Option<&str>) -> Result<String, Error<LoginError>> {
+pub async fn login(configuration: &configuration::Configuration, login_model: Option<crate::models::LoginModel>) -> Result<String, Error<LoginError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -31,12 +31,6 @@ pub async fn login(configuration: &configuration::Configuration, username: Optio
     let local_var_uri_str = format!("{}/api/Login", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_str) = username {
-        local_var_req_builder = local_var_req_builder.query(&[("username", &local_var_str.to_string())]);
-    }
-    if let Some(ref local_var_str) = password {
-        local_var_req_builder = local_var_req_builder.query(&[("password", &local_var_str.to_string())]);
-    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -51,6 +45,15 @@ pub async fn login(configuration: &configuration::Configuration, username: Optio
         };
         local_var_req_builder = local_var_req_builder.header("X-API-KEY", local_var_value);
     };
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("Authorization", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&login_model);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;

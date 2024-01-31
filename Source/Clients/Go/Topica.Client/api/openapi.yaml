@@ -7,25 +7,22 @@ servers:
 security:
 - Basic: []
   ApiKey: []
+  Bearer: []
 paths:
   /api/Login:
     post:
       operationId: Login
-      parameters:
-      - explode: true
-        in: query
-        name: username
-        required: false
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: password
-        required: false
-        schema:
-          type: string
-        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
       responses:
         "200":
           content:
@@ -242,6 +239,19 @@ components:
           format: uuid
           type: string
       type: object
+    LoginModel:
+      additionalProperties: false
+      example:
+        password: password
+        username: username
+      properties:
+        username:
+          nullable: true
+          type: string
+        password:
+          nullable: true
+          type: string
+      type: object
     ProblemDetails:
       additionalProperties: {}
       properties:
@@ -289,10 +299,15 @@ components:
       type: object
   securitySchemes:
     Basic:
-      description: Basic Authorization header using the Bearer scheme.
-      scheme: basic
+      description: Basic Authorization header
+      scheme: Basic
       type: http
     ApiKey:
       in: header
       name: X-API-KEY
+      type: apiKey
+    Bearer:
+      description: JWT Authorization header using the Bearer scheme.
+      in: header
+      name: Authorization
       type: apiKey

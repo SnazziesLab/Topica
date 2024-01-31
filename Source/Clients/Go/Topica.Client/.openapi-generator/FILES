@@ -9,6 +9,7 @@ client.go
 configuration.go
 docs/Entry.md
 docs/LoginAPI.md
+docs/LoginModel.md
 docs/ProblemDetails.md
 docs/Topic.md
 docs/TopicsAPI.md
@@ -16,6 +17,7 @@ git_push.sh
 go.mod
 go.sum
 model_entry.go
+model_login_model.go
 model_problem_details.go
 model_topic.go
 response.go

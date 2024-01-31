@@ -32,15 +32,15 @@ export function useAuth() {
   };
   const authenticate = (values: Login): Promise<void | ResponseError>  => {
     return loginApi
-      .loginRaw(values)
-      .then((response) => {
+      .loginRaw({loginModel: values})
+      .then(async (response) => {
         const jwtHeaderValue = response.raw.headers.get("WWW-Authenticate");
 
         if (!jwtHeaderValue)
           throw new Error("WWW-Authenticate header is null");
-
-        if( jwtHeaderValue === "Bearer"){
-            const jwt = jwtDecode<MyDecodedToken>(jwtHeaderValue);
+        debugger
+        if( jwtHeaderValue.toLowerCase() === "bearer"){
+            const jwt = jwtDecode<MyDecodedToken>(await response.value());
             authContext.setUser?.({
               name: jwt[
                 "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"

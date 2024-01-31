@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## login
 
-> String login(username, password)
+> String login(login_model)
 
 
 ### Parameters
@@ -18,8 +18,7 @@ Method | HTTP request | Description
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**username** | Option<**String**> |  |  |
-**password** | Option<**String**> |  |  |
+**login_model** | Option<[**LoginModel**](LoginModel.md)> |  |  |
 
 ### Return type
 
@@ -27,11 +26,11 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey)
+[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json, text/json, application/*+json
 - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

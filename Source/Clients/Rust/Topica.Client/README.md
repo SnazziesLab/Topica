@@ -37,6 +37,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Entry](docs/Entry.md)
+ - [LoginModel](docs/LoginModel.md)
  - [ProblemDetails](docs/ProblemDetails.md)
  - [Topic](docs/Topic.md)
 

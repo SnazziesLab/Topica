@@ -5,6 +5,7 @@ Cargo.toml
 README.md
 docs/Entry.md
 docs/LoginApi.md
+docs/LoginModel.md
 docs/ProblemDetails.md
 docs/Topic.md
 docs/TopicsApi.md
@@ -15,6 +16,7 @@ src/apis/mod.rs
 src/apis/topics_api.rs
 src/lib.rs
 src/models/entry.rs
+src/models/login_model.rs
 src/models/mod.rs
 src/models/problem_details.rs
 src/models/topic.rs

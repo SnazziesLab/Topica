@@ -25,17 +25,11 @@ type LoginAPIService service
 type ApiLoginRequest struct {
 	ctx context.Context
 	ApiService *LoginAPIService
-	username *string
-	password *string
+	loginModel *LoginModel
 }
 
-func (r ApiLoginRequest) Username(username string) ApiLoginRequest {
-	r.username = &username
-	return r
-}
-
-func (r ApiLoginRequest) Password(password string) ApiLoginRequest {
-	r.password = &password
+func (r ApiLoginRequest) LoginModel(loginModel LoginModel) ApiLoginRequest {
+	r.loginModel = &loginModel
 	return r
 }
 
@@ -77,14 +71,8 @@ func (a *LoginAPIService) LoginExecute(r ApiLoginRequest) (string, *http.Respons
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.username != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "username", r.username, "")
-	}
-	if r.password != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "password", r.password, "")
-	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json", "text/json", "application/*+json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -100,6 +88,8 @@ func (a *LoginAPIService) LoginExecute(r ApiLoginRequest) (string, *http.Respons
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.loginModel
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -111,6 +101,20 @@ func (a *LoginAPIService) LoginExecute(r ApiLoginRequest) (string, *http.Respons
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-KEY"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Bearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
 			}
 		}
 	}

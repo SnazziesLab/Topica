@@ -89,6 +89,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Entry](docs/Entry.md)
+ - [LoginModel](docs/LoginModel.md)
  - [ProblemDetails](docs/ProblemDetails.md)
  - [Topic](docs/Topic.md)
 
@@ -127,6 +128,27 @@ auth := context.WithValue(
 		topicaclient.ContextAPIKeys,
 		map[string]topicaclient.APIKey{
 			"X-API-KEY": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### Bearer
+
+- **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: Authorization and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		topicaclient.ContextAPIKeys,
+		map[string]topicaclient.APIKey{
+			"Authorization": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

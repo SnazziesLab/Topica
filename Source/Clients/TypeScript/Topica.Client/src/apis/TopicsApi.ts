@@ -71,6 +71,10 @@ export class TopicsApi extends runtime.BaseAPI {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/Topics`,
             method: 'POST',
@@ -115,6 +119,10 @@ export class TopicsApi extends runtime.BaseAPI {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/Topics/{topicId}/messages/{messageId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))).replace(`{${"messageId"}}`, encodeURIComponent(String(requestParameters.messageId))),
             method: 'DELETE',
@@ -149,6 +157,10 @@ export class TopicsApi extends runtime.BaseAPI {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/Topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
             method: 'DELETE',
@@ -177,6 +189,10 @@ export class TopicsApi extends runtime.BaseAPI {
         }
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
         }
 
         const response = await this.request({
@@ -218,6 +234,10 @@ export class TopicsApi extends runtime.BaseAPI {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
         const response = await this.request({
             path: `/api/Topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
             method: 'GET',
@@ -248,6 +268,10 @@ export class TopicsApi extends runtime.BaseAPI {
         }
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-API-KEY"] = this.configuration.apiKey("X-API-KEY"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
         }
 
         const response = await this.request({
