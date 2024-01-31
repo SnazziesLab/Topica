@@ -36,17 +36,21 @@ export function useAuth() {
       .then((response) => {
         const jwtHeaderValue = response.raw.headers.get("WWW-Authenticate");
 
-        if (jwtHeaderValue === null)
+        if (!jwtHeaderValue)
           throw new Error("WWW-Authenticate header is null");
-        const jwt = jwtDecode<MyDecodedToken>(jwtHeaderValue);
-        authContext.setUser?.({
-          name: jwt[
-            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-          ],
-          roles:
-            jwt["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
-        });
-        setToken(jwtHeaderValue);
+
+        if( jwtHeaderValue === "Bearer"){
+            const jwt = jwtDecode<MyDecodedToken>(jwtHeaderValue);
+            authContext.setUser?.({
+              name: jwt[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+              ],
+              roles:
+                jwt["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+            });
+            setToken(`Bearer ${response}`);
+        }
+        
         return Promise.resolve();
       })
       .catch((e: ResponseError) => {

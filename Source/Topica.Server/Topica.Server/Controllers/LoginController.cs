@@ -14,7 +14,6 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 namespace Topica.Server.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -28,13 +27,16 @@ namespace Topica.Server.Controllers
             Configuration = configuration;
         }
 
+
+        public record LoginModel(string Username, string Password);
+
         [ProducesResponseType<string>(StatusCodes.Status200OK)]
         [HttpPost( Name = nameof(Login))]
-        public async Task<IActionResult> Login(string username, string password, 
+        public async Task<IActionResult> Login([FromBody] LoginModel model, 
             [FromServices] PasswordHasher passwordHasher)
         {
 
-            var user = await AuthDbContext.Users.SingleOrDefaultAsync(e=> e.Username == username && e.Password == passwordHasher.HashPassword(password));
+            var user = await AuthDbContext.Users.SingleOrDefaultAsync(e=> e.Username == model.Username && e.Password == passwordHasher.HashPassword(model.Username));
 
             if (user is null)
                 return BadRequest("Invalid username or password");
@@ -48,21 +50,21 @@ namespace Topica.Server.Controllers
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretKey")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                issuer: "Topica",
-               audience: "Topica",
+               audience: "Topica:UI",
                claims: claims,
-               expires: DateTime.Now.AddMinutes(30),
+               expires: DateTime.Now.AddHours(24),
                signingCredentials: creds
            );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            Response.Headers.Add("WWW-Authenticate", $"{tokenString}");
+            Response.Headers.Add("WWW-Authenticate", $"Bearer");
 
-            return Ok(new { Message = "Successfully authenticated" });
+            return Ok(tokenString);
         }
 
     

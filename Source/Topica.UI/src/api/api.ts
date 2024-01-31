@@ -2,7 +2,35 @@
 
 import * as eventsClient from "@topica/client"
 import {notification} from "antd"
-const middlewares: eventsClient.Middleware[] = [
+
+const preAuthMiddlewares: eventsClient.Middleware[] = [
+    {
+        pre(e) {
+            console.debug("pre middleware");
+            const req = { ...e };
+            const requestHeaders = new Headers(req.init.headers);
+            requestHeaders.append("Access-Control-Allow-Origin", "*");
+            req.init.headers = requestHeaders;
+            return Promise.resolve(req);
+        },
+        post(e) {
+            console.debug("post middleware");
+            if (!e.response.ok) {
+                {
+                    const msg = `request failed: ${e.url}`;
+                    notification.error({
+                        message: msg,
+                        placement: "bottomRight"
+                    });
+                    console.debug(e.init, msg);
+                }
+            }
+            return Promise.resolve(e.response);
+        }
+    }
+];
+
+const postAuthMiddlewares: eventsClient.Middleware[] = [
     {
         pre(e) {
             console.debug("pre middleware");
@@ -37,13 +65,14 @@ const url = import.meta.env.VITE_API_URL;
 const eventsConfig = () =>
     new eventsClient.Configuration({
         basePath: url,
-        middleware: middlewares
+        middleware: postAuthMiddlewares
     });
 
 
-export const topicApi = new eventsClient.TopicsApi(eventsConfig());
+export const topicsApi = new eventsClient.TopicsApi(eventsConfig());
 export const loginApi = new eventsClient.LoginApi( new eventsClient.Configuration({
     basePath: url,
+    middleware: preAuthMiddlewares
 }));
 
 export function getCookie(name: string) {

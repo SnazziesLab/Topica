@@ -1,6 +1,7 @@
 ﻿using Events.Server.Data.Db;
 using Events.Server.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
@@ -27,8 +28,25 @@ namespace Events.Server.Auth
         {
             var authKey = Request.Headers.Authorization;
             // Read the Authorization Header
-            if (!Request.Headers.ContainsKey("Authorization"))
-                return AuthenticateResult.Fail("Missing Authorization Header");
+
+            var endpoint = Context.GetEndpoint();
+
+            if (endpoint == null)
+            {
+                return AuthenticateResult.NoResult();
+            }
+
+            // Check if the Authorize attribute is applied to the endpoint
+            var authorizeData = endpoint.Metadata.GetOrderedMetadata<IAuthorizeData>();
+            if (!authorizeData.Any())
+            {
+                return AuthenticateResult.NoResult();
+            }
+
+            if (string.IsNullOrEmpty(Request.Headers["Authorization"]) &&       string.IsNullOrEmpty(Request.Headers["X-API-KEY"]))
+            {
+                return AuthenticateResult.Fail("Missing Authorization or X-API-KEY header");
+            }
 
             var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
             var credentialBytes = Convert.FromBase64String(authHeader.Parameter);

@@ -4,6 +4,7 @@ import { SignInPage } from "./pages/SignInPage";
 import { Button, Menu, MenuProps } from "antd";
 import { useEffect, useState } from "react";
 import { DashboardOutlined, UserOutlined } from "@ant-design/icons";
+import { DashboardPage } from "./pages/DashboardPage";
 
 export function App() {
   const { user } = useAuth();
@@ -13,14 +14,7 @@ export function App() {
       <Route path="/login" element={<SignInPage />} />
       <Route element={<Layout />}>
         <Route element={<RequireAuth />}>
-          <Route
-            path="/"
-            element={
-              <>
-                {user?.name} {user?.roles}
-              </>
-            }
-          />
+          <Route path="/" element={<DashboardPage />} />
         </Route>
       </Route>
     </Routes>

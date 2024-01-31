@@ -21,7 +21,7 @@ if (dbType == "InMemory")
 else
 {
     builder.Services.AddSingleton<IStore, DbStore>();
-   
+
 }
 builder.Services.AddDbContext<ApplicationDbContext>(e =>
 {
@@ -60,17 +60,17 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 builder.Services.ConfigureSwaggerGen();
-builder.Services.ConfigureAuthorization();
+builder.Services.ConfigureAuthorization(builder.Configuration);
 
 builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                policy.AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .SetIsOriginAllowed(_ => true)
-                        .AllowCredentials()
-                        .WithExposedHeaders("WWW-Authenticate", "Authenticate", "Authorization"));
-            });
+{
+    options.AddPolicy("AllowAll", p => 
+        p.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithExposedHeaders("WWW-Authenticate", "Authenticate", "Authorization"));
+}
+);
 
 
 var app = builder.Build();
@@ -102,7 +102,7 @@ using (var scope = app.Services.CreateScope())
             {
                 Password = hasher.HashPassword(user.Password),
                 Username = user.Username,
-                Roles = user.Roles
+                Roles = user.Roles,
             });
     }
     await authDb.SaveChangesAsync();
@@ -110,14 +110,7 @@ using (var scope = app.Services.CreateScope())
 
 }
 
-app.UseCors(options =>
-{
-    options.AllowAnyOrigin();
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
-    options.SetIsOriginAllowed(_ => true);
-    options.WithExposedHeaders("WWW-Authenticate", "Authenticate", "Authorization");
-});
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -126,7 +119,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

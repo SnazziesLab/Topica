@@ -11,22 +11,25 @@
           "Login"
         ],
         "operationId": "Login",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -345,6 +348,20 @@
         },
         "additionalProperties": false
       },
+      "LoginModel": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -397,12 +414,18 @@
     "securitySchemes": {
       "Basic": {
         "type": "http",
-        "description": "Basic Authorization header using the Bearer scheme.",
-        "scheme": "basic"
+        "description": "Basic Authorization header",
+        "scheme": "Basic"
       },
       "ApiKey": {
         "type": "apiKey",
         "name": "X-API-KEY",
+        "in": "header"
+      },
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.",
+        "name": "Authorization",
         "in": "header"
       }
     }
@@ -410,7 +433,8 @@
   "security": [
     {
       "Basic": [ ],
-      "ApiKey": [ ]
+      "ApiKey": [ ],
+      "Bearer": [ ]
     }
   ]
 }
