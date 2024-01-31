@@ -63,7 +63,7 @@ export function Layout() {
           Sign Out
         </Button>
       </Menu>
-      <div style={{ margin: 20 }}>
+      <div style={{ padding: 20 }}>
         <Outlet />
       </div>
     </div>

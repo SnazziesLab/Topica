@@ -1,13 +1,20 @@
 import { useRequest } from "ahooks";
 import { Button, Card, Input, Table } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { topicsApi } from "../api/api";
+import { ColumnsType } from "antd/es/table";
+import { TopicMeta } from "@topica/client";
 
 export const DashboardPage: React.FunctionComponent = () => {
   const [search, setSearch] = useState("");
-    const {data, refresh: refreshData} = useRequest(() => topicsApi.getTopics());
-    const {data: total} = useRequest(() => topicsApi.getTotal());
-    const [page, setPage] = useState({page: 0, pageSize:25})
+  const {data: total} = useRequest(() => topicsApi.getTotal(), {pollingInterval:5000});
+  const [page, setPage] = useState({page: 0, pageSize: 10});
+  const {data, refresh: refreshData} = useRequest(() => topicsApi.getTopics({...page, search: search}));
+
+  useEffect(()=> {
+    refreshData();
+  }, [search, page.page, page.pageSize])
+
   return (
     <div
       style={{
@@ -62,7 +69,7 @@ export const DashboardPage: React.FunctionComponent = () => {
         >
           <Button type="primary">New Topic</Button>
           <Button type="primary">New Message</Button>
-          <Button type="primary" onClick={refreshData}>Refresh</Button>
+          <Button  onClick={refreshData}>Refresh</Button>
           <Button disabled danger type="primary">
             Delete
           </Button>
@@ -75,22 +82,37 @@ export const DashboardPage: React.FunctionComponent = () => {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search"
           />
-          <Table columns={columns} pagination={{pageSize:page.pageSize, defaultPageSize: 25, current:page.page, position: ["topRight", "bottomRight"], total:data?.total}}   dataSource={data?.data ?? undefined}></Table>
+          <Table columns={columns} 
+          pagination={{
+            pageSize:page.pageSize, 
+            defaultPageSize: page.pageSize, current:page.page + 1, 
+            position: ["topRight", "bottomRight"], 
+            total:data?.total,
+            showSizeChanger: true,
+            pageSizeOptions:[10,25,50,100],
+            onChange: (page, pageSize) => {
+                setPage({page: page-1 , pageSize})
+            } }}
+            size="small"
+          dataSource={data?.data ?? undefined}></Table>
         </div>
       </div>
     </div>
   );
 };
 
-const columns = [
+const columns: ColumnsType<TopicMeta> = [
     {
       title: 'Topic',
-      dataIndex: 'topicId',
-      key: 'topicId',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: 'Entries',
-      dataIndex: 'address',
-      key: 'entrys',
-    },
+      title: 'Created On',
+      key: 'createdOn',
+      dataIndex: 'createdOn',
+      sorter: (v, n) => new Date(v.createdOn!).getTime() - new Date(n.createdOn!).getTime(),
+      defaultSortOrder: "ascend",
+      render: (v) => new Date(v).toUTCString()
+    }
   ];
