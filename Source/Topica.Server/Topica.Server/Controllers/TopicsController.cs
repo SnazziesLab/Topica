@@ -33,8 +33,10 @@ namespace Events.Server.Controllers
         {
             return Ok(await Store.GetTopicsCountAsync());
         }
+
         [ProducesResponseType<string>(StatusCodes.Status400BadRequest)]
         [ProducesResponseType<string>(StatusCodes.Status200OK)]
+        [Authorize(Roles = "write")]
         [HttpPut(Name = nameof(CreateTopic))]
         public async Task<ActionResult<string>> CreateTopic(string? topicId)
         {
