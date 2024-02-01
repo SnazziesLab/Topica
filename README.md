@@ -54,32 +54,7 @@ This app allows use of simple user pass or api key to auth. This is setup via pa
 
 - Auth data is not persistent, the in-memory AuthDb is populated at server startup.
 
-```js
-{
-  "ApiKeys": [
-    {
-      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
-      "Roles": [ "read", "write" ]
-    },
-    {
-      "ApiKey": "aawdwa22",
-      "Roles": [ "read" ]
-    }
-  ],
-  "Users": [
-    {
-      "Username": "admin",
-      "Password": "admin",
-      "Roles": [ "read", "write" ]
-    },
-    {
-      "Username": "guest",
-      "Password": "guest",
-      "Roles": [ "read" ]
-    }
-  ]
-}
-```
+https://github.com/SnazziesLab/Topica/blob/670e8ab548d70e71bc9447210ff778b4fc4f820f/Example/auth.config.json#L1-L24
 
 ## API
 
