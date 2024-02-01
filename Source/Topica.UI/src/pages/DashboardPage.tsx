@@ -97,15 +97,10 @@ const columns: ColumnsType<TopicMeta> = [
   {
     title: "Topic",
     dataIndex: "id",
-    key: "id",
   },
   {
     title: "Created On",
-    key: "createdOn",
     dataIndex: "createdOn",
-    sorter: (v, n) =>
-      new Date(v.createdOn!).getTime() - new Date(n.createdOn!).getTime(),
-    defaultSortOrder: "ascend",
     render: (v) => new Date(v).toUTCString(),
   },
 ];
