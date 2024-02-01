@@ -1,11 +1,11 @@
 ﻿{
   "ApiKeys": [
     {
-      "ApiKey": "wawdjawduiJW@IJEDid2ji@JDIjmidaidjmi",
+      "ApiKey": "ApiKeyWithReadAndWriteRoles",
       "Roles": [ "read", "write" ]
     },
     {
-      "ApiKey": "aawdwa22",
+      "ApiKey": "ApiKeyWithReadRole",
       "Roles": [ "read" ]
     }
   ],
