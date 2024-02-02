@@ -6,6 +6,7 @@ import { ColumnsType } from "antd/es/table";
 import { TopicMeta } from "@topica/client";
 import { PageLayout } from "../Components/PageLayout";
 import { CreateTopic } from "../Components/CreateTopic";
+import { CreateMessage } from "../Components/CreateMessage";
 
 export const DashboardPage: React.FunctionComponent = () => {
   const [search, setSearch] = useState("");
@@ -16,7 +17,6 @@ export const DashboardPage: React.FunctionComponent = () => {
   const { data, refresh: refreshData } = useRequest(() =>
     topicsApi.getTopics({ ...page, search: search })
   );
-
   useEffect(() => {
     refreshData();
   }, [search, page.page, page.pageSize]);
@@ -57,8 +57,8 @@ export const DashboardPage: React.FunctionComponent = () => {
           marginBottom: 15,
         }}
       >
-        <CreateTopic/>
-        <Button type="primary">Create Message</Button>
+        <CreateTopic />
+        <CreateMessage />
         <Button onClick={refreshData}>Refresh</Button>
         <Button disabled danger type="primary">
           Delete
@@ -104,4 +104,3 @@ const columns: ColumnsType<TopicMeta> = [
     render: (v) => new Date(v).toUTCString(),
   },
 ];
-

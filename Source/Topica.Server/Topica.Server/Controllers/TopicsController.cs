@@ -62,24 +62,7 @@ namespace Events.Server.Controllers
             return Ok(topic);
         }
 
-        /// <summary>
-        /// Creates a message under topic id.
-        /// </summary>
-        /// <param name="topicId">If topicId is null, a GUID will be generated in place</param>
-        /// <param name="message"></param>
-        /// <returns>Topic Id</returns>
-        [ProducesResponseType<string>(StatusCodes.Status200OK)]
-        [Authorize(Roles = "write")]
-        [HttpPost("{topicId}/messages", Name = nameof(AddMessage))]
-        public async Task<ActionResult<string>> AddMessage(string? topicId, string message)
-        {
-            if (string.IsNullOrEmpty(topicId))
-                topicId = Guid.NewGuid().ToString();
-            var msg = new Message() { TopicId = topicId, Content = message };
-            await Store.AddMessageAsync(msg);
 
-            return Ok(topicId);
-        }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "write")]

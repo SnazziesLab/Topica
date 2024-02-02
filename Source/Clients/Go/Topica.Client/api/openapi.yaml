@@ -38,6 +38,47 @@ paths:
           description: Success
       tags:
       - Login
+  /api/Messages:
+    post:
+      operationId: AddMessage
+      parameters:
+      - description: "If topicId is null, a new Topic will be generated with a random\
+          \ GUID"
+        explode: true
+        in: query
+        name: topicId
+        required: false
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+        description: ""
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      summary: Creates a message under topic id.
+      tags:
+      - Messages
   /api/Topics:
     get:
       operationId: GetTopics
@@ -215,42 +256,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: Success
-      tags:
-      - Topics
-  /api/Topics/{topicId}/messages:
-    post:
-      operationId: AddMessage
-      parameters:
-      - description: "If topicId is null, a GUID will be generated in place"
-        explode: false
-        in: path
-        name: topicId
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: ""
-        explode: true
-        in: query
-        name: message
-        required: false
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            text/plain:
-              schema:
-                type: string
-            application/json:
-              schema:
-                type: string
-            text/json:
-              schema:
-                type: string
-          description: Success
-      summary: Creates a message under topic id.
       tags:
       - Topics
   /api/Topics/{topicId}/messages/{messageId}:

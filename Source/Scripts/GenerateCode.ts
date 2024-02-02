@@ -26,7 +26,7 @@ execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g r
 execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g typescript-fetch -o ${CodeGenPath}/TypeScript/${appName}.Client -p npmName=@${lowered}/client --additional-properties=npmVersion=${version},stringEnums=true`)
 execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g go -o ${CodeGenPath}/Go/${appName}.Client --additional-properties=enumClassPrefix=true,packageVersion=${version},packageName=${lowered}client`)
 
-execute(`cd ${CodeGenPath}/TypeScript/${appName}.Client && npm i && npm run build`)
+//execute(`cd ${CodeGenPath}/TypeScript/${appName}.Client && npm i && npm run build`)
 
 function collectSwaggerFoldersIntoTemp(swaggerPaths: string[]) {
   swaggerPaths.forEach((e) => {

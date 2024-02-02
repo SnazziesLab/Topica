@@ -1,11 +1,12 @@
 import { Button, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
-import { topicsApi } from "../api/api";
+import { messageApi } from "../api/api";
 import { useCounter, useRequest } from "ahooks";
+import TextArea from "antd/es/input/TextArea";
 
-export const CreateTopic: React.FunctionComponent = () => {
+export const CreateMessage: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false);
-  const [form] = Form.useForm<string>();
+  const [form] = Form.useForm();
   const [successCounter, setSuccessCounter] = useCounter(0);
   const [addButtonText, setAddButtonText] = useState<
     "Add" | "Add Another" | string
@@ -16,8 +17,11 @@ export const CreateTopic: React.FunctionComponent = () => {
     refresh: sendRequest,
   } = useRequest(
     () =>
-      topicsApi
-        .createTopic({ topicId: form.getFieldValue("id") })
+      messageApi
+        .addMessage({
+          topicId: form.getFieldValue("id"),
+          body: form.getFieldValue("message"),
+        })
         .then((result) => {
           setAddButtonText(
             `Add Another${successCounter > 0 ? `(${successCounter})` : ""}`
@@ -39,18 +43,18 @@ export const CreateTopic: React.FunctionComponent = () => {
   return (
     <>
       <Button type="primary" onClick={() => setOpen(true)}>
-        Create Topic
+        Create Message
       </Button>
       <Modal
         open={open}
-        title="Create Topic"
+        title="Create Message"
         centered
         afterClose={handleClose}
         closable
         onCancel={handleClose}
         maskClosable={true}
         footer={[
-          <Button type="primary" onClick={handleSubmit}>
+          <Button type="primary" onClick={form.submit}>
             {addButtonText}
           </Button>,
         ]}
@@ -59,9 +63,19 @@ export const CreateTopic: React.FunctionComponent = () => {
           <Form.Item
             name={"id"}
             label="Topic"
-            help="If left empty, a GUID will be generated."
+            help="If left empty, a new Topic will be created with a GUID"
           >
-            <Input placeholder="Name of topic" defaultValue={""}></Input>
+            <Input placeholder="Name of topic" />
+          </Form.Item>
+          <Form.Item
+            name={"message"}
+            label="Message"
+            rules={[
+              { required: true },
+              { min: 1, message: "Message must not be empty" },
+            ]}
+          >
+            <TextArea placeholder="Message" rows={4} />
           </Form.Item>
         </Form>
         {data && !error && <div>Success: {data}</div>}

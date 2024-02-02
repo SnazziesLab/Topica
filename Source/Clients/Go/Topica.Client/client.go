@@ -51,6 +51,8 @@ type APIClient struct {
 
 	LoginAPI *LoginAPIService
 
+	MessagesAPI *MessagesAPIService
+
 	TopicsAPI *TopicsAPIService
 }
 
@@ -71,6 +73,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.LoginAPI = (*LoginAPIService)(&c.common)
+	c.MessagesAPI = (*MessagesAPIService)(&c.common)
 	c.TopicsAPI = (*TopicsAPIService)(&c.common)
 
 	return c

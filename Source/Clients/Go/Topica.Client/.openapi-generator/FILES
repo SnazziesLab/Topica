@@ -4,12 +4,14 @@
 README.md
 api/openapi.yaml
 api_login.go
+api_messages.go
 api_topics.go
 client.go
 configuration.go
 docs/Entry.md
 docs/LoginAPI.md
 docs/LoginModel.md
+docs/MessagesAPI.md
 docs/ProblemDetails.md
 docs/Topic.md
 docs/TopicMeta.md
@@ -26,5 +28,6 @@ model_topic_meta.go
 model_topic_meta_paginated_response.go
 response.go
 test/api_login_test.go
+test/api_messages_test.go
 test/api_topics_test.go
 utils.go

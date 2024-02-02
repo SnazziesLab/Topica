@@ -8,6 +8,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+* {
+    min-width: 0;
+}
 #root {
   height: 100dvh;
 }

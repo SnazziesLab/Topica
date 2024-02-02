@@ -4,7 +4,6 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddMessage**](TopicsAPI.md#AddMessage) | **Post** /api/Topics/{topicId}/messages | Creates a message under topic id.
 [**CreateTopic**](TopicsAPI.md#CreateTopic) | **Put** /api/Topics | 
 [**DeleteMessage**](TopicsAPI.md#DeleteMessage) | **Delete** /api/Topics/{topicId}/messages/{messageId} | 
 [**DeleteTopic**](TopicsAPI.md#DeleteTopic) | **Delete** /api/Topics/{topicId} | 
@@ -12,76 +11,6 @@ Method | HTTP request | Description
 [**GetTopics**](TopicsAPI.md#GetTopics) | **Get** /api/Topics | 
 [**GetTotal**](TopicsAPI.md#GetTotal) | **Get** /api/Topics/Total | 
 
-
-
-## AddMessage
-
-> string AddMessage(ctx, topicId).Message(message).Execute()
-
-Creates a message under topic id.
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	topicId := "topicId_example" // string | If topicId is null, a GUID will be generated in place
-	message := "message_example" // string |  (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicsAPI.AddMessage(context.Background(), topicId).Message(message).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicsAPI.AddMessage``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `AddMessage`: string
-	fmt.Fprintf(os.Stdout, "Response from `TopicsAPI.AddMessage`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**topicId** | **string** | If topicId is null, a GUID will be generated in place | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiAddMessageRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **message** | **string** |  | 
-
-### Return type
-
-**string**
-
-### Authorization
-
-[Basic](../README.md#Basic), [ApiKey](../README.md#ApiKey), [Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: text/plain, application/json, text/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## CreateTopic

@@ -91,6 +91,7 @@ pub fn parse_deep_object(prefix: &str, value: &serde_json::Value) -> Vec<(String
 }
 
 pub mod login_api;
+pub mod messages_api;
 pub mod topics_api;
 
 pub mod configuration;

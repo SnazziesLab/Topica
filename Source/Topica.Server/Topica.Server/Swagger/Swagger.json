@@ -54,6 +54,67 @@
         }
       }
     },
+    "/api/Messages": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Creates a message under topic id.",
+        "operationId": "AddMessage",
+        "parameters": [
+          {
+            "name": "topicId",
+            "in": "query",
+            "description": "If topicId is null, a new Topic will be generated with a random GUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Topics": {
       "get": {
         "tags": [
@@ -318,56 +379,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Topics/{topicId}/messages": {
-      "post": {
-        "tags": [
-          "Topics"
-        ],
-        "summary": "Creates a message under topic id.",
-        "operationId": "AddMessage",
-        "parameters": [
-          {
-            "name": "topicId",
-            "in": "path",
-            "description": "If topicId is null, a GUID will be generated in place",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "message",
-            "in": "query",
-            "description": "",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
           }
         }
       }

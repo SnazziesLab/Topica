@@ -70,6 +70,7 @@ const eventsConfig = () =>
 
 
 export const topicsApi = new eventsClient.TopicsApi(eventsConfig());
+export const messageApi = new eventsClient.MessagesApi(eventsConfig());
 export const loginApi = new eventsClient.LoginApi( new eventsClient.Configuration({
     basePath: url,
     middleware: preAuthMiddlewares
