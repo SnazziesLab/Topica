@@ -86,7 +86,7 @@ Body: `completed`
 
 ##### Get all event history of `Job1`
 
-Get `/api/Topics/Job1`
+Get `/api/topics/Job1`
 
 ## Roadmap
 
