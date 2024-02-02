@@ -71,11 +71,17 @@ See [Clients]("./Source/Clients).
 
 ##### Post job events for `Job1`
 
-Post `/api/Topics?Topic=Job1&Message=job1%20created`
+Post `/api/messages?Topic=Job1`
+Body: `created`
 
-Post `/api/Topics?Topic=Job1&Message=job1%20processing`
+Post `/api/messages?Topic=Job1`
+Body: `service1: processing`
 
-Post `/api/Topics?Topic=Job1&Message=job1%20completed`
+Post `/api/messages?Topic=Job1`
+Body: `service2: processing`
+
+Post `/api/messages?Topic=Job1&`
+Body: `completed`
 
 ##### Get all event history of `Job1`
 
