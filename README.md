@@ -11,8 +11,8 @@
 <img src="https://github.com/SnazziesLab/Topica/actions/workflows/docker-publish.yml/badge.svg?branch=master"/>
 </p>
 
-Topica is an event/topic tracking provider designed to make tracking any given topics and their history easily.
-This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline.
+Topica is a simple event/topic tracking provider.
+This service enables tracking of specific asynchronous jobs' progress or identifying failure points in a data processing pipeline via common topic name.
 
 See what [scenarios](./Scenarios) topica can help with.
 
