@@ -19,3 +19,10 @@ body {
   height: 100dvh;
   margin: 0;
 }
+
+
+.custom-row-hover:hover td {
+  background: #1677ff!important;
+  cursor: pointer;
+  color: white;
+}

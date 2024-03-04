@@ -43,7 +43,7 @@ namespace Events.Server.Auth
                 return AuthenticateResult.NoResult();
             }
 
-            if (string.IsNullOrEmpty(Request.Headers["Authorization"]) &&       string.IsNullOrEmpty(Request.Headers["X-API-KEY"]))
+            if (string.IsNullOrEmpty(Request.Headers["Authorization"]) &&  string.IsNullOrEmpty(Request.Headers["X-API-KEY"]))
             {
                 return AuthenticateResult.Fail("Missing Authorization or X-API-KEY header");
             }

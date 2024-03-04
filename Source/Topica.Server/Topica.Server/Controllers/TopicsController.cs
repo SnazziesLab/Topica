@@ -63,7 +63,6 @@ namespace Events.Server.Controllers
         }
 
 
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "write")]
         [HttpDelete("{topicId}/messages/{messageId}", Name = nameof(DeleteMessage))]
