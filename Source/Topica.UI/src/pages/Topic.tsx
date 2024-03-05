@@ -11,7 +11,7 @@ export const Topic: React.FunctionComponent = (props) => {
 		{ manual: true },
 	);
 
-	const { deleteError, run: Delete } = useRequest(
+	const { deleteError, runAsync: Delete } = useRequest(
 		() => topicsApi.deleteTopic({ topicId: params.id ?? "" }),
 		{ manual: true },
 	);
@@ -33,7 +33,9 @@ export const Topic: React.FunctionComponent = (props) => {
 					type="primary"
 					style={{ alignSelf: "center" }}
 					danger
-					onClick={Delete}
+					onClick={() => {
+						Delete().then(() => navigate("/"));
+					}}
 				>
 					Delete Topic
 				</Button>
