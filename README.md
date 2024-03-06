@@ -65,7 +65,7 @@ See [Open API Spec](./Source/Topica.Server/Topica.Server/Swagger/Swagger.json)
 ### Clients
 
 Using open api generator, a bunch of http clients can help you easily communicate with the server api through your app.
-See [Clients]("./Source/Clients).
+See [Clients](./Source/Clients).
 
 ### Basic usage concept
 
