@@ -1,0 +1,416 @@
+openapi: 3.0.1
+info:
+  title: "Topica.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+  version: "1.0"
+servers:
+- url: /
+security:
+- Basic: []
+  ApiKey: []
+  Bearer: []
+paths:
+  /api/Login:
+    post:
+      operationId: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      tags:
+      - Login
+  /api/Messages:
+    post:
+      operationId: AddMessage
+      parameters:
+      - description: "If topicId is null, a new Topic will be generated with a random\
+          \ GUID"
+        explode: true
+        in: query
+        name: topicId
+        required: false
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+        description: ""
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      summary: Creates a message under topic id.
+      tags:
+      - Messages
+  /api/Topics:
+    get:
+      operationId: GetTopics
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 25
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TopicMetaPaginatedResponse'
+          description: Success
+      tags:
+      - Topics
+    put:
+      operationId: CreateTopic
+      parameters:
+      - explode: true
+        in: query
+        name: topicId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Bad Request
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/Total:
+    get:
+      operationId: GetTotal
+      responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "200":
+          content:
+            text/plain:
+              schema:
+                format: int32
+                type: integer
+            application/json:
+              schema:
+                format: int32
+                type: integer
+            text/json:
+              schema:
+                format: int32
+                type: integer
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/{topicId}:
+    delete:
+      operationId: DeleteTopic
+      parameters:
+      - explode: false
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Topics
+    get:
+      operationId: GetTopic
+      parameters:
+      - explode: false
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "404":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: Success
+      tags:
+      - Topics
+  /api/Topics/{topicId}/messages/{messageId}:
+    delete:
+      operationId: DeleteMessage
+      parameters:
+      - explode: false
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: messageId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Topics
+components:
+  schemas:
+    Entry:
+      additionalProperties: false
+      example:
+        createdOn: 2000-01-23T04:56:07.000+00:00
+        content: content
+        entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        createdOn:
+          format: date-time
+          type: string
+        content:
+          nullable: true
+          type: string
+        entryId:
+          format: uuid
+          type: string
+      type: object
+    LoginModel:
+      additionalProperties: false
+      example:
+        password: password
+        username: username
+      properties:
+        username:
+          nullable: true
+          type: string
+        password:
+          nullable: true
+          type: string
+      type: object
+    ProblemDetails:
+      additionalProperties: {}
+      properties:
+        type:
+          nullable: true
+          type: string
+        title:
+          nullable: true
+          type: string
+        status:
+          format: int32
+          nullable: true
+          type: integer
+        detail:
+          nullable: true
+          type: string
+        instance:
+          nullable: true
+          type: string
+      type: object
+    Topic:
+      additionalProperties: false
+      example:
+        id: id
+        history:
+        - createdOn: 2000-01-23T04:56:07.000+00:00
+          content: content
+          entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - createdOn: 2000-01-23T04:56:07.000+00:00
+          content: content
+          entryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdOn: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          nullable: true
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+        history:
+          items:
+            $ref: '#/components/schemas/Entry'
+          nullable: true
+          type: array
+      type: object
+    TopicMeta:
+      additionalProperties: false
+      example:
+        id: id
+        createdOn: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          nullable: true
+          type: string
+        createdOn:
+          format: date-time
+          type: string
+      type: object
+    TopicMetaPaginatedResponse:
+      additionalProperties: false
+      example:
+        total: 1
+        data:
+        - id: id
+          createdOn: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          createdOn: 2000-01-23T04:56:07.000+00:00
+        pageSize: 6
+        page: 0
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/TopicMeta'
+          nullable: true
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        total:
+          format: int32
+          type: integer
+      type: object
+  securitySchemes:
+    Basic:
+      description: Basic Authorization header
+      scheme: Basic
+      type: http
+    ApiKey:
+      in: header
+      name: X-API-KEY
+      type: apiKey
+    Bearer:
+      description: JWT Authorization header using the Bearer scheme.
+      in: header
+      name: Authorization
+      type: apiKey
+

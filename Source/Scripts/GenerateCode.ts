@@ -21,7 +21,8 @@ if (!fse.existsSync(CodeGenPath))
   fse.mkdirsSync(CodeGenPath);
 
 const swaggerFile = `temp/Swagger/${appName}.Server/Swagger.json`
-execute(`npx @openapitools/openapi-generator-cli version-manager set 7.2.0`)
+execute("npx @openapitools/openapi-generator-cli version-manager set 7.2.0")
+execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g csharp -o ${CodeGenPath}/CSharp/${appName}.Client --additional-properties=packageVersion=${version},packageName=${appName}.Client,nullableReferenceTypes=true`)
 execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g rust -o ${CodeGenPath}/Rust/${appName}.Client --additional-properties=packageVersion=${version},packageName=${lowered}_client`)
 execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g typescript-fetch -o ${CodeGenPath}/TypeScript/${appName}.Client -p npmName=@${lowered}/client --additional-properties=npmVersion=${version},stringEnums=true`)
 execute(`npx @openapitools/openapi-generator-cli generate -i ${swaggerFile} -g go -o ${CodeGenPath}/Go/${appName}.Client --additional-properties=enumClassPrefix=true,packageVersion=${version},packageName=${lowered}client`)
