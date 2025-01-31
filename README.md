@@ -17,10 +17,6 @@ This service enables tracking of specific asynchronous jobs' progress or identif
 See what [scenarios](./Scenarios) topica can help with.
 
 ## License
-
-All rights reserved.
-I will eventually pick the right license for this project.
-
 You're free to use Topica in your own projects or in commercial settings free of charge. I am not liable for any damages caused.
 
 Rights to contribution made is transfered to repo owner immediately upon submission unless specified otherwise.
